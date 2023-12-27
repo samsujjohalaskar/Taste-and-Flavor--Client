@@ -1,0 +1,43 @@
+.form-container {
+    max-width: 400px;
+    margin: 150px auto;
+    padding: 50px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    box-shadow: 1px 1px 13px 13px rgba(0, 0, 0, 0.15);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.submit-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bolder;
+}
+
+.password-hide{
+    position: absolute;
+    margin: 10px 0 0 375px;
+    cursor: pointer;
+}

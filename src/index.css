@@ -1,0 +1,420 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Metropolis", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.mainColor, h2 {
+  color: #FF5757 !important;
+}
+
+.hover-not-allowed{
+  cursor: not-allowed;
+}
+
+.subHeading {
+  color: #FF5757;
+  margin-bottom: 0.5rem;
+  font-family: inherit;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.subHeading::after {
+  content: "";
+  display: block;
+  width: 25px;
+  padding: 0.5rem 0 0 0;
+  border-bottom: 2px solid #FF5757;
+}
+
+.Heading {
+  font-size: 30px;
+  color: #FF5757;
+  font-weight: 700;
+}
+
+.Heading::after {
+  content: "";
+  display: block;
+  width: 50px;
+  padding: 0.5rem 0 0 0;
+  border-bottom: 3px solid #FF5757;
+}
+
+.button, .loginButton {
+  background-color: #FF5757 !important;
+  cursor: pointer;
+}
+
+.button:hover, .loginButton:hover {
+  background-color: #fc0404 !important;
+}
+
+header {
+  display: block;
+  border: none;
+}
+
+.navBar {
+  background-color: white;
+  height: 60px;
+  width: 100%;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+}
+
+.flex-item {
+  align-items: center;
+  margin: auto;
+}
+
+.logo img {
+  height: 55px;
+  width: 261px;
+}
+
+.links {
+  list-style: none;
+  text-align: center;
+  white-space: nowrap;
+  gap: 40%;
+}
+
+.links a, a {
+  font-size: 15.5px;
+  font-family: "Metropolis", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #5c5757;
+  text-decoration: none;
+}
+
+.locationSelect {
+  background-color: white;
+  align-items: center;
+  border: none;
+  padding: 0.4rem 1rem 0.4rem 0rem;
+  width: 180px;
+  position: relative;
+  color: #666;
+  cursor: pointer;
+}
+
+.loginButton {
+  height: 32px;
+  width: 100px;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bolder;
+  font-size: 16px;
+}
+
+.dropdownMenu {
+  border: 0.5px solid #bcbcbc;
+  border-radius: 4px;
+  color: #666;
+  width: 206px;
+}
+
+.searchInput {
+  border: none;
+  border-radius: 4px;
+  color: #666;
+  height: 28px;
+  margin-left: 30px;
+  outline: none;
+  width: 150px;
+}
+
+.locationIcon {
+  font-size: 20px;
+  margin: 0px 10px 0px 2px;
+  position: absolute;
+  color: #3d3a3a;
+}
+
+.showKey {
+  cursor: pointer;
+  color: #3d3a3a;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.citySuggestions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  max-height: 200px;
+  overflow-y: scroll;
+  margin-left: 11px;
+}
+
+.citySuggestions li {
+  padding: 10px 60px 10px 10px;
+  cursor: pointer;
+}
+
+.citySuggestions li:hover {
+  background-color: #dcd8d8;
+  color: rgb(62, 62, 62);
+}
+
+.searchBanner {
+  /* border: solid black 1px; */
+  height: 350px;
+  width: 100%;
+  flex-direction: column;
+  background-image: url(/src/assets/backgroundImage.jpg);
+}
+
+.heading {
+  margin-top: 110px;
+  color: white;
+  font-weight: bolder;
+}
+
+.searchMain {
+  margin-bottom: 145px;
+  border-radius: 0.4rem;
+  padding-left: 10px;
+  background-color: white;
+}
+
+.restaurantIcon {
+  font-size: 30px;
+  padding-top: 9px;
+  padding-left: 15px;
+}
+
+.restaurantSearch {
+  height: 50px;
+  width: 800px;
+  font-size: larger;
+  border: none;
+  margin-left: 15px;
+}
+
+.restaurantSubmit {
+  height: 38px;
+  width: 110px;
+  color: white;
+  margin-right: 6px;
+  font-size: 1.1rem;
+  border: none;
+  font-weight: bolder;
+  border-radius: 0.4rem;
+}
+
+.bestOffers {
+  height: 212px;
+  /* border: red solid 2px; */
+  background-color: #f3f3f3;
+  padding: 45px 370px 50px 370px;
+}
+
+.offersActual {
+  display: flex;
+  /* border: solid black 1px; */
+  margin-top: 10px;
+
+}
+
+.offers {
+  height: 156px;
+  margin: 2px 12px 0px 0px;
+  border-radius: 5px;
+  box-shadow: 4px 8px 8px 0 rgba(0, 0, 0, 0.25);
+}
+
+.offers img {
+  width: 122px;
+}
+
+.restaurantNearby {
+  height: 260px;
+  /* border: black solid 1px; */
+  padding: 45px 370px 50px 370px;
+  /* background-color: black ; */
+}
+
+.restaurantHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.seeAllLink {
+  margin-right: 46px;
+}
+
+.seeAllLink:hover {
+  color: #fc0404;
+}
+
+.restaurantSlider {
+  margin-top: 10px;
+}
+
+.restaurant {
+  /* border: black solid 1px; */
+  height: 240px;
+  width: 270px !important;
+  border-radius: 5px !important;
+  cursor: pointer;
+}
+
+.restaurant:hover {
+  background-color: #f2f2f2;
+  transform: scale(1.05);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.restaurantImg img {
+  border-radius: 5px 5px 0px 0px !important;
+  height: 140px;
+  width: 270px !important;
+  border-bottom: 2px solid #FF5757;
+}
+
+.restaurantDescription {
+  display: flex;
+  justify-content: space-between;
+}
+
+.restaurantDescription {
+  padding: 11px 11px 0px 11px;
+}
+
+.restaurantDes1 {
+  word-wrap: break-word;
+}
+
+.restaurantName {
+  font-size: 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: bolder;
+  line-height: 1.2;
+}
+
+.restaurantLocation {
+  font-size: 12.5px;
+  color: #666;
+}
+
+.restaurantDes2 {
+  height: 25px;
+  width: 40px;
+  text-align: center;
+  border-radius: 2px;
+  margin-top: 3px;
+}
+
+.restaurantRating {
+  margin: 3px 5px 3px 5px;
+  color: white;
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.discount {
+  /* border: black solid 1px; */
+  margin-top: 14px;
+  padding: 6px 0px 0px 50px;
+  border-top: 2px solid #f3f3f3;
+  color: #54BD8A;
+  display: block;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.slick-prev, .slick-next {
+  width: 25px !important;
+  height: 28px !important;
+  background: #FF5757 !important;
+  border-radius: 50% !important;
+}
+
+.slick-prev {
+  /* margin-left: 24px !important; */
+  z-index: 1;
+  left: 10px !important;
+}
+
+.slick-next {
+  right: 18px !important;
+}
+
+.slick-initialized {
+  margin-right: 34px !important;
+}
+
+.slick-prev:before, .slick-next:before {
+  font-family: monospace !important;
+  font-size: 28px !important;
+  color: #faf6f6 !important;
+}
+
+.footerTop {
+  padding: 45px 370px 50px 370px;
+  border-bottom: 2px solid #f3f3f3;
+}
+
+.footerMid {
+  display: flex;
+  border-bottom: 2px solid #f3f3f3;
+  padding: 45px 370px 50px 370px;
+}
+
+.dynamicMid {
+  width: 233px;
+}
+
+.cities {
+  display: flex;
+  list-style: none;
+  flex-flow: row;
+  flex-wrap: wrap;
+}
+
+.cities li {
+  width: 20%;
+  padding: 0.8rem 0 0 0;
+}
+
+.dynamicMidComponent {
+  display: flex;
+  list-style: none;
+  flex-flow: column;
+  flex-wrap: wrap;
+  /* padding: 0.8rem 0 0 0; */
+}
+
+.dynamicMidComponent li {
+  width: 100%;
+  padding: 0.8rem 0 0 0;
+}
+
+.footer a:hover {
+  color: black;
+}
+
+.footerBottom {
+  padding: 45px 370px 50px 370px;
+  flex-flow: column;
+}
+
+.footerBottom p {
+  color: #666;
+  font-size: 14px;
+  line-height: 32px;
+}

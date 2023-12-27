@@ -1,0 +1,241 @@
+.resMainUrls {
+    padding-bottom: 25px;
+    font-size: 13px;
+}
+
+.url {
+    font-size: 13px
+}
+
+.resMain {
+    padding: 10px 370px 50px 370px;
+    height: max-content;
+    background-color: #f3f3f3;
+    display: flex;
+}
+
+.resMainOne {
+    padding: 0 15px;
+    width: 810px;
+}
+
+.resMainImages>div {
+    background-color: #f3f3f3 !important;
+}
+
+.resMainImages>div>div {
+    border-radius: 5px 5px 0px 0px !important;
+}
+
+.resMainDetails {
+    padding: 12px;
+    display: flex;
+    background-color: #fff;
+    border-radius: 0px 0px 5px 5px;
+    justify-content: space-between;
+}
+
+.resMainInfo h1 {
+    font-size: 22px;
+    color: #202020;
+}
+
+.resMainRating {
+    flex-shrink: 0;
+    text-align: right;
+}
+
+.resMainInfos {
+    padding: 8px 0px 0px 0px;
+    color: #5c5757;
+}
+
+.textRating {
+    margin: 0px 0px 25px 54px;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: larger;
+    font-weight: 600;
+    width: 20px;
+    padding-right: 17px;
+}
+
+.numberRating {
+    color: #3595ff;
+    border-bottom: 2px dotted #3595ff;
+    width: fit-content;
+    float: right;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.resMainSchema {
+    display: flex;
+    margin-top: 12px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.resMainSchemas {
+    padding: 15px 30px 10px 30px;
+    border-right: 1px solid #f3f3f3;
+    text-align: center;
+    border-bottom: 5px solid #fff;
+    cursor: pointer;
+}
+
+.resMainSchemas h1 {
+    font-size: 16px;
+}
+
+.resMainSchemas:last-child {
+    border: none;
+}
+
+.resMainSchema .resMainSchemas:hover {
+    color: #71cf32;
+    border-bottom: 5px solid #71cf32;
+}
+
+.resMainMenu, .resMainAbout, .resMainReviews, .resMainHelp {
+    margin-top: 12px;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 10px 0px 15px 10px;
+}
+
+.resMainMenu h1, .resMainAbout h1, .resMainReviews h1, .resMainHelp h1 {
+    font-size: 18px;
+    color: #202020;
+}
+
+.resMainMenu img {
+    margin-top: 10px;
+    margin-right: 7px;
+    height: 130px;
+    width: 125px;
+    border-radius: 5px;
+}
+
+.resMainAboutInfo {
+    margin-top: 15px;
+}
+
+.resMainAboutInfos {
+    display: flex;
+    margin-top: 15px;
+}
+
+.resMainAboutIcon {
+    font-size: 30px;
+    margin-right: 25px;
+    color: #ac8e48;
+}
+
+.resMainAboutContent, .resFeature {
+    font-size: 15.5px;
+    color: #5c5757;
+}
+
+.resMainAboutContent h3 {
+    margin: 0px 0px 2px 0px;
+    color: #ac8e48;
+    font-size: 15px;
+}
+
+.resFeatures {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0px 55px 5px 55px;
+}
+
+.resFeature {
+    display: flex;
+    align-items: center;
+    margin-right: 80px;
+    margin-bottom: 5px;
+}
+
+.resFeatureIcon {
+    font-size: 25px;
+    color: #ac8e48;
+    font-weight: lighter;
+    margin-right: 10px;
+    padding-top: 5px;
+}
+
+.help-container {
+    display: flex;
+    margin: 33px 14px 14px 3px;
+}
+
+.help-logo-main {
+    height: 40px;
+    width: 40px;
+    color: rgb(105, 105, 199);
+}
+
+.help-logo {
+    height: max-content;
+    margin-right: 15px;
+}
+
+.help-info h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.help-info p {
+    font-size: 17px;
+    font-weight: 100;
+}
+
+.resMainTwo {
+    height: 480px;
+    width: 340px;
+    margin: 40px 0px 0px 10px;
+    position: sticky;
+    top: 50px;
+    z-index: 1;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 28px -1px rgba(0, 0, 0, .15);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.overview-image-modal {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(4, 4, 4, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.overview-image-modal-content {
+    text-align: left;
+    border-radius: 3px;
+}
+
+.overview-image-modal-image{
+    height: 800px !important;
+    width: 700px !important;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+}
+
+.overview-image-modal-close{
+    position: absolute;
+    right: 50px;
+    top: 30px;
+    font-size: 40px;
+    cursor: pointer;
+    color: #fff;
+}

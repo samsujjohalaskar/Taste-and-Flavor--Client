@@ -1,0 +1,126 @@
+.profile-container {
+    background-color: #f3f3f3;
+    min-height: 670px;
+}
+
+.history-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.profile-container-bb {
+    border-bottom: solid 2px #e6e1e1;
+}
+
+.history-container h1 {
+    font-size: x-large;
+    color: #FF5757;
+    margin-top: 30px;
+}
+
+.history-list {
+    margin-top: 20px;
+}
+
+.history-items {
+    display: flex;
+    right: 20px;
+    position: relative;
+    justify-content: flex-end;
+}
+
+.history-item {
+    background-color: white;
+    border-radius: 4px;
+    width: 1500px;
+    display: flex;
+    gap: 30px;
+    padding: 15px 40px 15px 40px;
+    box-shadow: 0 0 7px -1px rgba(0, 0, 0, .15);
+    margin-bottom: 20px;
+}
+
+.history-item>div {
+    width: max-content;
+}
+
+.history-item>span {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.history-not-found {
+    font-size: larger;
+    margin-top: 25px;
+}
+
+.history-button {
+    cursor: pointer;
+    height: 25px;
+    width: 65px;
+    margin: 10px 0px 0px 17px;
+}
+
+.history-filter {
+    position: absolute;
+    right: 300px;
+    top: 250px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.historyFilterOptions {
+    top: 275px;
+    right: 190px;
+    background-color: #fff;
+}
+
+.historyFilterOptions div:hover {
+    background-color: #f0f0f0;
+    color: none;
+}
+
+.profile-main-cont{
+    display: flex;
+    padding-top: 20px;
+    margin-left: 200px;
+}
+
+.profile-image{
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    background-color: #c7c0c0;
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    color: #959393;
+}
+
+.profile-image-icon{
+    margin-top: 58px;
+    cursor: pointer;
+}
+
+.profile-information{
+    padding: 40px 0 0 50px;
+}
+
+.profile-image-input{
+    background-color: #f0f0f0;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    height: 100px;
+    width: 300px;
+}
+
+.profile-image-cross{
+    font-size: 20px;
+    cursor: pointer;
+}

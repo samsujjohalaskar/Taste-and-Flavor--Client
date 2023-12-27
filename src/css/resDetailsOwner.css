@@ -1,0 +1,119 @@
+.headingContainer {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 20px 200px 0px 200px;
+}
+
+.item {
+    align-self: start;
+    /* border: 1px solid red; */
+    height: max-content;
+    width: 500px;
+}
+
+.fetchedImage {
+    margin-top: 1px;
+}
+
+.fetchedImage>img {
+    max-width: 50px;
+    max-height: 50px;
+    margin-right: 5px;
+}
+
+.containerRes {
+    /* border: 1px solid black; */
+    margin: 50px 0px 40px 0px;
+    padding-left: 297px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.reservations-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.booked-item>div {
+    width: max-content;
+}
+
+.book-button {
+    cursor: pointer;
+    height: 25px;
+    width: 100px;
+    margin: 10px 0px 0px 17px;
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 6px 2px 6px;
+}
+
+.book-button {
+    outline: none;
+}
+
+.book-button-disabled {
+    display: flex;
+    justify-content: center;
+}
+
+.filterOptions {
+    width: 120px;
+    position: absolute;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.filterOptions div {
+    padding: 3.5px;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+    transition: background-color 0.3s;
+    font-size: 15px;
+}
+
+.filterOptions div:hover {
+    background-color: #fff;
+    color: none;
+}
+
+.filterIcon {
+    font-size: 40px;
+    cursor: pointer;
+    color: black;
+}
+
+.book-back-icon {
+    font-size: 40px;
+    cursor: pointer;
+    color: black;
+    height: max-content;
+    position: absolute;
+    margin: 30px 0px 0px 70px;
+}
+
+.book-back-icon:hover {
+    color: red;
+}
+
+.reservations-counts {
+    display: flex;
+    justify-content: flex-end;
+    width: 1300px;
+    gap: 50px;
+}
+
+.reservations-count>span {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
