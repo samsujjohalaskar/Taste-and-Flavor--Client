@@ -113,7 +113,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
           </span>
           <input
             type="text"
-            placeholder={showKey ? "Search City.." : capitalizeWords(city)}
+            placeholder={showKey ? "Search City.." : capitalizeWords(city) ? capitalizeWords(city) : "Search City.."}
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
