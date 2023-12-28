@@ -432,7 +432,7 @@ export default function Footer({ city }) {
           <div className="flex-item">
             <p>Every Bite Speaks Taste, Flavorful Journey</p>
           </div>
-          <div className="flex-item">Write to us at: <strong>tasteandflavor@gmail.com</strong></div>
+          <div className="flex-item">Write to us at: <strong>samsujjohalaskar@gmail.com</strong></div>
           <div className="flex-item">
             <p>© 2023 - Taste&Flavor All Rights Reserved</p>
           </div>
