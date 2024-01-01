@@ -30,7 +30,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
           if (data) {
             setUserDetails(data);
           } else {
-            return "NO USER FOUND";
+            setUserDetails(null);
           }
         } else {
           // console.error('Failed to fetch user details');
@@ -62,9 +62,11 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
     if (user && !userDetails) {
       fetchUserDetails();
 
-      if (userDetails === "NO USER FOUND") {
-        handlePostUser();
-      }
+      setTimeout(() => {
+        if (userDetails === null) {
+          handlePostUser();
+        }
+      }, 3000); // 5000 milliseconds = 5 seconds
     }
 
   }, [user, userDetails]);

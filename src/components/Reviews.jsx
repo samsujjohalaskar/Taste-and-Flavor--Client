@@ -12,7 +12,7 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
     const [reviewDetails, setReviewDetails] = useState([])
 
     const [rate, setRate] = useState(ratingD ? ratingD : 0);
-    const [fullName, setFullName] = useState(fullNameD ? fullNameD : '');
+    const [fullName, setFullName] = useState(fullNameD ? fullNameD : user ? user.displayName : "");
     const [loading, setLoading] = useState(false);
     const [comment, setComment] = useState(commentD ? commentD : '');
 

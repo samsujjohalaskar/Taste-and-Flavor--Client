@@ -248,10 +248,10 @@ const History = () => {
                 }} />
             <div className="profile-container">
                 <div className="profile-main-cont">
-                    {userDetails ? (
+                    {user ? (
                         <>
                             <div className="profile-image">
-                                {userDetails.image && userDetails.image !== undefined ? (
+                                {userDetails && userDetails.image && userDetails.image !== undefined ? (
                                     <img className="profile-image"
                                         src={`data:${userDetails.image.contentType};base64,${Buffer.from(userDetails.image.data).toString('base64')}`}
                                         alt={`${userDetails.fullName}`}
@@ -273,9 +273,9 @@ const History = () => {
                                 </div>
                             )}
                             <div className="profile-information">
-                                <div>Username/Email: {userDetails.userEmail}</div>
-                                <div>Profile Name: {userDetails.fullName}</div>
-                                {userDetails.phoneNumber && (
+                                <div>Username/Email: {user.email}</div>
+                                <div>Profile Name: {user.displayName}</div>
+                                {userDetails && userDetails.phoneNumber && (
                                     <div>Contact Number: {userDetails.phoneNumber}</div>
                                 )}
                             </div>
