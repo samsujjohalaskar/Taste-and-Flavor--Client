@@ -27,7 +27,11 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
         const res = await fetch(`${BASE_URL}/user-info?userEmail=${user.email}`);
         if (res.ok) {
           const data = await res.json();
-          setUserDetails(data);
+          if (data) {
+            setUserDetails(data);
+          } else {
+            return "NO USER FOUND";
+          }
         } else {
           // console.error('Failed to fetch user details');
         }
@@ -55,10 +59,10 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
       }
     };
 
-    if (user) {
+    if (user && !userDetails) {
       fetchUserDetails();
 
-      if (userDetails === null) {
+      if (userDetails === "NO USER FOUND") {
         handlePostUser();
       }
     }
