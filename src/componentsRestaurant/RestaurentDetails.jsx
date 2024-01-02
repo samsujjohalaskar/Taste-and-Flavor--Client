@@ -210,9 +210,9 @@ const RestaurentDetails = () => {
             </Link>
             <div className="headingContainer">
                 <div className="Heading">Restaurant Details
-                    <Link to="update-restaurant-details" className="editIcon" title='Edit Restaurant Details'>
+                    {/* <Link to="update-restaurant-details" className="editIcon" title='Edit Restaurant Details'>
                         <AiTwotoneEdit />
-                    </Link>
+                    </Link> */}
                 </div>
                 <div className="editIcon">
                     <MdDelete title='Delete Restaurant' onClick={handleDelete} />
