@@ -32,7 +32,13 @@ const Owner = () => {
 
       const data = await res.json();
       // console.log(data);
-      setUserData(data);
+      if (data) {
+        setUserData(data);
+      }
+
+      if (res.status === 401) {
+        navigate("/owner-login");
+      }
 
       if (!res.status === 200) {
         const error = new Error(res.error);
@@ -78,7 +84,7 @@ const Owner = () => {
     }
   }
 
-  if (userData) {
+  if (userData && userData.restaurants) {
     return (
       <>
         <form method='GET' className="container">
