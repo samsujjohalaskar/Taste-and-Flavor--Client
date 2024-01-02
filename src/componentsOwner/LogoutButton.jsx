@@ -21,7 +21,7 @@ const LogoutButton = ({userData}) => {
           }).then((res) => {
             if (res.status === 200) {
               window.alert("Logged Out Successfully.");
-              navigate("/owner-login");
+              navigate("/owner-login",{replace: true});
             } else {
               const err = new Error(res.err);
               console.log(err);

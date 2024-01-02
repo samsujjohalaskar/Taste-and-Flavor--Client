@@ -99,7 +99,7 @@ const RestaurentDetails = () => {
             try {
                 const res = await fetch(`${BASE_URL}/reservations?restaurant=${restaurant._id}`,{
                     method: "GET",
-                    credentials: "include",
+                    // credentials: "include",
                 });
                 if (res.ok) {
                     const data = await res.json();
@@ -174,7 +174,7 @@ const RestaurentDetails = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                credentials: "include",
+                // credentials: "include",
                 body: JSON.stringify({ status: newStatus }),
             });
 
