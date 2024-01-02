@@ -27,22 +27,27 @@ const UpdateRestaurant = () => {
 
     useEffect(() => {
         const fetchRestaurantData = async () => {
-            try {
-                const response = await fetch(`${BASE_URL}/restaurant/${restaurantId}`);
-                const data = await response.json();
+            if (!formData) {
+                try {
+                    const response = await fetch(`${BASE_URL}/restaurant/${restaurantId}`, {
+                        method: "GET",
+                        credentials: "include",
+                    });
+                    const data = await response.json();
 
-                if (response.status === 200) {
-                    setFormData(data.restaurant);
-                    setImageFileNames(data.restaurant.images.map((file) => ({ name: file.originalname })));
-                    setMenuFileNames(data.restaurant.menu.map((file) => ({ name: file.originalname })));
-                } else {
+                    if (response.status === 200) {
+                        setFormData(data.restaurant);
+                        setImageFileNames(data.restaurant.images.map((file) => ({ name: file.originalname })));
+                        setMenuFileNames(data.restaurant.menu.map((file) => ({ name: file.originalname })));
+                    } else {
+                        setError('Failed to fetch restaurant data.');
+                    }
+                } catch (error) {
                     setError('Failed to fetch restaurant data.');
+                    console.error(error);
                 }
-            } catch (error) {
-                setError('Failed to fetch restaurant data.');
-                console.error(error);
-            }
-        };
+            };
+        }
 
         fetchRestaurantData();
     }, [restaurantId]);
@@ -190,11 +195,11 @@ const UpdateRestaurant = () => {
                             <div className='subHeading'>Basic Information<span><small>(mandatory)</small></span></div>
                             <div className="resItem">
                                 <label>Name:</label>
-                                <input className='resInput' type="text" name="name" placeholder='Rahul Sharma' value={formData.name} required disabled/>
+                                <input className='resInput' type="text" name="name" placeholder='Rahul Sharma' value={formData.name} required disabled />
                             </div>
                             <div className="resItem">
                                 <label>City:</label>
-                                <input className='resInput' type="text" name="city" placeholder='Kolkata,Delhi,Mumbai,Chennai,etc.' value={formData.city} required disabled/>
+                                <input className='resInput' type="text" name="city" placeholder='Kolkata,Delhi,Mumbai,Chennai,etc.' value={formData.city} required disabled />
                             </div>
                             <div className="resItem">
                                 <label>Area:</label>

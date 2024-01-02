@@ -97,7 +97,10 @@ const RestaurentDetails = () => {
     useEffect(() => {
         const fetchBookingDetails = async () => {
             try {
-                const res = await fetch(`${BASE_URL}/reservations?restaurant=${restaurant._id}`);
+                const res = await fetch(`${BASE_URL}/reservations?restaurant=${restaurant._id}`,{
+                    method: "GET",
+                    credentials: "include",
+                });
                 if (res.ok) {
                     const data = await res.json();
                     setBookingDetails(data);
@@ -117,7 +120,10 @@ const RestaurentDetails = () => {
     useEffect(() => {
         const fetchRestaurantDetails = async () => {
             try {
-                const res = await fetch(`${BASE_URL}/restaurant/${restaurantId}`);
+                const res = await fetch(`${BASE_URL}/restaurant/${restaurantId}`, {
+                    method: "GET",
+                    credentials: "include",
+                });
                 const data = await res.json();
 
                 if (res.status === 200) {
@@ -142,6 +148,7 @@ const RestaurentDetails = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: "include",
             });
 
             if (res.status === 200) {
@@ -167,6 +174,7 @@ const RestaurentDetails = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: "include",
                 body: JSON.stringify({ status: newStatus }),
             });
 

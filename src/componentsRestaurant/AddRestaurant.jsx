@@ -156,6 +156,7 @@ const AddRestaurant = () => {
       const res = await fetch(`${BASE_URL}/add-restaurant`, {
         method: 'POST',
         body: formDataToSend,
+        credentials: 'include'
       });
 
       const data = await res.json();

@@ -52,7 +52,9 @@ const Owner = () => {
   }
 
   useEffect(() => {
-    callHomePage();
+    if (!userData) {
+      callHomePage();
+    }
   },);
 
   const handleEditButton = (e) => {
