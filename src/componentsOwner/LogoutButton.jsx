@@ -4,7 +4,7 @@ import "../css/logoutButton.css";
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/services';
 
-const LogoutButton = ({userData}) => {
+const LogoutButton = ({userData, handleUserData}) => {
 
     const navigate = useNavigate();
 
@@ -20,6 +20,7 @@ const LogoutButton = ({userData}) => {
             credentials: "include"
           }).then((res) => {
             if (res.status === 200) {
+              handleUserData();
               window.alert("Logged Out Successfully.");
               navigate("/owner-login",{replace: true});
             } else {

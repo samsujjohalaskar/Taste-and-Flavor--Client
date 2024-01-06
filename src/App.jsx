@@ -15,7 +15,6 @@ import UpdateRestaurant from './componentsRestaurant/UpdateRestaurant';
 import Restaurant from './pages/Restaurant';
 import History from './pages/History';
 import Signup from './components/Signup';
-import { BASE_URL } from './utils/services';
 
 function App() {
   return (

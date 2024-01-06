@@ -126,7 +126,7 @@ const Owner = () => {
           ))}
         </div>
         <div className="logout-button-container" title='Log Out'>
-          <LogoutButton userData />
+          <LogoutButton userData={userData} handleUserData={() => setUserData(null)} />
         </div>
       </>
     )

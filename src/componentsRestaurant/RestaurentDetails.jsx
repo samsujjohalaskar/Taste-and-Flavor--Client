@@ -97,7 +97,7 @@ const RestaurentDetails = () => {
     useEffect(() => {
         const fetchBookingDetails = async () => {
             try {
-                const res = await fetch(`${BASE_URL}/reservations?restaurant=${restaurant._id}`,{
+                const res = await fetch(`${BASE_URL}/reservations?restaurant=${restaurant._id}`, {
                     method: "GET",
                     // credentials: "include",
                 });
@@ -413,7 +413,6 @@ const RestaurentDetails = () => {
             </div>
 
             <div className="logout-button-container" title='Log Out'>
-                <LogoutButton userData />
             </div>
         </>
     );
