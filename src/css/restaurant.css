@@ -12,6 +12,7 @@
     height: max-content;
     background-color: #f3f3f3;
     display: flex;
+    min-width: 909px;
 }
 
 .resMainOne {
@@ -225,17 +226,42 @@
     border-radius: 3px;
 }
 
-.overview-image-modal-image{
+.overview-image-modal-image {
     height: 800px !important;
     width: 700px !important;
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
 }
 
-.overview-image-modal-close{
+.overview-image-modal-close {
     position: absolute;
     right: 50px;
     top: 30px;
     font-size: 40px;
     cursor: pointer;
     color: #fff;
+}
+
+/* Mobile Responsiveness */
+
+@media screen and (min-width: 320px) and (max-width: 425px) {
+    .resMain {
+        padding: 10px 0px 50px 70px;
+        position: relative;
+    }
+
+    .resMainTwo {
+        height: 480px;
+        width: 305px;
+        margin: 40px 0px 0px 10px;
+        position: fixed;
+        top: 720px !important;
+        left: 547px !important;
+        z-index: 1;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 0 28px -1px rgba(0, 0, 0, .15);
+        overflow-x: hidden;
+        overflow-y: auto;
+        transition: left 0.3s ease;
+    }
 }

@@ -8,7 +8,7 @@
   color: #FF5757 !important;
 }
 
-.hover-not-allowed{
+.hover-not-allowed {
   cursor: not-allowed;
 }
 
@@ -59,7 +59,8 @@ header {
 .navBar {
   background-color: white;
   height: 60px;
-  width: 100%;
+  /* width: 100%; */
+  min-width: 980px;
 }
 
 .flex {
@@ -170,9 +171,10 @@ header {
 .searchBanner {
   /* border: solid black 1px; */
   height: 350px;
-  width: 100%;
+  /* width: 100%; */
   flex-direction: column;
   background-image: url(/src/assets/backgroundImage.jpg);
+  min-width: 980px;
 }
 
 .heading {
@@ -200,6 +202,8 @@ header {
   font-size: larger;
   border: none;
   margin-left: 15px;
+  outline: none;
+  min-width: 630px;
 }
 
 .restaurantSubmit {
@@ -218,6 +222,7 @@ header {
   /* border: red solid 2px; */
   background-color: #f3f3f3;
   padding: 45px 370px 50px 370px;
+  min-width: 880px;
 }
 
 .offersActual {
@@ -243,6 +248,7 @@ header {
   /* border: black solid 1px; */
   padding: 45px 370px 50px 370px;
   /* background-color: black ; */
+  min-width: 780px;
 }
 
 .restaurantHeader {
@@ -367,12 +373,14 @@ header {
 .footerTop {
   padding: 45px 370px 50px 370px;
   border-bottom: 2px solid #f3f3f3;
+  min-width: 780px;
 }
 
 .footerMid {
   display: flex;
   border-bottom: 2px solid #f3f3f3;
   padding: 45px 370px 50px 370px;
+  min-width: 780px;
 }
 
 .dynamicMid {
@@ -411,10 +419,57 @@ header {
 .footerBottom {
   padding: 45px 370px 50px 370px;
   flex-flow: column;
+  min-width: 780px;
 }
 
 .footerBottom p {
   color: #666;
   font-size: 14px;
   line-height: 32px;
+}
+
+/* Mobile Responsiveness */
+
+@media screen and (min-width: 320px) and (max-width: 425px) {
+  .links{
+    gap: 12%;
+  }
+
+  .bestOffers {
+    padding: 45px 0 50px 100px;
+  }
+
+  .restaurantSearch {
+    width: 630px;
+  }
+
+  .restaurantNearby {
+    padding: 45px 100px 50px 100px;
+  }
+
+  .restaurant {
+    width: 247px !important;
+  }
+
+  .restaurantImg img {
+    width: 0px !important;
+    min-width: 241px !important;
+  }
+
+  .footerTop {
+    padding: 45px 100px 50px 100px;
+  }
+
+  .footerMid {
+    padding: 45px 100px 50px 100px;
+  }
+
+  .footerBottom {
+    padding: 45px 100px 50px 100px;
+  }
+
+  .logo img {
+    width: 252px;
+    height: 57px;
+  }
 }

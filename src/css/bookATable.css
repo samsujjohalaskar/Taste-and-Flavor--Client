@@ -3,6 +3,7 @@
     height: max-content;
     background-color: #f3f3f3;
     display: flex;
+    min-width: 860px
 }
 
 .city-filters {
@@ -118,7 +119,8 @@
 .city-restaurants {
     display: flex;
     flex-wrap: wrap;
-    width: 870px;
+    /* width: 870px; */
+    min-width: 700px;
 }
 
 .city-card-restaurant {
@@ -278,4 +280,16 @@
     cursor: pointer;
     padding: 0 0 10px 10px;
     font-weight: 200;
+}
+
+/* Mobile Responsiveness */
+
+@media screen and (min-width: 320px) and (max-width: 425px) {
+    .city-restaurant {
+        padding: 10px 100px 50px 20px;
+    }
+
+    .city-restaurants-heading {
+        width: 379px;
+    }
 }

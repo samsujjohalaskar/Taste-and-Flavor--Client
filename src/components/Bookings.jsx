@@ -5,6 +5,7 @@ import 'react-calendar/dist/Calendar.css';
 import Signin from './Signin';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/services';
+import { RiDragMove2Fill } from "react-icons/ri";
 
 const Bookings = ({ user, restaurant }) => {
     const [selectedMeal, setSelectedMeal] = useState('lunch'); // Set 'lunch' as the default meal
@@ -231,6 +232,9 @@ const Bookings = ({ user, restaurant }) => {
         <>
             <form method='POST' onSubmit={handleBooking}>
                 <div className="booking-header">
+                    <span className='drag-booking' title='Drag'>
+                        <RiDragMove2Fill />
+                    </span>
                     Book a Table or Deal
                 </div>
                 {date ? (

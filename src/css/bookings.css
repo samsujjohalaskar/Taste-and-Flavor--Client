@@ -115,10 +115,11 @@
     color: #4b4a4a;
 }
 
-.email-input{
+.email-input {
     margin-bottom: 20px;
 }
-.slot-not-available{
+
+.slot-not-available {
     margin: 40px 0px 40px 90px;
     font-size: 15px;
     color: #4b4a4a;
@@ -183,10 +184,10 @@
     left: 0;
     bottom: 0;
     border-top: 1px solid #ececf2;
-    box-shadow: 0 0 28px -1px rgba(0,0,0,.15);
+    box-shadow: 0 0 28px -1px rgba(0, 0, 0, .15);
 }
 
-.booking-button > button{
+.booking-button>button {
     margin: 10px 0px 10px 0px;
     height: 35px;
     width: 281px;
@@ -198,6 +199,29 @@
     cursor: pointer;
     border-radius: 3px;
 }
-.booking-button > button:hover{
-  background-color: #fc0404 !important;
+
+.booking-button>button:hover {
+    background-color: #fc0404 !important;
+}
+
+.drag-booking {
+    display: none;
+}
+
+/* Mobile Responsiveness */
+
+@media screen and (min-width: 320px) and (max-width: 425px) {
+    .drag-booking {
+        display: block;
+        position: absolute;
+        z-index: 2;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    .resMainTwo.dragging {
+        cursor: grabbing;
+    }
 }

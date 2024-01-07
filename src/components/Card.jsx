@@ -72,7 +72,7 @@ export default function Card({ key, restaurant }) {
                 </div>
                 <div className="restaurantDescription">
                     <div className="restaurantDes1">
-                        <h4 className="restaurantName">{`${restaurant.name}`.slice(0, 25)}</h4>
+                        <h4 className="restaurantName">{`${restaurant.name}`.slice(0, 22)}</h4>
                         <p className="restaurantLocation">
                             {`${restaurant.location}, ${restaurant.area}`.slice(0, 33)}
                         </p>
