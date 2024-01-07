@@ -274,7 +274,7 @@ const History = () => {
                             )}
                             <div className="profile-information">
                                 <div>Username/Email: {user.email}</div>
-                                <div>Profile Name: {user.displayName}</div>
+                                <div>Profile Name: {userDetails.fullName || user.displayName}</div>
                                 {userDetails && userDetails.phoneNumber && (
                                     <div>Contact Number: {userDetails.phoneNumber}</div>
                                 )}

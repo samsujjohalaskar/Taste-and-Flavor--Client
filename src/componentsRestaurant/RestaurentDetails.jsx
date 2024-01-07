@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import PageLoading from '../componentsOwner/PageLoading';
-import LogoutButton from '../componentsOwner/LogoutButton';
 import { MdArrowBack, MdDelete } from "react-icons/md";
 import { AiFillHome, AiTwotoneEdit } from "react-icons/ai";
 import "../css/resDetailsOwner.css";
