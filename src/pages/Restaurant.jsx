@@ -21,47 +21,76 @@ const Restaurant = () => {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
+    const [windowSize, setWindowSize] = useState([
+        window.innerWidth,
+        window.innerHeight,
+    ]);
+
+    useEffect(() => {
+        const handleWindowResize = () => {
+            setWindowSize([window.innerWidth, window.innerHeight]);
+        };
+
+        window.addEventListener('resize', handleWindowResize);
+
+        return () => {
+            window.removeEventListener('resize', handleWindowResize);
+        };
+    }, []);
+
     const handleMouseDown = (e) => {
-        setDragStart({
-            x: e.clientX - position.x,
-            y: e.clientY - position.y,
-        });
-        setIsDragging(true);
+        if (windowSize[0] <= 981 && windowSize[0] >= 980) {
+            setDragStart({
+                x: e.clientX - position.x,
+                y: e.clientY - position.y,
+            });
+            setIsDragging(true);
+        }
     };
 
     const handleTouchStart = (e) => {
-        const touch = e.touches[0];
-        setDragStart({
-            x: touch.clientX - position.x,
-            y: touch.clientY - position.y,
-        });
-        setIsDragging(true);
+        if (windowSize[0] <= 981 && windowSize[0] >= 980) {
+            const touch = e.touches[0];
+            setDragStart({
+                x: touch.clientX - position.x,
+                y: touch.clientY - position.y,
+            });
+            setIsDragging(true);
+        }
     };
 
     const handleMouseUp = () => {
-        setIsDragging(false);
+        if (windowSize[0] <= 981 && windowSize[0] >= 980) {
+            setIsDragging(false);
+        }
     };
 
     const handleTouchEnd = () => {
-        setIsDragging(false);
+        if (windowSize[0] <= 981 && windowSize[0] >= 980) {
+            setIsDragging(false);
+        }
     };
 
     const handleMouseMove = (e) => {
-        if (isDragging) {
-            setPosition({
-                x: e.clientX - dragStart.x,
-                y: e.clientY - dragStart.y,
-            });
+        if (windowSize[0] <= 981 && windowSize[0] >= 980) {
+            if (isDragging) {
+                setPosition({
+                    x: e.clientX - dragStart.x,
+                    y: e.clientY - dragStart.y,
+                });
+            }
         }
     };
 
     const handleTouchMove = (e) => {
-        if (isDragging) {
-            const touch = e.touches[0];
-            setPosition({
-                x: touch.clientX - dragStart.x,
-                y: touch.clientY - dragStart.y,
-            });
+        if (windowSize[0] <= 981 && windowSize[0] >= 980) {
+            if (isDragging) {
+                const touch = e.touches[0];
+                setPosition({
+                    x: touch.clientX - dragStart.x,
+                    y: touch.clientY - dragStart.y,
+                });
+            }
         }
     };
 
