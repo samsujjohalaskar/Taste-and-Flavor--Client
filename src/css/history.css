@@ -149,3 +149,29 @@
         margin: 0;
     }
 }
+
+/* Laptop Responsiveness */
+
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+    .profile-container {
+        min-width: 1340px;
+    }
+
+    .history-filter {
+        top: 260px;
+        left: 1140px;
+    }
+
+    .history-items {
+        right: 0;
+        max-width: 1297px;
+    }
+
+    .history-item {
+        max-width: 1051px;
+    }
+
+    .history-item>span {
+        width: 21px;
+    }
+}

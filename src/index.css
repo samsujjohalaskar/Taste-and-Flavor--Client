@@ -431,7 +431,7 @@ header {
 /* Mobile Responsiveness */
 
 @media screen and (min-width: 320px) and (max-width: 425px) {
-  .links{
+  .links {
     gap: 12%;
   }
 
@@ -456,20 +456,80 @@ header {
     min-width: 241px !important;
   }
 
-  .footerTop {
-    padding: 45px 100px 50px 100px;
-  }
-
-  .footerMid {
-    padding: 45px 100px 50px 100px;
-  }
-
-  .footerBottom {
+  .footerTop, .footerMid, .footerBottom {
     padding: 45px 100px 50px 100px;
   }
 
   .logo img {
     width: 252px;
     height: 57px;
+  }
+}
+
+/* Laptop Responsiveness */
+
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+  .navBar {
+    min-width: 1340px;
+  }
+
+  .links {
+    gap: 25%;
+  }
+
+  .searchBanner {
+    min-width: 1340px;
+  }
+
+  .bestOffers {
+    padding: 45px 0 50px 125px;
+    min-width: 1215px;
+  }
+
+  .restaurantNearby {
+    padding: 45px 0 50px 125px;
+    min-width: 1140px;
+    max-width: 1141px;
+  }
+
+  .footerTop {
+    padding: 45px 0 50px 125px;
+    min-width: 1140px;
+  }
+
+  .footerMid {
+    padding: 45px 0 50px 125px;
+    min-width: 1140px;
+  }
+
+  .footerBottom {
+    padding: 45px 0 50px 0;
+    min-width: 1340px;
+  }
+}
+
+@media screen and (min-width: 1300px) and (max-width: 1440px) {
+  .bestOffers {
+    padding: 45px 0 50px 175px;
+  }
+
+  .restaurantNearby {
+    padding: 45px 0 50px 175px;
+    min-width: 1140px;
+    max-width: 1141px;
+  }
+
+  .footerTop {
+    padding: 45px 0 50px 175px;
+    max-width: 1165px;
+  }
+
+  .footerMid {
+    padding: 45px 0 50px 175px;
+  }
+
+  .footerBottom {
+    padding: 45px 0 50px 0;
+    min-width: 1340px;
   }
 }
