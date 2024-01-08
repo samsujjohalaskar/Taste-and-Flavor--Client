@@ -250,19 +250,20 @@
     }
 
     .resMainTwo {
-        height: 480px;
+        height: 41px;
         width: 305px;
         margin: 40px 0px 0px 10px;
         position: fixed;
         top: 720px !important;
-        left: 547px !important;
+        left: 580px !important;
         z-index: 1;
-        background-color: #ffffff;
-        border-radius: 5px;
         box-shadow: 0 0 28px -1px rgba(0, 0, 0, .15);
         overflow-x: hidden;
         overflow-y: auto;
-        transition: left 0.3s ease;
+    }
+
+    .increase-height {
+        height: 480px;
     }
 }
 

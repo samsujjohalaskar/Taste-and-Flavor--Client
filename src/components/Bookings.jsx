@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import "../css/bookings.css";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import Signin from './Signin';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/services';
-import { RiDragMove2Fill } from "react-icons/ri";
+import { FaExpandArrowsAlt } from 'react-icons/fa';
+import { ImShrink } from "react-icons/im";
 
-const Bookings = ({ user, restaurant }) => {
+const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBooking }) => {
     const [selectedMeal, setSelectedMeal] = useState('lunch'); // Set 'lunch' as the default meal
     const [availableSlots, setAvailableSlots] = useState([]);
-    const [showLogin, setShowLogin] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
@@ -114,14 +113,14 @@ const Bookings = ({ user, restaurant }) => {
             setGuestName("");
             setMobileNumber("");
             setSpecialRequest("");
-            setShowLogin(false); // Reset the showLogin state when the user logs out
+            handleLogin(false); // Reset the showLogin state when the user logs out
         }
         // Update state when the user logs in
         if (user) {
             setDate(minDate);
             setMobileNumber("");
             setSpecialRequest("");
-            setShowLogin(false); // Hide the login modal when the user logs in
+            handleLogin(false); // Hide the login modal when the user logs in
         }
     }, [user]);
 
@@ -155,7 +154,7 @@ const Bookings = ({ user, restaurant }) => {
 
     const handleDateSelection = (selectedDate) => {
         if (!user) {
-            setShowLogin(true);
+            handleLogin(true);
             return;
         }
         setDate(selectedDate);
@@ -232,8 +231,9 @@ const Bookings = ({ user, restaurant }) => {
         <>
             <form method='POST' onSubmit={handleBooking}>
                 <div className="booking-header">
-                    <span className='drag-booking' title='Drag'>
-                        <RiDragMove2Fill />
+                    <span className='drag-booking' title='Drag' onClick={handleShowBooking}>
+                        {!showBooking && (<FaExpandArrowsAlt />)}
+                        {showBooking && (<ImShrink />)}
                     </span>
                     Book a Table or Deal
                 </div>
@@ -320,7 +320,6 @@ const Bookings = ({ user, restaurant }) => {
                     </div>
                 ) : ""}
             </form>
-            {showLogin && <Signin onClose={() => setShowLogin(false)} />}
         </>
     );
 }

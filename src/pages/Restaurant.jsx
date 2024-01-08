@@ -8,6 +8,8 @@ import Bookings from '../components/Bookings';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import { BASE_URL } from '../utils/services';
+import Signin from '../components/Signin';
+import Signup from '../components/Signup';
 
 const Restaurant = () => {
     const { city, area, name, _id } = useParams();
@@ -15,84 +17,14 @@ const Restaurant = () => {
     const [user] = useAuthState(auth);
     const navigate = useNavigate();
     const [selectedCity, setSelectedCity] = useState(city);
+
+    const [showLogin, setShowLogin] = useState(false);
+    const [showSignUp, setShowSignUp] = useState(false);
+
+    const [showBooking, setShowBooking] = useState(false);
+
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const [isDragging, setIsDragging] = useState(false);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-
-    const [windowSize, setWindowSize] = useState([
-        window.innerWidth,
-        window.innerHeight,
-    ]);
-
-    useEffect(() => {
-        const handleWindowResize = () => {
-            setWindowSize([window.innerWidth, window.innerHeight]);
-        };
-
-        window.addEventListener('resize', handleWindowResize);
-
-        return () => {
-            window.removeEventListener('resize', handleWindowResize);
-        };
-    }, []);
-
-    const handleMouseDown = (e) => {
-        if (windowSize[0] <= 981 && windowSize[0] >= 980) {
-            setDragStart({
-                x: e.clientX - position.x,
-                y: e.clientY - position.y,
-            });
-            setIsDragging(true);
-        }
-    };
-
-    const handleTouchStart = (e) => {
-        if (windowSize[0] <= 981 && windowSize[0] >= 980) {
-            const touch = e.touches[0];
-            setDragStart({
-                x: touch.clientX - position.x,
-                y: touch.clientY - position.y,
-            });
-            setIsDragging(true);
-        }
-    };
-
-    const handleMouseUp = () => {
-        if (windowSize[0] <= 981 && windowSize[0] >= 980) {
-            setIsDragging(false);
-        }
-    };
-
-    const handleTouchEnd = () => {
-        if (windowSize[0] <= 981 && windowSize[0] >= 980) {
-            setIsDragging(false);
-        }
-    };
-
-    const handleMouseMove = (e) => {
-        if (windowSize[0] <= 981 && windowSize[0] >= 980) {
-            if (isDragging) {
-                setPosition({
-                    x: e.clientX - dragStart.x,
-                    y: e.clientY - dragStart.y,
-                });
-            }
-        }
-    };
-
-    const handleTouchMove = (e) => {
-        if (windowSize[0] <= 981 && windowSize[0] >= 980) {
-            if (isDragging) {
-                const touch = e.touches[0];
-                setPosition({
-                    x: touch.clientX - dragStart.x,
-                    y: touch.clientY - dragStart.y,
-                });
-            }
-        }
-    };
 
     const ratingD = queryParams.get('ratingD');
     const fullNameD = queryParams.get('fullNameD');
@@ -132,25 +64,28 @@ const Restaurant = () => {
                     navigate(`/${selectedCity.toLowerCase()}`);
                 }}
             />
-            <div
-                className={`resMain ${isDragging ? 'dragging' : ''}`}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-            >
+            <div className="resMain">
                 <div className="resMainOne">
                     <ResDetails user={user} restaurant={restaurant} ratingD={ratingD} fullNameD={fullNameD} commentD={commentD} />
                 </div>
-                <div
-                    className="resMainTwo"
-                    style={{
-                        transform: `translate(${position.x}px, ${position.y}px)`,
-                    }}
-                    onMouseDown={handleMouseDown}
-                    onTouchStart={handleTouchStart}
-                >
-                    {restaurant ? <Bookings user={user} restaurant={restaurant} /> : ''}
+                <div className={`resMainTwo ${showBooking ? "increase-height" : ""}`}>
+                    {restaurant ? (
+                        <Bookings
+                            user={user}
+                            restaurant={restaurant}
+                            showBooking={showBooking}
+                            handleShowBooking={() => (setShowBooking(!showBooking))}
+                            handleLogin={(e) => (e ? setShowLogin(true) : setShowLogin(false))}
+                        />
+                    ) : (
+                        ''
+                    )}
+                    {showLogin && <Signin onClose={() => setShowLogin(false)}
+                        handleSignUp={() => { setShowLogin(false); setShowSignUp(true); }}
+                    />}
+                    {showSignUp && <Signup onClose={() => setShowSignUp(false)}
+                        handleSignIn={() => { setShowSignUp(false); setShowLogin(true) }}
+                    />}
                 </div>
             </div>
             <Footer city={city} area={area} />

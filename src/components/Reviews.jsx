@@ -3,6 +3,7 @@ import '../css/reviews.css';
 import { FaRegStar, FaStar, FaUserCircle } from 'react-icons/fa';
 import { Buffer } from 'buffer';
 import Signin from './Signin';
+import Signup from './Signup';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/services';
 
@@ -22,6 +23,7 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
 
     const [showRate, setShowRate] = useState(ratingD ? true : false);
     const [showLogin, setShowLogin] = useState(false);
+    const [showSignUp, setShowSignUp] = useState(false);
     const [userImage, setUserImage] = useState([]);
 
     const [displayedReviews, setDisplayedReviews] = useState(3);
@@ -361,7 +363,14 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
                     </div>
                 </form>
             )}
-            {showLogin && <Signin onClose={() => setShowLogin(false)} />}
+
+            {showLogin && <Signin onClose={() => setShowLogin(false)}
+                handleSignUp={() => { setShowLogin(false); setShowSignUp(true); }}
+            />}
+            {showSignUp && <Signup onClose={() => setShowSignUp(false)}
+                handleSignIn={() => { setShowSignUp(false); setShowLogin(true) }}
+            />}
+
             {reviewDetails ? (
                 [...reviewDetails].reverse().slice(0, displayedReviews).map((r, index) => (
                     <div className="reviews-container" key={index}>
