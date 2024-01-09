@@ -121,6 +121,7 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
             setMobileNumber("");
             setSpecialRequest("");
             handleLogin(false); // Hide the login modal when the user logs in
+            setGuestName(user.displayName);
         }
     }, [user]);
 
@@ -130,7 +131,9 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
                 const res = await fetch(`${BASE_URL}/user-info?userEmail=${user.email}`);
                 if (res.ok) {
                     const data = await res.json();
-                    setGuestName(data.fullName);
+                    if (data.fullName) {
+                        setGuestName(data.fullName);
+                    }
                     if (data.phoneNumber) {
                         setMobileNumber(data.phoneNumber);
                     }
@@ -138,7 +141,7 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
                     console.error('Failed to fetch user details');
                 }
             } catch (error) {
-                console.error('Error fetching user details:', error);
+                // console.error('Error fetching user details:', error);
             }
         };
 

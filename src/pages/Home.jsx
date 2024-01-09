@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useCity } from '../CityContext';
 import SelectLocation from '../components/SelectLocation';
 import { BASE_URL } from '../utils/services';
+import Loading from '../components/Loading';
 
 function Home() {
     const { city } = useParams();
@@ -88,6 +89,7 @@ function Home() {
             <Navbar city={selectedCity.toLowerCase()} onSelectCity={setSelectedCity} onCityChangeRedirect={(selectedCity) => { navigate('/'); }} />
             <Banner />
             <Offers />
+            {selectedCity && !(restaurants.length > 0) && <Loading />}
             <Carousel city={selectedCity.toLowerCase()} restaurants={filteredRestaurants} />
             <Footer city={selectedCity.toLowerCase()} />
             {showLocationSelect && <SelectLocation onSelectCity={handleCitySelect} />}

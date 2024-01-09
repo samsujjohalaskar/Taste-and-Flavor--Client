@@ -11,6 +11,7 @@ import { useCity } from '../CityContext';
 import logo from "../assets/logo.png"
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/services';
+import Loading from '../components/Loading';
 
 const History = () => {
 
@@ -28,6 +29,7 @@ const History = () => {
 
     const [showFilterOptions, setShowFilterOptions] = useState(false);
     const [showImageInput, setShowImageInput] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
     const [filter, setFilter] = useState('All');
 
     useEffect(() => {
@@ -37,6 +39,7 @@ const History = () => {
     });
 
     useEffect(() => {
+        setShowLoading(true);
         const fetchUserDetails = async () => {
             try {
                 const res = await fetch(`${BASE_URL}/user-info?userEmail=${user.email}`);
@@ -49,6 +52,8 @@ const History = () => {
                 }
             } catch (error) {
                 console.error('Error fetching user details:', error);
+            } finally {
+                setShowLoading(false);
             }
         };
 
@@ -58,6 +63,7 @@ const History = () => {
     }, [user]);
 
     useEffect(() => {
+        setShowLoading(true)
         const fetchReviewsDetails = async () => {
             try {
                 const res = await fetch(`${BASE_URL}/reviews?userEmail=${user.email}`);
@@ -70,6 +76,8 @@ const History = () => {
                 }
             } catch (error) {
                 console.error('Error fetching review details:', error);
+            } finally {
+                setShowLoading(false);
             }
         };
 
@@ -148,6 +156,7 @@ const History = () => {
     });
 
     useEffect(() => {
+        setShowLoading(true);
         const fetchBookingDetails = async () => {
             try {
                 const res = await fetch(`${BASE_URL}/bookings?userEmail=${user.email}`);
@@ -159,6 +168,8 @@ const History = () => {
                 }
             } catch (error) {
                 console.error('Error fetching booking details:', error);
+            } finally {
+                setShowLoading(false);
             }
         };
 
@@ -168,6 +179,7 @@ const History = () => {
     }, [user]);
 
     const handleCancelBooking = async (bookingId) => {
+        setShowLoading(true);
         try {
             const res = await fetch(`${BASE_URL}/bookings/${bookingId}`, {
                 method: 'DELETE',
@@ -185,6 +197,8 @@ const History = () => {
             }
         } catch (error) {
             console.error('Error cancelling booking:', error);
+        } finally {
+            setShowLoading(false);
         }
     };
 
@@ -206,6 +220,7 @@ const History = () => {
     };
 
     const handleImageChange = async (e) => {
+        setShowLoading(true);
         const file = e.target.files[0];
 
         // Create a FormData object to send the file
@@ -226,6 +241,8 @@ const History = () => {
             }
         } catch (error) {
             window.alert('Error uploading image:', error);
+        } finally {
+            setShowLoading(false);
         }
     };
 
@@ -245,7 +262,9 @@ const History = () => {
                 onSelectCity={setSelectedCity}
                 onCityChangeRedirect={(selectedCity) => {
                     navigate(`/${selectedCity.toLowerCase()}`);
-                }} />
+                }}
+            />
+            {showLoading && <Loading />}
             <div className="profile-container">
                 <div className="profile-main-cont">
                     {user ? (
@@ -274,7 +293,7 @@ const History = () => {
                             )}
                             <div className="profile-information">
                                 <div>Username/Email: {user.email}</div>
-                                <div>Profile Name: {userDetails.fullName || user.displayName}</div>
+                                <div>Profile Name: {user.displayName || userDetails.fullName}</div>
                                 {userDetails && userDetails.phoneNumber && (
                                     <div>Contact Number: {userDetails.phoneNumber}</div>
                                 )}

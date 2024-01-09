@@ -10,6 +10,7 @@ import { auth } from '../firebase';
 import { BASE_URL } from '../utils/services';
 import Signin from '../components/Signin';
 import Signup from '../components/Signup';
+import Loading from '../components/Loading';
 
 const Restaurant = () => {
     const { city, area, name, _id } = useParams();
@@ -64,6 +65,7 @@ const Restaurant = () => {
                     navigate(`/${selectedCity.toLowerCase()}`);
                 }}
             />
+            {!restaurant && <Loading />}
             <div className="resMain">
                 <div className="resMainOne">
                     <ResDetails user={user} restaurant={restaurant} ratingD={ratingD} fullNameD={fullNameD} commentD={commentD} />

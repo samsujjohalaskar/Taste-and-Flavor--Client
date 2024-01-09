@@ -11,6 +11,7 @@ import { cuisineOptions } from '../filterParameters';
 import { typesOptions } from '../filterParameters';
 import { featureOptions } from '../filterParameters';
 import { BASE_URL } from '../utils/services';
+import Loading from '../components/Loading';
 
 const BookTable = () => {
 
@@ -285,6 +286,7 @@ const BookTable = () => {
           navigate(`/${selectedCity.toLowerCase()}`);
         }}
       />
+      {capitalizedCity && (averageRatings.length === 0) && (restaurants.length === 0) && <Loading />}
       <div className="city-restaurant">
         <div className="city-filters">
           {!showCuisineFilters &&
