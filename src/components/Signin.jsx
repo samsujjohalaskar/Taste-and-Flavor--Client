@@ -5,6 +5,7 @@ import '../css/signin.css';
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { IoMdClose } from 'react-icons/io';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
+import Loading from './Loading';
 
 export default function Signin({ onClose, handleSignUp }) {
   const [email, setEmail] = useState('');
@@ -52,6 +53,7 @@ export default function Signin({ onClose, handleSignUp }) {
         </div>
       </div>
       <div className='signup-close-icon' onClick={onClose}><IoMdClose /></div>
+      {isLoading && <Loading />}
     </div>
   );
 }

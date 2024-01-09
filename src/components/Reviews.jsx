@@ -6,6 +6,7 @@ import Signin from './Signin';
 import Signup from './Signup';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/services';
+import Loading from './Loading';
 
 const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD }) => {
 
@@ -371,6 +372,7 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
                 handleSignIn={() => { setShowSignUp(false); setShowLogin(true) }}
             />}
 
+            {!reviewDetails && <Loading />}
             {reviewDetails ? (
                 [...reviewDetails].reverse().slice(0, displayedReviews).map((r, index) => (
                     <div className="reviews-container" key={index}>

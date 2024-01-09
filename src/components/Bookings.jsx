@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/services';
 import { FaExpandArrowsAlt } from 'react-icons/fa';
 import { ImShrink } from "react-icons/im";
+import Loading from './Loading';
 
 const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBooking }) => {
     const [selectedMeal, setSelectedMeal] = useState('lunch'); // Set 'lunch' as the default meal
@@ -240,6 +241,7 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
                     </span>
                     Book a Table or Deal
                 </div>
+                {loading && <Loading />}
                 {date ? (
                     <div className="booking-date-time">
                         {formattedDate} {time ? `| ${time}` : ''} {guests ? `| ${guests} Guest/s` : ''}
