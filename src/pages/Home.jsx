@@ -26,12 +26,6 @@ function Home() {
     const filteredRestaurants = restaurants.filter((restaurant) => restaurant.city === selectedCity);
 
     useEffect(() => {
-        if (!selectedCity) {
-            setShowLocationSelect(true);
-        }
-    }, [selectedCity]);
-
-    useEffect(() => {
         const updatedCity = city ? capitalizeWords(city) : selectedCity;
         setSelectedCity(updatedCity);
     }, [city, setSelectedCity, selectedCity]);
@@ -58,6 +52,14 @@ function Home() {
         setShowLocationSelect(false); // Set showLocationSelect to false after city is selected
         navigate('/');
     };
+
+    useEffect(() => {
+        if (selectedCity) {
+            setShowLocationSelect(false);
+        } else {
+            setShowLocationSelect(true);
+        }
+    }, [selectedCity]);
 
     // const restaurantAreaArrays = filteredRestaurants ? filteredRestaurants.map((restaurant) => restaurant.area) : [];
     // const uniqueArea = [...new Set(restaurantAreaArrays.flat())];
