@@ -13,6 +13,9 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
     const [availableSlots, setAvailableSlots] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const [userDetails, setUserDetails] = useState("");
+    const [postUser, setPostUser] = useState(false);
+
     const navigate = useNavigate();
 
     const [date, setDate] = useState(null);
@@ -132,6 +135,7 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
                 const res = await fetch(`${BASE_URL}/user-info?userEmail=${user.email}`);
                 if (res.ok) {
                     const data = await res.json();
+                    setUserDetails(data);
                     if (data.fullName) {
                         setGuestName(data.fullName);
                     }
@@ -140,9 +144,12 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
                     }
                 } else {
                     console.error('Failed to fetch user details');
+                    setUserDetails(null);
                 }
             } catch (error) {
                 // console.error('Error fetching user details:', error);
+            } finally {
+                setPostUser(true);
             }
         };
 
@@ -151,6 +158,32 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
         }
 
     }, [user]);
+
+    useEffect(() => {
+        const handlePostUser = async () => {
+            try {
+                const res = await fetch(`${BASE_URL}/add-user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        fullName: user.displayName,
+                        userEmail: user.email,
+                        creationTime: user.metadata.creationTime,
+                        lastSignInTime: user.metadata.lastSignInTime,
+                    }),
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        if (postUser && userDetails === null && user) {
+            handlePostUser();
+        }
+
+    }, [user, userDetails, postUser]);
 
     if (date) {
         formattedDate = date.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });

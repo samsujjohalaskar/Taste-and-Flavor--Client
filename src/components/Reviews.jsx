@@ -26,7 +26,7 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
     const [showLogin, setShowLogin] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
 
-    const [userDetails, setUserDetails] = useState("")
+    const [userDetails, setUserDetails] = useState("");
     const [postUser, setPostUser] = useState(false);
 
     const [userImage, setUserImage] = useState([]);
