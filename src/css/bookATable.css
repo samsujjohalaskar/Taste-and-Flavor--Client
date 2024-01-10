@@ -121,6 +121,7 @@
     flex-wrap: wrap;
     /* width: 870px; */
     min-width: 700px;
+    max-width: 870px;
 }
 
 .city-card-restaurant {

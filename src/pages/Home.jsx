@@ -14,6 +14,7 @@ function Home() {
     const { city } = useParams();
     const [restaurants, setRestaurants] = useState([]);
     const [showLocationSelect, setShowLocationSelect] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
 
     const capitalizeWords = (str) => {
         return str.replace(/\b\w/g, (char) => char.toUpperCase());
@@ -36,6 +37,7 @@ function Home() {
     }, [city, setSelectedCity, selectedCity]);
 
     useEffect(() => {
+        setShowLoading(true);
         const fetchRestaurants = async () => {
             try {
                 const response = await fetch(`${BASE_URL}/restaurants-slider`);
@@ -43,6 +45,8 @@ function Home() {
                 setRestaurants(data.restaurants || []);
             } catch (error) {
                 console.error(error);
+            } finally {
+                setShowLoading(false);
             }
         };
 
@@ -89,7 +93,7 @@ function Home() {
             <Navbar city={selectedCity.toLowerCase()} onSelectCity={setSelectedCity} onCityChangeRedirect={(selectedCity) => { navigate('/'); }} />
             <Banner />
             <Offers />
-            {selectedCity && !(restaurants.length > 0) && <Loading />}
+            {showLoading && <Loading />}
             <Carousel city={selectedCity.toLowerCase()} restaurants={filteredRestaurants} />
             <Footer city={selectedCity.toLowerCase()} />
             {showLocationSelect && <SelectLocation onSelectCity={handleCitySelect} />}

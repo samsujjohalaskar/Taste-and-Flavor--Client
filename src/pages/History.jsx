@@ -30,6 +30,7 @@ const History = () => {
     const [showFilterOptions, setShowFilterOptions] = useState(false);
     const [showImageInput, setShowImageInput] = useState(false);
     const [showLoading, setShowLoading] = useState(false);
+    const [postUser, setPostUser] = useState(false);
     const [filter, setFilter] = useState('All');
 
     useEffect(() => {
@@ -53,6 +54,7 @@ const History = () => {
             } catch (error) {
                 console.error('Error fetching user details:', error);
             } finally {
+                setPostUser(true);
                 setShowLoading(false);
             }
         };
@@ -61,6 +63,32 @@ const History = () => {
             fetchUserDetails();
         }
     }, [user]);
+
+    useEffect(() => {
+        const handlePostUser = async () => {
+            try {
+                const res = await fetch(`${BASE_URL}/add-user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        fullName: user.displayName,
+                        userEmail: user.email,
+                        creationTime: user.metadata.creationTime,
+                        lastSignInTime: user.metadata.lastSignInTime,
+                    }),
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        if (postUser && userDetails === null && user) {
+            handlePostUser();
+        }
+
+    }, [user, userDetails, postUser]);
 
     useEffect(() => {
         setShowLoading(true)

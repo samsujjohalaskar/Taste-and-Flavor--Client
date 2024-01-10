@@ -30,6 +30,7 @@ const BookTable = () => {
   const [showMoreCuisine, setShowMoreCuisine] = useState(false);
   const [showMoreTypes, setShowMoreTypes] = useState(false);
   const [showMoreFeature, setShowMoreFeature] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   const [averageRatings, setAverageRatings] = useState([]);
 
@@ -109,6 +110,7 @@ const BookTable = () => {
   }
 
   useEffect(() => {
+    setShowLoading(true);
     const fetchRestaurants = async () => {
       try {
         const response = await fetch(
@@ -144,6 +146,8 @@ const BookTable = () => {
 
       } catch (error) {
         console.error(error);
+      } finally {
+        setShowLoading(false);
       }
     };
 
@@ -286,7 +290,7 @@ const BookTable = () => {
           navigate(`/${selectedCity.toLowerCase()}`);
         }}
       />
-      {capitalizedCity && (averageRatings.length === 0) && (restaurants.length === 0) && <Loading />}
+      {showLoading && <Loading />}
       <div className="city-restaurant">
         <div className="city-filters">
           {!showCuisineFilters &&
