@@ -91,7 +91,7 @@ const Registration = () => {
           <div class="form-group">
             <input type="tel" id="phoneNumber" name="phoneNumber" placeholder='Mobile' required value={owner.phoneNumber} onChange={handleInputs} />
           </div>
-          <button type="submit" class="submit-btn button">{loading ? "Registering..." : "Register"}</button>
+          <button type="submit" class="submit-btn button" disabled>{loading ? "Registering..." : "Disabled"}</button>
         </form>
         <br />
         <p>Already registered? <Link to="/owner-login">Login here</Link></p>
