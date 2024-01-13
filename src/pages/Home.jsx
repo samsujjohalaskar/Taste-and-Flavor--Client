@@ -93,7 +93,7 @@ function Home() {
     return (
         <>
             <Navbar city={selectedCity.toLowerCase()} onSelectCity={setSelectedCity} onCityChangeRedirect={(selectedCity) => { navigate('/'); }} />
-            <Banner />
+            <Banner city={selectedCity.toLowerCase()} restaurants={filteredRestaurants} />
             <Offers />
             {showLoading && <Loading />}
             <Carousel city={selectedCity.toLowerCase()} restaurants={filteredRestaurants} />

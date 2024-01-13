@@ -267,7 +267,7 @@
     }
 }
 
-/* Mobile Responsiveness */
+/* Laptop Responsiveness */
 
 @media screen and (min-width: 1024px) and (max-width: 1440px) {
     .resMain {
