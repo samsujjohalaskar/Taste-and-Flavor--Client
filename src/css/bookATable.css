@@ -295,6 +295,15 @@
     }
 }
 
+/* Tablet Responsiveness */
+
+@media screen and (min-width: 426px) and (max-width: 1023px) {
+    .city-restaurant {
+        padding: 10px 0 50px 120px;
+        min-width: 1215px;
+    }
+}
+
 /* Laptop Responsiveness */
 
 @media screen and (min-width: 1024px) and (max-width: 1440px) {

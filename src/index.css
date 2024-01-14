@@ -466,6 +466,48 @@ header {
   }
 }
 
+/* Tablet Responsiveness */
+
+@media screen and (min-width: 426px) and (max-width: 1023px) {
+  .navBar {
+    min-width: 1340px;
+  }
+
+  .links {
+    gap: 25%;
+  }
+
+  .searchBanner {
+    min-width: 1340px;
+  }
+
+  .bestOffers {
+    padding: 45px 0 50px 125px;
+    min-width: 1215px;
+  }
+
+  .restaurantNearby {
+    padding: 45px 0 50px 125px;
+    min-width: 1140px;
+    max-width: 1141px;
+  }
+
+  .footerTop {
+    padding: 45px 0 50px 125px;
+    min-width: 1140px;
+  }
+
+  .footerMid {
+    padding: 45px 0 50px 125px;
+    min-width: 1140px;
+  }
+
+  .footerBottom {
+    padding: 45px 0 50px 0;
+    min-width: 1340px;
+  }
+}
+
 /* Laptop Responsiveness */
 
 @media screen and (min-width: 1024px) and (max-width: 1440px) {

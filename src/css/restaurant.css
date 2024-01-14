@@ -267,6 +267,20 @@
     }
 }
 
+/* Tablet Responsiveness */
+
+@media screen and (min-width: 426px) and (max-width: 1023px) {
+    .resMain {
+        padding: 10px 0px 50px 110px;
+        min-width: 1230px;
+    }
+
+    .resMainTwo {
+        height: 480px;
+        width: 305px;
+    }
+}
+
 /* Laptop Responsiveness */
 
 @media screen and (min-width: 1024px) and (max-width: 1440px) {

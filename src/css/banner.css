@@ -80,7 +80,16 @@
     .suggestions {
         top: 265px;
         left: 75px;
-        width: 150%;
+        width: 630px;
+    }
+}
+
+/* Tablet Responsiveness */
+
+@media screen and (min-width: 426px) and (max-width: 1023px) {
+    .suggestions {
+        left: 171px;
+        width: 630px;
     }
 }
 
@@ -90,13 +99,13 @@
     .suggestions {
         top: 265px;
         left: 170px;
-        width: 65%;
+        width: 630px;
     }
 }
 
 @media screen and (min-width: 1201px) and (max-width: 1440px) {
     .suggestions {
         left: 220px;
-        width: 55%;
+        width: 630px;
     }
 }

@@ -119,7 +119,7 @@ function Banner({ city, restaurants }) {
                         className="flex-item restaurantSearch"
                         type="text"
                         id="restaurantSearch"
-                        placeholder="Search for Restaurants, Cuisines, Location..."
+                        placeholder="Search for Restaurants, Facilities, Location..."
                         maxLength="50"
                         value={searchInput}
                         onChange={(e) => {
