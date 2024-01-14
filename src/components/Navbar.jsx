@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { CiLocationOn } from "react-icons/ci";
 import logo from "../assets/logo.png";
@@ -18,6 +18,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
   const [filteredCities, setFilteredCities] = useState([]);
 
   const [user] = useAuthState(auth);
+  const cityRef = useRef();
 
   const toggleDropdown = () => {
     setFilteredCities(filteredCities.length ? [] : cities);
@@ -55,6 +56,20 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
     return str.replace(/\b\w/g, (char) => char.toUpperCase());
   };
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+        if (cityRef.current && !cityRef.current.contains(event.target)) {
+            setShowKey(false);
+        }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+        document.removeEventListener('mousedown', handleOutsideClick);
+    };
+}, [cityRef]);
+
   return (
     <>
       <nav className="navBar flex">
@@ -77,8 +92,8 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
             onClick={() => setShowKey(true)}
             className="searchInput"
           />
-          {filteredCities && (
-            <ul className="citySuggestions">
+          {showKey && filteredCities && (
+            <ul className="citySuggestions" ref={cityRef}>
               {filteredCities.map((city) => (
                 <li key={city.cityName} onClick={() => handleCitySelect(city.cityName)}>
                   {city.cityName}
