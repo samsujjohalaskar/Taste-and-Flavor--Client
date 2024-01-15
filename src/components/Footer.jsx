@@ -4,7 +4,7 @@ import Cities from './Cities';
 import cities from "../allCities";
 
 export default function Footer({ city }) {
-  
+
   const midSections = [
     {
       title: 'Discover',
@@ -377,8 +377,8 @@ export default function Footer({ city }) {
                   section.items.map((item, index) => {
                     const cleanedItem = item
                       .toLowerCase()
-                      .replace(/[^a-zA-Z0-9]/g, '-') 
-                      .replace(/--+/g, '-') 
+                      .replace(/[^a-zA-Z0-9]/g, '-')
+                      .replace(/--+/g, '-')
                       .replace(/^-+|-+$/g, '');
 
                     const url = `/${city}-restaurants/${cleanedItem}-facilities`;
@@ -432,7 +432,7 @@ export default function Footer({ city }) {
           <div className="flex-item">
             <p>Every Bite Speaks Taste, Flavorful Journey</p>
           </div>
-          <div className="flex-item">Write to us at: <strong>samsujjohalaskar@gmail.com</strong></div>
+          <div className="flex-item">Write to us at: <strong><a className='write-us' href="https://mail.google.com/mail/?view=cm&fs=1&to=samsujjohalaskar@gmail.com">samsujjohalaskar@gmail.com</a></strong></div>
           <div className="flex-item">
             <p>© 2023 - Taste&Flavor All Rights Reserved</p>
           </div>
