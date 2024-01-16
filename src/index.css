@@ -92,7 +92,7 @@ header {
   text-decoration: none;
 }
 
-.write-us{
+.write-us {
   color: black;
 }
 
@@ -577,5 +577,48 @@ header {
   .footerBottom {
     padding: 45px 0 50px 0;
     min-width: 1340px;
+  }
+}
+
+/*Above Laptop Responsiveness */
+
+@media screen and (min-width: 1441px){
+  #root {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  }
+
+  .navBar {
+    width: 1640px;
+  }
+
+  .searchBanner {
+    width: 1640px;
+  }
+
+  .bestOffers {
+    width: 1000px;
+    padding: 45px 370px 50px 270px;
+  }
+
+  .restaurantNearby {
+    padding: 45px 0 50px 70px;
+    width: 1170px;
+  }
+
+  .footerTop {
+    width: 1100px;
+    padding: 45px 0px 50px 270px;
+  }
+
+  .footerMid {
+    width: 1100px;
+    padding: 45px 0px 50px 270px;
+  }
+
+  .footerBottom {
+    padding: 45px 0 50px 0;
+    width: 1640px;
   }
 }

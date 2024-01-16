@@ -294,3 +294,17 @@
         width: 305px;
     }
 }
+
+/*Above Laptop Responsiveness */
+
+@media screen and (min-width: 1441px) {
+    .resMain {
+        padding: 10px 0px 50px 240px;
+        width: 1400px;
+    }
+
+    .resMainTwo {
+        height: 480px;
+        width: 305px;
+    }
+}
