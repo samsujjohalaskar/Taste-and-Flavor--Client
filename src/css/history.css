@@ -222,8 +222,4 @@
     .history-item {
         max-width: 1260px;
     }
-
-    .history-item>span {
-        /* width: 21px; */
-    }
 }
