@@ -179,6 +179,7 @@ header {
   flex-direction: column;
   background-image: url(/src/assets/backgroundImage.jpg);
   min-width: 980px;
+  background-size: cover;
 }
 
 .heading {
@@ -583,36 +584,7 @@ header {
 /*Above Laptop Responsiveness */
 
 @media screen and (min-width: 1441px) {
-  .navBar {
-    width: 1640px;
-  }
-
-  .searchBanner {
-    width: 1640px;
-  }
-
-  .bestOffers {
-    width: 1000px;
-    padding: 45px 370px 50px 270px;
-  }
-
   .restaurantNearby {
-    padding: 45px 0 50px 270px;
     width: 1170px;
-  }
-
-  .footerTop {
-    width: 1100px;
-    padding: 45px 0px 50px 270px;
-  }
-
-  .footerMid {
-    width: 1100px;
-    padding: 45px 0px 50px 270px;
-  }
-
-  .footerBottom {
-    padding: 45px 0 50px 0;
-    width: 1640px;
   }
 }

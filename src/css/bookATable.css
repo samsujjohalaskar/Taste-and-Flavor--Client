@@ -312,12 +312,3 @@
         min-width: 1215px;
     }
 }
-
-/*Above Laptop Responsiveness */
-
-@media screen and (min-width: 1441px) {
-    .city-restaurant {
-        padding: 10px 0 50px 230px;
-        width: 1410px;
-    }
-}
