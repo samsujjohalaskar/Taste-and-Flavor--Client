@@ -22,7 +22,7 @@ const Restaurant = () => {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
 
-    const [showBooking, setShowBooking] = useState(false);
+    const [showBooking, setShowBooking] = useState(true);
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
