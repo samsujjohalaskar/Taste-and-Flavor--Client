@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { IoMdClose } from 'react-icons/io';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
 import Loading from './Loading';
+import Swal from 'sweetalert2';
 
 const Signup = ({ onClose, handleSignIn }) => {
     const [displayName, setDisplayName] = useState('');
@@ -15,6 +16,18 @@ const Signup = ({ onClose, handleSignIn }) => {
     const [loading, setLoading] = useState(false);
     const [seePassword, setSeePassword] = useState(false);
     const [seeCPassword, setSeeCPassword] = useState(false);
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 5000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
 
     const handleSignup = async (e) => {
         e.preventDefault();
@@ -27,11 +40,14 @@ const Signup = ({ onClose, handleSignIn }) => {
                 await updateProfile(user, {
                     displayName: displayName
                 });
-                alert('Account created successfully!');
+                Toast.fire({
+                    icon: "success",
+                    title: "Signed in Successfully!"
+                });
                 onClose();
             } catch (error) {
                 if (error.code === "auth/email-already-in-use") {
-                    setError("Email Already Registered, Please Login.");
+                    setError("Email already registered, use another email");
                 } else {
                     setError(error.code);
                 }
@@ -64,7 +80,7 @@ const Signup = ({ onClose, handleSignIn }) => {
                         </div>
                         {error && <div className="signup-error-message">{error}</div>}
                         <button className='subLogin button login-form-button' type="submit" disabled={loading}>
-                            {loading ? 'Creating Account...' : 'Register'}
+                            {loading ? 'Registering...' : 'Register'}
                         </button>
                     </form>
                     <div className='signup-sign'>

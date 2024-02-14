@@ -6,6 +6,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { IoMdClose } from 'react-icons/io';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
 import Loading from './Loading';
+import Swal from 'sweetalert2';
 
 export default function Signin({ onClose, handleSignUp }) {
   const [email, setEmail] = useState('');
@@ -16,6 +17,18 @@ export default function Signin({ onClose, handleSignUp }) {
 
   const navigate = useNavigate();
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 5000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    }
+  });
+
   const handleSignin = async (e) => {
     e.preventDefault();
     const currentPath = window.location.pathname;
@@ -23,7 +36,10 @@ export default function Signin({ onClose, handleSignUp }) {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      alert('Logged in successfully!');
+      Toast.fire({
+        icon: "success",
+        title: "Logged in Successfully!"
+      });
       onClose();
       navigate(currentPath);
     } catch (error) {

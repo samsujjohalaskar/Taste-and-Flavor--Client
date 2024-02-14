@@ -12,6 +12,7 @@ import logo from "../assets/logo.png"
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/services';
 import Loading from '../components/Loading';
+import Swal from 'sweetalert2';
 
 const History = () => {
 
@@ -207,26 +208,51 @@ const History = () => {
     }, [user]);
 
     const handleCancelBooking = async (bookingId) => {
-        setShowLoading(true);
-        try {
-            const res = await fetch(`${BASE_URL}/bookings/${bookingId}`, {
-                method: 'DELETE',
-            });
-            if (res.ok) {
-                window.alert("Reservation Cancelled Successfully.")
-                setBookingDetails(prevDetails => prevDetails.map(booking => {
-                    if (booking._id === bookingId) {
-                        return { ...booking, status: 'Cancelled' };
-                    }
-                    return booking;
-                }));
-            } else {
-                console.error('Failed to cancel booking');
+
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "Do you really want to cancel the reservation?",
+            icon: "warning",
+            iconColor: "#ff7676",
+            showCloseButton: true,
+            confirmButtonColor: "#006edc",
+            confirmButtonText: "Yes, Cancel Reservation"
+        });
+
+        if (result.isConfirmed) {
+            setShowLoading(true);
+            try {
+                const res = await fetch(`${BASE_URL}/bookings/${bookingId}`, {
+                    method: 'DELETE',
+                });
+                if (res.ok) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Cancelled.",
+                        text: "Your Reservation Cancelled Successfully.",
+                        showConfirmButton: false,
+                        showCloseButton: true,
+                        timer: 3500
+                    });
+                    setBookingDetails(prevDetails => prevDetails.map(booking => {
+                        if (booking._id === bookingId) {
+                            return { ...booking, status: 'Cancelled' };
+                        }
+                        return booking;
+                    }));
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Failed to Cancel Reservation, Please try later.",
+                    });
+                }
+            } catch (error) {
+                console.error('Error cancelling Reservation:', error);
+            } finally {
+                setShowLoading(false);
             }
-        } catch (error) {
-            console.error('Error cancelling booking:', error);
-        } finally {
-            setShowLoading(false);
         }
     };
 
@@ -262,13 +288,30 @@ const History = () => {
             });
 
             if (res.ok) {
-                window.alert('Image uploaded successfully');
-                window.location.reload();
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Image uploaded successfully",
+                    confirmButtonColor: "#006edc",
+                    confirmButtonText: "OK",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                });
             } else {
-                window.alert('Failed to upload image');
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Failed to upload image, Please try again.",
+                });
             }
         } catch (error) {
-            window.alert('Error uploading image:', error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: `Error: ${error}`,
+            });
         } finally {
             setShowLoading(false);
         }

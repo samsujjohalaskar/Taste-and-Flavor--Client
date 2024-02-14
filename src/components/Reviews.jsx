@@ -7,6 +7,7 @@ import Signup from './Signup';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/services';
 import Loading from './Loading';
+import Swal from 'sweetalert2';
 
 const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD }) => {
 
@@ -152,6 +153,18 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
         }
     }, [reviewDetails]);
 
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 5000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
+
     const handleSubmitReview = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -173,17 +186,42 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
             });
 
             if (response.status === 201) {
-                window.alert('Review Added successfully');
-                window.location.reload();
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Thank You!",
+                    text: "Your Review is Valuable to Us.",
+                    confirmButtonColor: "#006edc",
+                    confirmButtonText: "I Appreciate it",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                });
             } else if (response.status === 200) {
-                window.alert('Review Updated successfully');
+                Toast.fire({
+                    icon: "success",
+                    title: "Your Review Updated Successfully!"
+                });
                 navigate("/history");
             } else if (response.status === 402) {
-                window.alert('Some Attributes may Missing.');
+                Swal.fire({
+                    title: "Attributes Missing!",
+                    text: "Some Attributes is not Present",
+                    icon: "question"
+                });
             } else if (response.status === 404) {
-                window.alert('Restaurant not Found.');
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Restaurant not Found., Please try Later.",
+                });
             } else {
-                window.alert('Failed to submit review');
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Failed to Add Review., Please try Later.",
+                });
             }
         } catch (error) {
             console.error('Error submitting review:', error);
