@@ -22,7 +22,7 @@ const Restaurant = () => {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
 
-    const [showBooking, setShowBooking] = useState(true);
+    const [showBooking, setShowBooking] = useState(false);
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -70,7 +70,7 @@ const Restaurant = () => {
                 <div className="resMainOne">
                     <ResDetails user={user} restaurant={restaurant} ratingD={ratingD} fullNameD={fullNameD} commentD={commentD} />
                 </div>
-                <div className={`resMainTwo ${showBooking ? "increase-height" : ""}`}>
+                <div className={`resMainTwo ${showBooking ? "decrease-height" : ""}`}>
                     {restaurant ? (
                         <Bookings
                             user={user}

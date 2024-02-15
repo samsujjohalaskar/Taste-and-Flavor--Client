@@ -25,7 +25,6 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
     setFilteredCities(filteredCities.length ? [] : cities);
     setShowKey(!showKey)
   };
-  console.log(city);
 
   const links = [
     { name: "Home", link: "/" },

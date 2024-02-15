@@ -301,8 +301,8 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
             <form method='POST' onSubmit={handleBooking}>
                 <div className="booking-header">
                     <span className='drag-booking' title='Drag' onClick={handleShowBooking}>
-                        {!showBooking && (<FaExpandArrowsAlt />)}
-                        {showBooking && (<ImShrink />)}
+                        {showBooking && (<FaExpandArrowsAlt />)}
+                        {!showBooking && (<ImShrink />)}
                     </span>
                     Book a Table or Deal
                 </div>

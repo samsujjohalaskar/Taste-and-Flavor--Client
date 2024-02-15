@@ -262,8 +262,8 @@
         overflow-y: auto;
     }
 
-    .increase-height {
-        height: 480px;
+    .decrease-height {
+        height: 40px;
     }
 }
 
