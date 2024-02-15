@@ -177,7 +177,7 @@ header {
   height: 350px;
   /* width: 100%; */
   flex-direction: column;
-  background-image: url(/src/assets/backgroundImage.jpg);
+  background-image: url(./assets/backgroundImage.jpg);
   min-width: 980px;
   background-size: cover;
 }
