@@ -8,6 +8,7 @@ import { auth } from '../firebase';
 import cities from "../allCities";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa6";
 import Signup from "./Signup";
+import Swal from 'sweetalert2';
 
 function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
 
@@ -44,9 +45,36 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
     setShowKey(false);
   };
 
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 5000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    }
+  });
+
   const handleLoginButtonClick = () => {
     if (user) {
-      auth.signOut();
+      Swal.fire({
+        title: "Are you sure?",
+        icon: "warning",
+        iconColor: "#ff7676",
+        showCancelButton: true,
+        confirmButtonColor: "#006edc",
+        confirmButtonText: "Yes, Logout!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          auth.signOut();
+          Toast.fire({
+            icon: "success",
+            title: "Logged out Successfully!"
+          });
+        }
+      });
     } else {
       setShowLogin(true);
     }
@@ -58,17 +86,17 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
-        if (cityRef.current && !cityRef.current.contains(event.target)) {
-            setShowKey(false);
-        }
+      if (cityRef.current && !cityRef.current.contains(event.target)) {
+        setShowKey(false);
+      }
     };
 
     document.addEventListener('mousedown', handleOutsideClick);
 
     return () => {
-        document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('mousedown', handleOutsideClick);
     };
-}, [cityRef]);
+  }, [cityRef]);
 
   return (
     <>

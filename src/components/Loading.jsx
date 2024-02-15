@@ -7,10 +7,10 @@ const Loading = () => {
     return (
         <div className="loading-div">
             <Loader
-                type="BallTriangle"
+                type="Oval"
                 color="#FF5757"
-                height={50}
-                width={50}
+                height={70}
+                width={70}
             />
         </div>
     )

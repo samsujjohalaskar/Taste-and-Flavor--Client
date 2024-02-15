@@ -7,6 +7,7 @@ import { BASE_URL } from '../utils/services';
 import { FaExpandArrowsAlt } from 'react-icons/fa';
 import { ImShrink } from "react-icons/im";
 import Loading from './Loading';
+import Swal from 'sweetalert2';
 
 const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBooking }) => {
     const [selectedMeal, setSelectedMeal] = useState('lunch'); // Set 'lunch' as the default meal
@@ -208,7 +209,7 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
     };
 
     const handleGuestsIncrement = () => {
-        if (guests < 20) {
+        if (guests < 10) {
             setGuests((a) => a + 1);
         }
     };
@@ -218,6 +219,18 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
             setGuests((a) => a - 1);
         }
     };
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 5000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+        }
+    });
 
     const handleBooking = async (e) => {
         e.preventDefault();
@@ -246,15 +259,34 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
             const data = await res.json();
 
             if (res.status === 200) {
-                window.alert('Thank You! Restaurant will contact You Shortly.');
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Booking Success!",
+                    text: "Restaurant will contact You Shortly.",
+                    showCloseButton: true,
+                    showConfirmButton: false,
+                    timer: 3500
+                });
                 navigate("/history");
             } else if (res.status === 201) {
-                window.alert('Booking updated successfully!');
+                Toast.fire({
+                    icon: "success",
+                    title: "Booking Preferences Updated!"
+                });
                 navigate("/history");
             } else if (res.status === 402 || !data) {
-                window.alert("Marked Fields Are Mandatory");
+                Swal.fire({
+                    title: "Attributes Missing!",
+                    text: "Marked Fields Are Mandatory.",
+                    icon: "question"
+                });
             } else {
-                window.alert('Booking failed. Please try again.');
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Booking Failed, Please try again.",
+                });
             }
         } catch (error) {
             console.error('Error during booking:', error);

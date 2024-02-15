@@ -8,11 +8,13 @@
 }
 
 .resMain {
-    padding: 10px 370px 50px 370px;
     height: max-content;
     background-color: #f3f3f3;
     display: flex;
-    min-width: 909px;
+    padding: 10px 90px 50px 94px;
+    min-width: max-content;
+    display: flex;
+    justify-content: center;
 }
 
 .resMainOne {
@@ -196,7 +198,7 @@
 
 .resMainTwo {
     height: 480px;
-    width: 340px;
+    width: 315px;
     margin: 40px 0px 0px 10px;
     position: sticky;
     top: 50px;
@@ -245,17 +247,15 @@
 
 @media screen and (min-width: 320px) and (max-width: 425px) {
     .resMain {
-        padding: 10px 0px 50px 70px;
         position: relative;
     }
 
     .resMainTwo {
-        height: 41px;
         width: 305px;
         margin: 40px 0px 0px 10px;
         position: fixed;
         top: 720px !important;
-        left: 580px !important;
+        left: 600px !important;
         z-index: 1;
         box-shadow: 0 0 28px -1px rgba(0, 0, 0, .15);
         overflow-x: hidden;
@@ -270,11 +270,6 @@
 /* Tablet Responsiveness */
 
 @media screen and (min-width: 426px) and (max-width: 1023px) {
-    .resMain {
-        padding: 10px 0px 50px 110px;
-        min-width: 1230px;
-    }
-
     .resMainTwo {
         height: 480px;
         width: 305px;
@@ -284,20 +279,6 @@
 /* Laptop Responsiveness */
 
 @media screen and (min-width: 1024px) and (max-width: 1440px) {
-    .resMain {
-        padding: 10px 0px 50px 110px;
-        min-width: 1230px;
-    }
-
-    .resMainTwo {
-        height: 480px;
-        width: 305px;
-    }
-}
-
-/*Above Laptop Responsiveness */
-
-@media screen and (min-width: 1441px) {
     .resMainTwo {
         height: 480px;
         width: 305px;
