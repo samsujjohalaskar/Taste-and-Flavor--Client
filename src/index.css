@@ -173,6 +173,7 @@ header {
 }
 
 .searchBanner {
+  /* border: solid black 1px; */
   height: 350px;
   /* width: 100%; */
   flex-direction: column;
