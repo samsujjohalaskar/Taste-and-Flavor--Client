@@ -25,10 +25,11 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
     setFilteredCities(filteredCities.length ? [] : cities);
     setShowKey(!showKey)
   };
+  console.log(city);
 
   const links = [
     { name: "Home", link: "/" },
-    { name: "Book a Table", link: `/${city}-restaurants` },
+    { name: "Book a Table", link: `/${city ? city : "delhi"}-restaurants` },
     { name: "Blog", link: "/blog" },
   ];
 
