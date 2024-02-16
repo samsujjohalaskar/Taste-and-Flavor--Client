@@ -28,7 +28,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
 
   const links = [
     { name: "Home", link: "/" },
-    { name: "Book a Table", link: `/${city ? city : "delhi"}-restaurants` },
+    { name: "Book a Table", link: `/${city ? city : localStorage.getItem('localCity')}-restaurants` },
     { name: "Blog", link: "/blog" },
   ];
 
@@ -41,6 +41,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
     setSearchTerm("");
     setFilteredCities([]);
     onSelectCity(selectedCity);
+    localStorage.setItem("localCity",selectedCity);
     onCityChangeRedirect(selectedCity);
     setShowKey(false);
   };

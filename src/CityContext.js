@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState } from 'react';
 const CityContext = createContext();
 
 export const CityProvider = ({ children }) => {
-  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedCity, setSelectedCity] = useState(localStorage.getItem("localCity") ? localStorage.getItem("localCity") : "");
 
   return (
     <CityContext.Provider value={{ selectedCity, setSelectedCity }}>

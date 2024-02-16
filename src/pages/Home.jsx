@@ -26,7 +26,7 @@ function Home() {
     const filteredRestaurants = restaurants.filter((restaurant) => restaurant.city === selectedCity);
 
     useEffect(() => {
-        const updatedCity = city ? capitalizeWords(city) : selectedCity;
+        const updatedCity = city ? capitalizeWords(city) : selectedCity ? selectedCity : localStorage.getItem("localCity");
         setSelectedCity(updatedCity);
     }, [city, setSelectedCity, selectedCity]);
 
@@ -49,17 +49,20 @@ function Home() {
 
     const handleCitySelect = (selectedCity) => {
         setSelectedCity(selectedCity);
+        localStorage.setItem("localCity", selectedCity);
         setShowLocationSelect(false); // Set showLocationSelect to false after city is selected
         navigate('/');
     };
 
     useEffect(() => {
-        if (selectedCity) {
-            setShowLocationSelect(false);
-        } else {
+        if (!localStorage.getItem("localCity") && !selectedCity) {
             setShowLocationSelect(true);
+        } else {
+            setShowLocationSelect(false);
         }
     }, [selectedCity]);
+
+    const cityToLowerCase = selectedCity ? selectedCity.toLowerCase() : '';
 
     // const restaurantAreaArrays = filteredRestaurants ? filteredRestaurants.map((restaurant) => restaurant.area) : [];
     // const uniqueArea = [...new Set(restaurantAreaArrays.flat())];
@@ -92,12 +95,12 @@ function Home() {
 
     return (
         <>
-            <Navbar city={selectedCity.toLowerCase()} onSelectCity={setSelectedCity} onCityChangeRedirect={(selectedCity) => { navigate('/'); }} />
-            <Banner city={selectedCity.toLowerCase()} restaurants={filteredRestaurants} />
+            <Navbar city={cityToLowerCase} onSelectCity={setSelectedCity} onCityChangeRedirect={(selectedCity) => { navigate('/'); }} />
+            <Banner city={cityToLowerCase} restaurants={filteredRestaurants} />
             <Offers />
             {showLoading && <Loading />}
-            <Carousel city={selectedCity.toLowerCase()} restaurants={filteredRestaurants} />
-            <Footer city={selectedCity.toLowerCase()} />
+            <Carousel city={cityToLowerCase} restaurants={filteredRestaurants} />
+            <Footer city={cityToLowerCase} />
             {showLocationSelect && <SelectLocation onSelectCity={handleCitySelect} />}
         </>
     );
