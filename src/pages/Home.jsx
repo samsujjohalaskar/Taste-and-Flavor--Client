@@ -34,7 +34,7 @@ function Home() {
         setShowLoading(true);
         const fetchRestaurants = async () => {
             try {
-                const response = await fetch(`${BASE_URL}/restaurants-slider`);
+                const response = await fetch(`${BASE_URL}/restaurants-slider?city=${selectedCity}`);
                 const data = await response.json();
                 setRestaurants(data.restaurants || []);
             } catch (error) {
@@ -45,7 +45,7 @@ function Home() {
         };
 
         fetchRestaurants();
-    }, []);
+    }, [selectedCity]);
 
     const handleCitySelect = (selectedCity) => {
         setSelectedCity(selectedCity);
