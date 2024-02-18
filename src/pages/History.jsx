@@ -501,7 +501,7 @@ const History = () => {
                 <div className="flex-item">
                     <p>Every Bite Speaks Taste, Flavorful Journey</p>
                 </div>
-                <div className="flex-item">Write to us at: <strong>tasteandflavor@gmail.com</strong></div>
+                <div className="flex-item">Write to us at: <strong><a className='write-us' href="https://mail.google.com/mail/?view=cm&fs=1&to=samsujjohalaskar@gmail.com">samsujjohalaskar@gmail.com</a></strong></div>
                 <div className="flex-item">
                     <p>© 2023 - Taste&Flavor All Rights Reserved</p>
                 </div>
