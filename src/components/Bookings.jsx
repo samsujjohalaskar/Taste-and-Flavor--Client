@@ -378,7 +378,12 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
                 <div className="booking-data">
                     <div className='booking-label'>Enter Guest Details</div>
                     <input className={`datas ${user ? "hover-not-allowed" : " "} `} type="text" placeholder='Guest Name' value={guestName} readOnly disabled={user} />
-                    <input className='datas' type="text" placeholder='Mobile No.' value={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} required />
+                    <input className='datas' type="text" placeholder='Mobile No.' value={mobileNumber} onChange={(e) => {
+                        const input = e.target.value;
+                        const formattedInput = input.replace(/\D/g, '');
+                        const trimmedInput = formattedInput.slice(0, 10);
+                        setMobileNumber(trimmedInput);
+                    }} required />
                     <input className='datas' type="text" placeholder='Special Request (Optional)' value={specialRequest} onChange={(e) => setSpecialRequest(e.target.value)} />
                     {!user ? (
                         <input className='datas email-input' type="text" placeholder='Email ID (Optional)' />
