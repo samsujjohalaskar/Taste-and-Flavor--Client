@@ -233,20 +233,22 @@ const ResDetails = ({ restaurant, user, ratingD, fullNameD, commentD }) => {
                                 {restaurant.averageCostForTwo ? restaurant.averageCostForTwo : 1100} for two people
                             </div>
                         </div>
-                        <div className="resMainAboutInfos">
-                            <div className="resMainAboutIcon">
-                                <MdOutlineDiscount />
+                        {restaurant.offers[0] && 
+                            <div className="resMainAboutInfos">
+                                <div className="resMainAboutIcon">
+                                    <MdOutlineDiscount />
+                                </div>
+                                <div className="resMainAboutContent">
+                                    <h3>OFFER</h3>
+                                    {restaurant.offers.map((a, index) => (
+                                        <React.Fragment key={a}>
+                                            {index > 0 && ", "}
+                                            {a}
+                                        </React.Fragment>
+                                    ))}
+                                </div>
                             </div>
-                            <div className="resMainAboutContent">
-                                <h3>OFFER</h3>
-                                {restaurant.offers.map((a, index) => (
-                                    <React.Fragment key={a}>
-                                        {index > 0 && ", "}
-                                        {a}
-                                    </React.Fragment>
-                                ))}
-                            </div>
-                        </div>
+                        }
                         {restaurant.amenities && restaurant.amenities != " " && (
                             <div>
                                 <div className="resMainAboutInfos">
