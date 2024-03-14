@@ -63,7 +63,8 @@ export default function Signin({ onClose, handleSignUp }) {
           {error && <div className="signup-error-message">{error}</div>}
           <button className='subLogin button login-form-button' type="submit" disabled={isLoading}>
             {isLoading ? 'Logging in...' : 'Login'}
-          </button>        </form>
+          </button>
+        </form>
         <div className='signup-sign'>
           New here? <span onClick={handleSignUp}> Register</span>
         </div>

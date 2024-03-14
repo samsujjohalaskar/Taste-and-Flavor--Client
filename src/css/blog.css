@@ -1,0 +1,151 @@
+.blog-container {
+    padding: 0 25px 25px 25px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: #f3f3f3;
+}
+
+.blog-card-container {
+    height: 300px;
+    width: 450px;
+    margin: 25px 0 0 0;
+    background-color: white;
+}
+
+.blog-card-image {
+    height: 165px;
+    object-fit: cover;
+    width: inherit;
+}
+
+.blog-card-info {
+    padding: 0 10px 10px 10px;
+}
+
+.blog-card-date {
+    margin-top: 10px;
+    font-size: small;
+    color: #333333;
+}
+
+.blog-card-title {
+    margin-top: 5px;
+    color: #222222;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.blog-card-content {
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.blog-card-user {
+    display: flex;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+.blog-card-user-image {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: #f3f3f3;
+}
+
+.blog-card-user-info {
+    display: flex;
+    align-items: center;
+}
+
+.blog-card-user-name {
+    margin-right: 5px;
+    font-size: small;
+}
+
+.blog-card-like-comment {
+    display: flex;
+    align-items: center;
+}
+
+.blog-card-like {
+    display: flex;
+    font-size: 18px;
+}
+
+.blog-card-comment {
+    margin-left: 10px;
+    display: flex;
+}
+
+.blog-card-like-comment-count {
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    font-size: small;
+}
+
+.blog-card-form {
+    display: flex;
+    flex-flow: column;
+}
+
+.blog-card-model {
+    padding: 60px;
+    background-color: white;
+    border-radius: 0px !important;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+}
+
+#title, #content, #category {
+    margin-bottom: 15px;
+    width: 320px !important;
+    padding: 15px !important;
+    font-size: 16px;
+    border: none !important;
+    border-radius: 0px !important;
+    box-sizing: border-box;
+    outline: none;
+    background-color: #f3f3f3;
+}
+
+#category {
+    padding: 10px !important;
+}
+
+.blog-form-button {
+    width: 320px;
+    padding: 10px !important;
+    font-size: 20px;
+    font-weight: bolder;
+    border: none !important;
+    border-radius: 0px !important;
+}
+
+#image {
+    margin: 20px 0 15px 0;
+    width: 320px;
+}
+
+.subBlog {
+    color: white;
+    cursor: pointer;
+}
+
+.blog-card-category{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: #006edc;
+    padding: 1px 12px 1px 12px;
+    color: #fbfafa;
+    height: 13px;
+    width: max-content;
+    z-index: 10;
+    position: absolute;
+    margin: 10px 0 0 10px;
+    font-size: 11px;
+    border-radius: 8px;
+    font-weight: bold;
+}

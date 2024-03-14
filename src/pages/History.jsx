@@ -34,11 +34,11 @@ const History = () => {
     const [postUser, setPostUser] = useState(false);
     const [filter, setFilter] = useState('All');
 
-    useEffect(() => {
-        if (!user) {
-            navigate('/');
-        }
-    });
+    // useEffect(() => {
+    //     if (!user) {
+    //         navigate('/');
+    //     }
+    // });
 
     useEffect(() => {
         setShowLoading(true);
