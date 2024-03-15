@@ -140,6 +140,30 @@ const Blog = () => {
     fetchBlogs();
   }, []);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 8;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+
+  const records = blogs.slice(firstIndex, lastIndex);
+  const nPage = Math.ceil(blogs.length / recordsPerPage);
+  const numbers = [...Array(nPage + 1).keys()].slice(1);
+
+  function prevPage() {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+
+  function changeCurrentPage(n) {
+    setCurrentPage(n);
+  }
+
+  function nextPage() {
+    if (currentPage !== nPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
 
   return (
     <>
@@ -149,12 +173,30 @@ const Blog = () => {
         onCityChangeRedirect={(selectedCity) => {
           navigate(`/${selectedCity.toLowerCase()}`);
         }} />
-        <h2>This Page is Under Development</h2>
+      <h2>This Page is Under Development</h2>
       <div className="blog-container">
-        {blogs.map((blog) => (
-          <BlogCard key={blog._id} blog={blog}/>
+        {records.map((blog) => (
+          <BlogCard key={blog._id} blog={blog} />
         ))}
       </div>
+      {records.length < blogs.length ?
+        (<div className='blog-pagination-container'>
+          <li className='blog-pagination-item-pn'>
+            <a href="#" onClick={prevPage}>Prev</a>
+          </li>
+          {
+            numbers.map((n, i) => (
+              <li key={i} className={`blog-pagination-item ${currentPage === n ? 'blog-active' : ''}`}>
+                <a href="#" onClick={() => changeCurrentPage(n)} >{n}</a>
+              </li>
+            ))
+          }
+          <li className='blog-pagination-item-pn'>
+            <a href="#" onClick={nextPage}>Next</a>
+          </li>
+        </div>)
+        : ""
+      }
 
       <div onClick={() => user ? setShowAddBlog(true) : setShowLogin(true)}> Add Blog +</div>
 
