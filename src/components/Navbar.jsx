@@ -10,7 +10,7 @@ import { FaCaretDown, FaCaretUp } from "react-icons/fa6";
 import Signup from "./Signup";
 import Swal from 'sweetalert2';
 
-function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
+function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [showLogin, setShowLogin] = useState(false);
@@ -41,7 +41,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
     setSearchTerm("");
     setFilteredCities([]);
     onSelectCity(selectedCity);
-    localStorage.setItem("localCity",selectedCity);
+    localStorage.setItem("localCity", selectedCity);
     onCityChangeRedirect(selectedCity);
     setShowKey(false);
   };
@@ -140,13 +140,13 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect }) {
           <ul className="flex links">
             {links.map(({ name, link }) => {
               return (
-                <li key={name}>
+                <li className={name === active ? "navbar-border-bottom" : ""} key={name}>
                   <Link to={link}>{name}</Link>
                 </li>
               );
             })}
             {user && (
-              <li key="History">
+              <li className={active === "History" ? "navbar-border-bottom" : ""} key="History">
                 <Link to="/history">Profile</Link>
               </li>
             )}

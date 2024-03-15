@@ -330,6 +330,7 @@ const History = () => {
     return (
         <>
             <Navbar city={selectedCity.toLowerCase()}
+                active={"History"}
                 onSelectCity={setSelectedCity}
                 onCityChangeRedirect={(selectedCity) => {
                     navigate(`/${selectedCity.toLowerCase()}`);

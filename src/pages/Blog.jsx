@@ -145,6 +145,7 @@ const Blog = () => {
     <>
       <Navbar city={selectedCity.toLowerCase()}
         onSelectCity={setSelectedCity}
+        active={"Blog"}
         onCityChangeRedirect={(selectedCity) => {
           navigate(`/${selectedCity.toLowerCase()}`);
         }} />

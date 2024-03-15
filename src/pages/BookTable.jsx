@@ -285,6 +285,7 @@ const BookTable = () => {
     <>
       <Navbar
         city={selectedCity.toLowerCase()}
+        active={"Book a Table"}
         onSelectCity={setSelectedCity}
         onCityChangeRedirect={(selectedCity) => {
           navigate(`/${selectedCity.toLowerCase()}`);
