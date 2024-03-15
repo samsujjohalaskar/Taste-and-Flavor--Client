@@ -24,7 +24,7 @@ const BlogCard = ({ blog }) => {
     };
 
     const trimTitle = (content) => {
-        const trimmedContent = content.slice(0, 50);
+        const trimmedContent = content.slice(0, 45);
         return trimmedContent + '...';
     };
 

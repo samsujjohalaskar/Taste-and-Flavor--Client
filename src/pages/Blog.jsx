@@ -176,7 +176,6 @@ const Blog = () => {
         onCityChangeRedirect={(selectedCity) => {
           navigate(`/${selectedCity.toLowerCase()}`);
         }} />
-      <h2>This Page is Under Development</h2>
       <div className="blog-container">
         {records.map((blog) => (
           <BlogCard key={blog._id} blog={blog} />
