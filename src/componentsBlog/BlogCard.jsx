@@ -78,7 +78,7 @@ const BlogCard = ({ blog }) => {
                                         alt={`${blog.postedBy.fullName}`}
                                     />
                                 ) : (
-                                    <FaUserCircle className="blog-card-user-image"/>
+                                    <FaUserCircle className="blog-card-non-user-image"/>
                                 )
                                 }
                             </div>

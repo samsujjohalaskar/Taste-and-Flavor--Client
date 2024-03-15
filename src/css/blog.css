@@ -47,11 +47,15 @@
     justify-content: space-between;
 }
 
-.blog-card-user-image {
+.blog-card-user-image, .blog-card-non-user-image {
     height: 30px;
     width: 30px;
     border-radius: 50%;
     background-color: #f3f3f3;
+}
+
+.blog-card-non-user-image{
+    opacity: 0.3;
 }
 
 .blog-card-user-info {

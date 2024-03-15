@@ -154,10 +154,6 @@ const Blog = () => {
         {blogs.map((blog) => (
           <BlogCard key={blog._id} blog={blog}/>
         ))}
-        <div className="blog-card-container"></div>
-        <div className="blog-card-container"></div>
-        <div className="blog-card-container"></div>
-        <div className="blog-card-container"></div>
       </div>
 
       <div onClick={() => user ? setShowAddBlog(true) : setShowLogin(true)}> Add Blog +</div>
