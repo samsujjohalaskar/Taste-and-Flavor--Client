@@ -13,6 +13,9 @@ import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import Loading from '../components/Loading';
 import Swal from 'sweetalert2';
+import logo from "../assets/logo.png"
+import BlogFeaturedCard from '../componentsBlog/BlogFeaturedCard';
+import BlogFeaturedSuggCard from '../componentsBlog/BlogFeaturedSuggCard';
 
 const Blog = () => {
 
@@ -198,7 +201,22 @@ const Blog = () => {
         : ""
       }
 
-      <div onClick={() => user ? setShowAddBlog(true) : setShowLogin(true)}> Add Blog +</div>
+      <div className="blog-featured-container">
+        <div className="blog-featured-posts">
+          <p className="blog-featured-posts-heading">Spotlight on Our Favorites</p>
+          {records.reverse().map((blog) => (
+            <BlogFeaturedCard key={blog._id} blog={blog} />
+          ))}
+        </div>
+        <div className="blog-featured-suggestions">
+          <p className="blog-featured-sugg-heading">HOT OFF THE KITCHEN</p>
+          {records.reverse().map((blog) => (
+            <BlogFeaturedSuggCard key={blog._id} blog={blog} />
+          ))}
+        </div>
+      </div>
+
+      {/* <div onClick={() => user ? setShowAddBlog(true) : setShowLogin(true)}> Add Blog +</div> */}
 
       {showAddBlog && (
         <div className="overlay show-overlay signup-model-overlay">
@@ -235,6 +253,19 @@ const Blog = () => {
       {showSignUp && <Signup onClose={() => setShowSignUp(false)}
         handleSignIn={() => { setShowSignUp(false); setShowLogin(true) }}
       />}
+
+      <div className="footerBottom flex">
+        <div className="mainColor flex-item logo">
+          <img src={logo} alt="" />
+        </div>
+        <div className="flex-item">
+          <p>Every Bite Speaks Taste, Flavorful Journey</p>
+        </div>
+        <div className="flex-item">Write to us at: <strong><a className='write-us' href="https://mail.google.com/mail/?view=cm&fs=1&to=samsujjohalaskar@gmail.com">samsujjohalaskar@gmail.com</a></strong></div>
+        <div className="flex-item">
+          <p>© 2023 - Taste&Flavor All Rights Reserved</p>
+        </div>
+      </div>
     </>
   )
 }
