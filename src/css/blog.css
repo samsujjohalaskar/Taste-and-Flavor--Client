@@ -273,6 +273,13 @@
     letter-spacing: 1px;
 }
 
+.blog-featured-no-similar-posts {
+    font-size: 13px;
+    font-style: italic;
+    font-family: auto;
+    margin-top: 10px;
+}
+
 .blog-featured-posts-heading {
     margin-bottom: 15px;
 }
@@ -396,6 +403,6 @@
     font-size: 15px;
 }
 
-.blog-details-like-div{
+.blog-details-like-div {
     margin-bottom: 10px;
 }

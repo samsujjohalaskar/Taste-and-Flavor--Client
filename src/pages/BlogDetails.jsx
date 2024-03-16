@@ -138,6 +138,11 @@ const BlogDetails = () => {
                 </div>
                 <div className="blog-featured-suggestions">
                     <p className="blog-featured-sugg-heading">Similar Blog Discoveries</p>
+                    {similarBlog.length === 1 &&
+                        <p className="blog-featured-no-similar-posts">
+                            No Similar Posts Available..
+                        </p>
+                    }
                     {shuffledSimilarBlogs
                         .filter(blog => blog.title !== currentTitle)
                         .map(blog => (
