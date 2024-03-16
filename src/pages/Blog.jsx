@@ -143,12 +143,17 @@ const Blog = () => {
     fetchBlogs();
   }, []);
 
+  const featuredBlogs = blogs.sort((a, b) => b.likes.length - a.likes.length).slice(0, 8); // Sorts blogs by likes length in descending order
+  const featuredSuggBlogs = blogs.slice(-10).reverse();
+
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 8;
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
 
-  const records = blogs.slice(firstIndex, lastIndex);
+  const shuffledBlogs = [...blogs].sort(() => Math.random() - 0.5);
+
+  const records = shuffledBlogs.slice(firstIndex, lastIndex);
   const nPage = Math.ceil(blogs.length / recordsPerPage);
   const numbers = [...Array(nPage + 1).keys()].slice(1);
 
@@ -184,38 +189,37 @@ const Blog = () => {
       {records.length < blogs.length ?
         (<div className='blog-pagination-container'>
           <li className='blog-pagination-item-pn'>
-            <a href="#" onClick={prevPage}>Prev</a>
+            <a href={`#page${currentPage}`} onClick={prevPage}>Prev</a>
           </li>
           {
             numbers.map((n, i) => (
               <li key={i} className={`blog-pagination-item ${currentPage === n ? 'blog-active' : ''}`}>
-                <a href="#" onClick={() => changeCurrentPage(n)} >{n}</a>
+                <a href={`#page${currentPage}`} onClick={() => changeCurrentPage(n)} >{n}</a>
               </li>
             ))
           }
           <li className='blog-pagination-item-pn'>
-            <a href="#" onClick={nextPage}>Next</a>
+            <a href={`#page${currentPage}`} onClick={nextPage}>Next</a>
           </li>
         </div>)
         : ""
       }
+      {/* <div onClick={() => user ? setShowAddBlog(true) : setShowLogin(true)}> Add Blog +</div> */}
 
       <div className="blog-featured-container">
         <div className="blog-featured-posts">
           <p className="blog-featured-posts-heading">Spotlight on Our Favorites</p>
-          {records.reverse().map((blog) => (
+          {featuredBlogs.map((blog) => (
             <BlogFeaturedCard key={blog._id} blog={blog} />
           ))}
         </div>
         <div className="blog-featured-suggestions">
           <p className="blog-featured-sugg-heading">HOT OFF THE KITCHEN</p>
-          {records.reverse().map((blog) => (
+          {featuredSuggBlogs.map((blog) => (
             <BlogFeaturedSuggCard key={blog._id} blog={blog} />
           ))}
         </div>
       </div>
-
-      {/* <div onClick={() => user ? setShowAddBlog(true) : setShowLogin(true)}> Add Blog +</div> */}
 
       {showAddBlog && (
         <div className="overlay show-overlay signup-model-overlay">

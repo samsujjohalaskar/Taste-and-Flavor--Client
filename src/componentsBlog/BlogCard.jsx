@@ -74,7 +74,7 @@ const BlogCard = ({ blog }) => {
                     <div className="blog-card-user">
                         <div className="blog-card-like-comment">
                             <div className="blog-card-like"><FaRegHeart /> <span className="blog-card-like-comment-count">{blog.likes.length}</span></div>
-                            <div className="blog-card-comment"><FaRegComment /> <span className="blog-card-like-comment-count">12</span></div>
+                            <div className="blog-card-comment"><FaRegComment /> <span className="blog-card-like-comment-count">{blog.comments.length}</span></div>
                         </div>
                         <div className="blog-card-user-info">
                             <div className="blog-card-user-name">Posted by {blog.postedBy.fullName}</div>

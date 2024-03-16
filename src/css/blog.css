@@ -366,7 +366,7 @@
     color: #333333;
     font-size: 16px;
     font-weight: 100;
-    line-height: 30px;
+    line-height: 25px;
     letter-spacing: 0.3px;
 }
 
@@ -374,10 +374,10 @@
     position: absolute;
     display: flex;
     flex-flow: column;
-    padding: 20px 20px 30px 20px;
+    padding: 20px 20px 28px 20px;
     background-color: #e7e5e5;
     margin-left: 750px;
-    border-radius: 0 0 45% 45%;
+    border-radius: 0 0 43% 43%;
 }
 
 .blog-details-like, .blog-details-comment {
