@@ -17,6 +17,7 @@
     height: 165px;
     object-fit: cover;
     width: inherit;
+    cursor: pointer;
 }
 
 .blog-card-info {
@@ -77,7 +78,6 @@
 
 .blog-card-like {
     display: flex;
-    font-size: 18px;
 }
 
 .blog-card-comment {
@@ -213,6 +213,7 @@
     width: 700px;
     object-fit: cover;
     border-radius: 5px 5px 0 0;
+    cursor: pointer;
 }
 
 .blog-featured-post-info {
@@ -302,5 +303,99 @@
 .blog-featured-sugg-posts-date {
     font-size: 12px;
     font-weight: 100;
-    margin-left: 3px;
+    margin-left: 5px;
+}
+
+.blog-details-container {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #e7e5e5;
+    border-top: 1px solid #e7e5e5;
+}
+
+.blog-details-post {
+    height: max-content;
+    width: 900px;
+    margin-bottom: 20px;
+}
+
+.blog-details-post-image {
+    width: 900px;
+    object-fit: cover;
+}
+
+.blog-details-post-info {
+    padding: 10px 20px 0 2px;
+}
+
+.blog-details-post-title {
+    color: #222222;
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+}
+
+.blog-details-user-details {
+    width: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.blog-details-user-image, .blog-details-non-user-image {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    background-color: #f3f3f3;
+}
+
+.blog-details-non-user-image {
+    opacity: 0.3;
+}
+
+.blog-details-post-date {
+    margin-left: 5px;
+    color: #222222;
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.blog-details-post-content {
+    color: #333333;
+    font-size: 16px;
+    font-weight: 100;
+    line-height: 30px;
+    letter-spacing: 0.3px;
+}
+
+.blog-details-category-like-comment {
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    padding: 20px 20px 30px 20px;
+    background-color: #e7e5e5;
+    margin-left: 750px;
+    border-radius: 0 0 45% 45%;
+}
+
+.blog-details-like, .blog-details-comment {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.blog-details-like-div, .blog-details-comment-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blog-details-like-count, .blog-details-comment-count {
+    margin-left: 5px;
+    font-size: 15px;
+}
+
+.blog-details-like-div{
+    margin-bottom: 10px;
 }

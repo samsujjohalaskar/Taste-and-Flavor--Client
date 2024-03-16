@@ -15,6 +15,7 @@ import UpdateRestaurant from './componentsRestaurant/UpdateRestaurant';
 import Restaurant from './pages/Restaurant';
 import History from './pages/History';
 import Signup from './components/Signup';
+import BlogDetails from './pages/BlogDetails';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/:city-restaurants/:area/:amenities-feature" element={<BookTable />} />
         <Route path="/:city-restaurants/:area/:location" element={<BookTable />} />
         <Route exact path="/blog" element={<Blog />}></Route>
+        <Route exact path="/blog/:blogID/:title" element={<BlogDetails />}></Route>
         <Route exact path="/history" element={<History />}></Route>
 
         <Route exact path="/owner-home" element={<Owner />}></Route>

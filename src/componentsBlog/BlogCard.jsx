@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { BiLike } from "react-icons/bi";
-import { FaRegComment } from 'react-icons/fa6';
 import { Buffer } from 'buffer';
 import '../css/signin.css';
 import "../css/blog.css";
 import { BASE_URL } from '../utils/services';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaRegHeart,FaRegComment, FaUserCircle } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const BlogCard = ({ blog }) => {
 
+    const navigate = useNavigate();
     const [userImage, setUserImage] = useState("");
 
     const formatDate = (dateString) => {
@@ -18,8 +18,7 @@ const BlogCard = ({ blog }) => {
     };
 
     const trimContent = (content) => {
-        const words = content.split(' ');
-        const trimmedContent = words.slice(0, 20).join(' ');
+        const trimmedContent = content.slice(0, 120);
         return trimmedContent + '...';
     };
 
@@ -46,12 +45,20 @@ const BlogCard = ({ blog }) => {
 
         fetchUserImage();
 
-    }, []);
+    }, [blog.postedBy._id]);
 
     return (
         <>
             <div className="blog-card-container">
-                <div className="blog-card-image">
+                <div className="blog-card-image"
+                    title={blog.title}
+                    onClick={() => {
+                        const cleanedTitle = blog.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
+                        const url = `/blog/${blog._id}/${cleanedTitle}`;
+
+                        navigate(url);
+                    }}
+                >
                     <div className="blog-card-category">{blog.category}</div>
                     {blog.image && blog.image.data && (
                         <img className="blog-card-image"
@@ -66,7 +73,7 @@ const BlogCard = ({ blog }) => {
                     <p className="blog-card-content">{trimContent(blog.content)}</p>
                     <div className="blog-card-user">
                         <div className="blog-card-like-comment">
-                            <div className="blog-card-like"><BiLike /> <span className="blog-card-like-comment-count">{blog.likes.length}</span></div>
+                            <div className="blog-card-like"><FaRegHeart /> <span className="blog-card-like-comment-count">{blog.likes.length}</span></div>
                             <div className="blog-card-comment"><FaRegComment /> <span className="blog-card-like-comment-count">12</span></div>
                         </div>
                         <div className="blog-card-user-info">
@@ -78,7 +85,7 @@ const BlogCard = ({ blog }) => {
                                         alt={`${blog.postedBy.fullName}`}
                                     />
                                 ) : (
-                                    <FaUserCircle className="blog-card-non-user-image"/>
+                                    <FaUserCircle className="blog-card-non-user-image" />
                                 )
                                 }
                             </div>

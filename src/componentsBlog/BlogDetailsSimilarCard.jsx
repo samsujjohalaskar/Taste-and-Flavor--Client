@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const BlogFeaturedSuggCard = ({ blog }) => {
+const BlogDetailsSimilarCard = ({ blog }) => {
 
     const navigate = useNavigate();
 
@@ -44,4 +44,4 @@ const BlogFeaturedSuggCard = ({ blog }) => {
     )
 }
 
-export default BlogFeaturedSuggCard
+export default BlogDetailsSimilarCard

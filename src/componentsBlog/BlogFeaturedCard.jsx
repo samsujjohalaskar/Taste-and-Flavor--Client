@@ -1,7 +1,10 @@
 import React from 'react';
 import { Buffer } from 'buffer';
+import { useNavigate } from 'react-router-dom';
 
 const BlogFeaturedCard = ({ blog }) => {
+
+    const navigate = useNavigate();
 
     const formatDate = (dateString) => {
         const options = { month: 'short', day: 'numeric', year: 'numeric' };
@@ -32,7 +35,15 @@ const BlogFeaturedCard = ({ blog }) => {
     return (
         <>
             <div className="blog-featured-post">
-                <div className="blog-featured-post-image">
+                <div className="blog-featured-post-image"
+                    title={blog.title}
+                    onClick={() => {
+                        const cleanedTitle = blog.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
+                        const url = `/blog/${blog._id}/${cleanedTitle}`;
+
+                        navigate(url);
+                    }}
+                >
                     {(blog && blog.image && blog.image.data) ? (
                         <img className="blog-featured-post-image"
                             src={`data:${blog.image.contentType};base64,${Buffer.from(blog.image.data).toString('base64')}`}
@@ -46,7 +57,14 @@ const BlogFeaturedCard = ({ blog }) => {
                     <p className="blog-featured-post-date">{formatDate(blog.date)} / by {blog.postedBy.fullName}</p>
                     <p className="blog-featured-post-content">{trimContent(blog.content)}</p>
                 </div>
-                <div className="blog-featured-post-read-more">
+                <div className="blog-featured-post-read-more"
+                    onClick={() => {
+                        const cleanedTitle = blog.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
+                        const url = `/blog/${blog._id}/${cleanedTitle}`;
+
+                        navigate(url);
+                    }}
+                >
                     Read more
                 </div>
             </div>
