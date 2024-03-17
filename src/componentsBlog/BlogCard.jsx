@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Buffer } from 'buffer';
 import '../css/signin.css';
 import "../css/blog.css";
-import { BASE_URL } from '../utils/services';
-import { FaRegHeart,FaRegComment, FaUserCircle } from 'react-icons/fa';
+import { FaRegHeart, FaRegComment, FaUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const BlogCard = ({ blog }) => {
@@ -26,26 +25,6 @@ const BlogCard = ({ blog }) => {
         const trimmedContent = content.slice(0, 45);
         return trimmedContent + '...';
     };
-
-    useEffect(() => {
-        const fetchUserImage = async () => {
-            try {
-                const response = await fetch(`${BASE_URL}/user-image?userId=${blog.postedBy._id}`);
-                if (response.status === 200) {
-                    const data = await response.json();
-                    setUserImage(data);
-                } else {
-                    console.error('Failed to fetch user image');
-                }
-
-            } catch (error) {
-                console.error('Error fetching user image:', error);
-            }
-        };
-
-        fetchUserImage();
-
-    }, [blog.postedBy._id]);
 
     return (
         <>
@@ -79,9 +58,9 @@ const BlogCard = ({ blog }) => {
                         <div className="blog-card-user-info">
                             <div className="blog-card-user-name">Posted by {blog.postedBy.fullName}</div>
                             <div className="blog-card-user-image">
-                                {(userImage.image && userImage.image.data) ? (
+                                {(blog.postedBy && blog.postedBy.image && blog.postedBy.image.data) ? (
                                     <img className="blog-card-user-image"
-                                        src={`data:${userImage.image.contentType};base64,${Buffer.from(userImage.image.data).toString('base64')}`}
+                                        src={`data:${blog.postedBy.image.contentType};base64,${Buffer.from(blog.postedBy.image.data).toString('base64')}`}
                                         alt={`${blog.postedBy.fullName}`}
                                     />
                                 ) : (
