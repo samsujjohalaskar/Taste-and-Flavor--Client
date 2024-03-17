@@ -33,8 +33,8 @@ function App() {
         <Route path="/:city-restaurants/:area/:cuisine-cuisine" element={<BookTable />} />
         <Route path="/:city-restaurants/:area/:amenities-feature" element={<BookTable />} />
         <Route path="/:city-restaurants/:area/:location" element={<BookTable />} />
-        <Route exact path="/blog" element={<Blog />}></Route>
-        <Route exact path="/blog/:blogID/:title" element={<BlogDetails />}></Route>
+        <Route exact path="/blog/all-blogs" element={<Blog />}></Route>
+        <Route exact path="/blog/individual-blogs/:blogID/:title" element={<BlogDetails />}></Route>
         <Route exact path="/history" element={<History />}></Route>
 
         <Route exact path="/owner-home" element={<Owner />}></Route>

@@ -29,7 +29,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
   const links = [
     { name: "Home", link: "/" },
     { name: "Book a Table", link: `/${city ? city : localStorage.getItem('localCity')}-restaurants` },
-    { name: "Blog", link: "/blog" },
+    { name: "Blog", link: "/blog/all-blogs" },
   ];
 
   const handleCitySearch = (searchTerm) => {

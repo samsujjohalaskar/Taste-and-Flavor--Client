@@ -54,7 +54,7 @@ const BlogCard = ({ blog }) => {
                     title={blog.title}
                     onClick={() => {
                         const cleanedTitle = blog.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
-                        const url = `/blog/${blog._id}/${cleanedTitle}`;
+                        const url = `/blog/individual-blogs/${blog._id}/${cleanedTitle}`;
 
                         navigate(url);
                     }}
