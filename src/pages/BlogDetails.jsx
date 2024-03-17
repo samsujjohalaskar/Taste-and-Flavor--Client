@@ -26,7 +26,7 @@ const BlogDetails = () => {
         const fetchBlogs = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch(`${BASE_URL}/blog/individual-blogs/${blogID}`);
+                const response = await fetch(`${BASE_URL}/blog/individual-blogs?blogID=${blogID}`);
                 if (response.ok) {
                     const data = await response.json();
                     setBlog(data);
