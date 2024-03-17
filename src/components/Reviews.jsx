@@ -133,7 +133,7 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
                     const response = await fetch(`${BASE_URL}/user-image?userEmail=${review.userEmail}`);
                     if (response.status === 200) {
                         const data = await response.json();
-                        return data.user.image;
+                        return data.image;
                     } else {
                         console.error('Failed to fetch user image');
                         return null;

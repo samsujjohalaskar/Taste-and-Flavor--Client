@@ -324,7 +324,7 @@ export default function Footer({ city }) {
         <Cities data={cities} />
         <div className="footerMid">
           {midSections.map((section, index) => (
-            <div className="dynamicMid">
+            <div className="dynamicMid" key={index}>
               <h4 className="subHeading">{section.title}</h4>
               <ul className="dynamicMidComponent">
                 {section.items.map((item, index) => {
@@ -345,7 +345,7 @@ export default function Footer({ city }) {
             </div>
           ))}
           {midSectionsCuisine.map((section, index) => (
-            <div className="dynamicMid">
+            <div className="dynamicMid" key={index}>
               <h4 className="subHeading">{section.title}</h4>
               <ul className="dynamicMidComponent">
                 {section.items ? (
@@ -370,7 +370,7 @@ export default function Footer({ city }) {
             </div>
           ))}
           {midSectionsFeature.map((section, index) => (
-            <div className="dynamicMid">
+            <div className="dynamicMid" key={index}>
               <h4 className="subHeading">{section.title}</h4>
               <ul className="dynamicMidComponent">
                 {section.items ? (
@@ -396,7 +396,7 @@ export default function Footer({ city }) {
             </div>
           ))}
           {midSectionsLocations.map((section, index) => (
-            <div className="dynamicMid">
+            <div className="dynamicMid" key={index}>
               <h4 className="subHeading">{section.title}</h4>
               <ul className="dynamicMidComponent">
                 {section.items ? (
