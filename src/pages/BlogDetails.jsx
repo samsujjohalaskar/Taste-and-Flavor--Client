@@ -11,6 +11,8 @@ import logo from "../assets/logo.png"
 import { FaHeart, FaRegComment, FaRegHeart, FaUserCircle } from 'react-icons/fa';
 import Loading from '../components/Loading';
 import BlogDetailsSimilarCard from '../componentsBlog/BlogDetailsSimilarCard';
+import Signin from '../components/Signin';
+import Signup from '../components/Signup';
 
 const BlogDetails = () => {
 
@@ -21,6 +23,32 @@ const BlogDetails = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [blog, setBlog] = useState([]);
     const [similarBlog, setSimilarBlog] = useState([]);
+    const [userDetails, setUserDetails] = useState("")
+    const [showLogin, setShowLogin] = useState(false);
+    const [showSignUp, setShowSignUp] = useState(false);
+    const [showLike, setShowLike] = useState("");
+    const [clicked, setClicked] = useState(false);
+
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+            try {
+                const res = await fetch(`${BASE_URL}/user-info?userEmail=${user.email}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setUserDetails(data);
+
+                } else {
+                    console.error('Failed to fetch user details');
+                }
+            } catch (error) {
+                console.error('Error fetching user details:', error);
+            }
+        };
+
+        if (user) {
+            fetchUserDetails();
+        }
+    }, [user]);
 
     useEffect(() => {
         const fetchBlogs = async () => {
@@ -62,7 +90,7 @@ const BlogDetails = () => {
             fetchSimilarBlogs();
         }
 
-    }, [blogID, blog.category]);
+    }, [blog.category]);
 
     const shuffledSimilarBlogs = similarBlog.sort(() => Math.random() - 0.5).slice(0, 10);
     const currentTitle = (blog && blog.title) ? blog.title : "";
@@ -87,6 +115,79 @@ const BlogDetails = () => {
         }
     };
 
+    const handleLike = () => {
+        if (!user) {
+            setShowLogin(true);
+        } else {
+            setIsLoading(true);
+            setClicked(true);
+            setShowLike(!showLike);
+        }
+    };
+
+    useEffect(() => {
+        if (user && blog._id && userDetails && userDetails.likes && userDetails.likes.some(like => blog.likes.includes(like._id))) {
+            setShowLike(true);
+        } else {
+            setShowLike(false);
+        }
+    }, [blog, userDetails, user]);
+
+    useEffect(() => {
+        const postLike = async () => {
+            try {
+                const response = await fetch(`${BASE_URL}/like-blog`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        blogID: blog._id,
+                        liked: showLike,
+                        userID: userDetails._id,
+                    }),
+                });
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    console.error('Failed to like blog:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error liking blog:', error);
+            }
+        };
+
+        const postUnlike = async () => {
+            try {
+                const response = await fetch(`${BASE_URL}/unlike-blog`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        blogID: blog._id,
+                        userID: userDetails._id,
+                    }),
+                });
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    console.error('Failed to unlike blog:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error unliking blog:', error);
+            }
+        };
+
+        if (clicked) {
+            if (showLike) {
+                postLike();
+            } else {
+                postUnlike();
+            }
+        }
+    }, [clicked]);
+
     return (
         <>
             <Navbar city={selectedCity.toLowerCase()}
@@ -102,12 +203,16 @@ const BlogDetails = () => {
                         <div className="blog-details-post-image">
                             <div className="blog-details-category-like-comment">
                                 <div className="blog-details-like-div">
-                                    <FaRegHeart className="blog-details-like" />
+                                    {!showLike ? (
+                                        <FaRegHeart onClick={handleLike} title="Like" className="blog-details-like" />
+                                    ) : (
+                                        <FaHeart onClick={handleLike} title="Unlike" className="blog-details-liked" />
+                                    )
+                                    }
                                     <span className="blog-details-like-count"> {(blog && blog.likes) ? blog.likes.length : ""}</span>
                                 </div>
-                                {/* <FaHeart /> */}
                                 <div className="blog-details-comment-div">
-                                    <FaRegComment className="blog-details-comment" />
+                                    <FaRegComment title="Comments" className="blog-details-comment" />
                                     <span className="blog-details-comment-count"> {(blog && blog.comments) ? blog.comments.length : ""}</span>
                                 </div>
                             </div>
@@ -152,6 +257,13 @@ const BlogDetails = () => {
             </div>
 
             {isLoading && <Loading />}
+
+            {showLogin && <Signin onClose={() => setShowLogin(false)}
+                handleSignUp={() => { setShowLogin(false); setShowSignUp(true); }}
+            />}
+            {showSignUp && <Signup onClose={() => setShowSignUp(false)}
+                handleSignIn={() => { setShowSignUp(false); setShowLogin(true) }}
+            />}
 
             <div className="footerBottom flex">
                 <div className="mainColor flex-item logo">

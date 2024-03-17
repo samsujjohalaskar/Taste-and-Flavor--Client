@@ -387,9 +387,13 @@
     border-radius: 0 0 43% 43%;
 }
 
-.blog-details-like, .blog-details-comment {
+.blog-details-like, .blog-details-comment, .blog-details-liked {
     font-size: 30px;
     cursor: pointer;
+}
+
+.blog-details-liked{
+    color: #FF5757;
 }
 
 .blog-details-like-div, .blog-details-comment-div {
