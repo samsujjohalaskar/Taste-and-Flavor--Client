@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 const BlogCard = ({ blog }) => {
 
     const navigate = useNavigate();
-    const [userImage, setUserImage] = useState("");
 
     const formatDate = (dateString) => {
         const options = { month: 'short', day: 'numeric', year: 'numeric' };

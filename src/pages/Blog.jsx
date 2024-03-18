@@ -126,9 +126,7 @@ const Blog = () => {
     const fetchBlogs = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${BASE_URL}/blogs`, {
-          mode: 'no-cors'
-        });
+        const response = await fetch(`${BASE_URL}/blogs`);
         if (response.ok) {
           const data = await response.json();
           setBlogs(data);
