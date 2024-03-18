@@ -13,7 +13,7 @@ import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import Loading from '../components/Loading';
 
-const BlogNavbar = () => {
+const BlogNavbar = ({ actualCategories, currentCategory }) => {
 
     const [user] = useAuthState(auth);
     const [userDetails, setUserDetails] = useState("");
@@ -186,6 +186,12 @@ const BlogNavbar = () => {
                     <div className="blog-user-state" onClick={handleLoginButtonClick}>{user ? "Logout" : "Login/Signup"}</div>
                 </div>
             )}
+
+            <div className="blog-navbar-categories">
+                {actualCategories && actualCategories.map((cat, index) => (
+                    <p key={index} className={cat === currentCategory ? "blog-navbar-category blog-navbar-active-category" : "blog-navbar-category"}>{cat}</p>
+                ))}
+            </div>
 
             {showAddBlog && (
                 <div className="overlay show-overlay signup-model-overlay">

@@ -12,6 +12,7 @@ import BlogNavbar from '../componentsBlog/BlogNavbar';
 const Blog = () => {
 
   const [blogs, setBlogs] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -22,6 +23,9 @@ const Blog = () => {
         if (response.ok) {
           const data = await response.json();
           setBlogs(data);
+
+          const categories = Array.from(new Set(data.map(blog => blog.category)));
+          setCategories(categories);
         } else {
           console.log('Failed to fetch blogs');
         }
@@ -34,6 +38,9 @@ const Blog = () => {
 
     fetchBlogs();
   }, []);
+
+  const randomCategories = categories.sort(() => 0.5 - Math.random()).slice(0, 10);
+  localStorage.setItem("categories", categories);
 
   const featuredBlogs = blogs.sort((a, b) => b.likes.length - a.likes.length).slice(0, 10); // Sorts blogs by likes length in descending order
   const featuredSuggBlogs = blogs.slice(-10).reverse();
@@ -67,7 +74,7 @@ const Blog = () => {
 
   return (
     <>
-      <BlogNavbar />
+      <BlogNavbar actualCategories={randomCategories} />
       <div className="blog-container">
         {records.map((blog) => (
           <BlogCard key={blog._id} blog={blog} />

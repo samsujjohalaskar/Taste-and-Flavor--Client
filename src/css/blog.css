@@ -466,3 +466,27 @@
 .blog-user-state:hover {
     background-color: #e7e5e5;
 }
+
+.blog-navbar-categories {
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #e7e5e5;
+    padding: 15px;
+}
+
+.blog-navbar-category {
+    font-size: 15.5px;
+    font-family: "Metropolis", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: #5c5757;
+    text-decoration: none;
+    padding: 0 10px 0 10px;
+    border-right: 1px solid #e7e5e5;
+}
+
+.blog-navbar-category:last-child {
+    border: none;
+}
+
+.blog-navbar-active-category {
+    color: #FF5757;
+}

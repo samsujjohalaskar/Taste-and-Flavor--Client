@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
-import { useCity } from '../CityContext';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import "../css/blog.css";
@@ -13,13 +11,12 @@ import Loading from '../components/Loading';
 import BlogDetailsSimilarCard from '../componentsBlog/BlogDetailsSimilarCard';
 import Signin from '../components/Signin';
 import Signup from '../components/Signup';
+import BlogNavbar from '../componentsBlog/BlogNavbar';
 
 const BlogDetails = () => {
 
-    const navigate = useNavigate();
     const { blogID } = useParams();
     const [user] = useAuthState(auth);
-    const { selectedCity, setSelectedCity } = useCity();
     const [isLoading, setIsLoading] = useState(false);
     const [blog, setBlog] = useState([]);
     const [similarBlog, setSimilarBlog] = useState([]);
@@ -91,6 +88,14 @@ const BlogDetails = () => {
         }
 
     }, [blog.category]);
+
+    const categories = localStorage.getItem("categories");
+    const categoriesArray = categories.split(',');
+    const randomCategories = categoriesArray.sort(() => 0.5 - Math.random()).slice(0, 10);
+
+    if (blog.category && !randomCategories.includes(blog.category)) {
+        randomCategories.push(blog.category);
+    }
 
     const shuffledSimilarBlogs = similarBlog.sort(() => Math.random() - 0.5).slice(0, 10);
     const currentTitle = (blog && blog.title) ? blog.title : "";
@@ -190,13 +195,7 @@ const BlogDetails = () => {
 
     return (
         <>
-            <Navbar city={selectedCity.toLowerCase()}
-                onSelectCity={setSelectedCity}
-                active={"Blog"}
-                onCityChangeRedirect={(selectedCity) => {
-                    navigate(`/${selectedCity.toLowerCase()}`);
-                }}
-            />
+            <BlogNavbar actualCategories={randomCategories} currentCategory={blog.category}/>
             <div className="blog-details-container">
                 <div className="blog-featured-posts">
                     <div className="blog-details-post">
