@@ -45,7 +45,7 @@ function Home() {
         };
 
         fetchRestaurants();
-    }, [selectedCity]);
+    }, [selectedCity, city]);
 
     const handleCitySelect = (selectedCity) => {
         setSelectedCity(selectedCity);

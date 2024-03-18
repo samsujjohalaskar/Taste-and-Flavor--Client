@@ -141,7 +141,7 @@ const Blog = () => {
     };
 
     fetchBlogs();
-  }, []);
+  }, [user]);
 
   const featuredBlogs = blogs.sort((a, b) => b.likes.length - a.likes.length).slice(0, 8); // Sorts blogs by likes length in descending order
   const featuredSuggBlogs = blogs.slice(-10).reverse();
