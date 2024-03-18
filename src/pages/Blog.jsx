@@ -126,7 +126,9 @@ const Blog = () => {
     const fetchBlogs = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${BASE_URL}/blogs`);
+        const response = await fetch(`${BASE_URL}/blogs`, {
+          mode: 'no-cors'
+        });
         if (response.ok) {
           const data = await response.json();
           setBlogs(data);
@@ -141,7 +143,7 @@ const Blog = () => {
     };
 
     fetchBlogs();
-  }, [user]);
+  }, []);
 
   const featuredBlogs = blogs.sort((a, b) => b.likes.length - a.likes.length).slice(0, 8); // Sorts blogs by likes length in descending order
   const featuredSuggBlogs = blogs.slice(-10).reverse();
