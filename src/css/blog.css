@@ -392,7 +392,7 @@
     cursor: pointer;
 }
 
-.blog-details-liked{
+.blog-details-liked {
     color: #FF5757;
 }
 
@@ -409,4 +409,60 @@
 
 .blog-details-like-div {
     margin-bottom: 10px;
+}
+
+.blog-navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px 0 20px;
+}
+
+.blog-navbar-div-one-logo img {
+    height: 50px;
+    cursor: pointer;
+}
+
+.blog-navbar-div-two {
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    align-items: center;
+    color: #8d8c8c;
+}
+
+.blog-navbar-div-two-write {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.blog-navbar-div-two-profile {
+    font-size: 35px;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.blog-navbar-div-two-letter {
+    font-size: 15px;
+    margin-left: 8px;
+}
+
+.blog-show-user-details {
+    position: absolute;
+    right: 40px;
+    background-color: white;
+    padding: 10px 0 10px 0;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 4px, rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+
+.blog-user-state {
+    cursor: pointer;
+    padding: 8px 50px 8px 50px;
+}
+
+.blog-user-state:hover {
+    background-color: #e7e5e5;
 }
