@@ -496,6 +496,89 @@
     color: #FF5757;
 }
 
+.blog-details-comments {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+}
+
+.blog-details-comments-counts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: max-content;
+    border: 1px solid #111111;
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    background-color: #333333;
+    color: #ffffff;
+    font-size: 22px;
+}
+
+.blog-details-comments-replies {
+    margin-top: 10px;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.blog-details-comments-border {
+    border: 1px solid #e7e5e5;
+    border-top-width: 0px;
+    position: absolute;
+    width: 950px;
+    margin: 0 0 21px 47px;
+    z-index: -1;
+}
+
+.blog-details-count-container {
+    padding: 0px 25px 0 25px;
+    background: white;
+}
+
+.blog-details-comments-input-container {
+    margin: 15px 0 0 0;
+}
+
+.blog-details-comment-heading {
+    color: #222222;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-family: 'Open Sans', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 22px;
+    line-height: 1.1em;
+    margin-bottom: 15px;
+}
+
+.blog-details-comment-sub-heading {
+    color: #222222;
+    font-weight: 400;
+    font-family: 'Open Sans', 'HelveticaNeue', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    margin: 10px 0 15px 0;
+}
+
+.blog-details-comment-input {
+    background: #f7f6f6;
+    border: 1px solid #e7e5e5;
+    padding: 10px;
+    outline: none;
+    width: 865px;
+    font-size: 16px;
+    color: #222222;
+}
+
+.blog-details-comment-button {
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 10px 20px 10px 20px;
+    margin: 15px 0 20px 0;
+}
+
 /* Mobile Responsiveness */
 
 @media screen and (min-width: 320px) and (max-width: 425px) {
@@ -529,6 +612,14 @@
 
     .blog-show-user-details {
         left: 810px;
+    }
+
+    .blog-details-comment-input {
+        width: 700px;
+    }
+
+    .blog-details-comments-border {
+        width: 740px;
     }
 }
 
@@ -578,6 +669,14 @@
     .blog-show-user-details {
         left: 1170px;
     }
+
+    .blog-details-comment-input {
+        width: 760px;
+    }
+
+    .blog-details-comments-border {
+        width: 850px;
+    }
 }
 
 /* Laptop Responsiveness */
@@ -621,6 +720,14 @@
 
     .blog-show-user-details {
         left: 1170px;
+    }
+
+    .blog-details-comment-input {
+        width: 760px;
+    }
+
+    .blog-details-comments-border {
+        width: 850px;
     }
 }
 

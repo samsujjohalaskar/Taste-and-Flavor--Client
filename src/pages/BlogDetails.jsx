@@ -12,6 +12,7 @@ import BlogDetailsSimilarCard from '../componentsBlog/BlogDetailsSimilarCard';
 import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import BlogNavbar from '../componentsBlog/BlogNavbar';
+import Swal from 'sweetalert2';
 
 const BlogDetails = () => {
 
@@ -25,6 +26,7 @@ const BlogDetails = () => {
     const [showSignUp, setShowSignUp] = useState(false);
     const [showLike, setShowLike] = useState("");
     const [clicked, setClicked] = useState(false);
+    const [comment, setComment] = useState('');
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -193,9 +195,69 @@ const BlogDetails = () => {
         }
     }, [clicked]);
 
+    const handleCommentChange = (e) => {
+        setComment(e.target.value);
+    };
+
+    const handlePostComment = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        try {
+            const response = await fetch(`${BASE_URL}/post-comment`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    blogID,
+                    comment,
+                    userID: userDetails._id,
+                }),
+            });
+
+            if (response.status === 200) {
+                setComment('');
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Thank You!",
+                    text: "Your Comment Updated Successfully.",
+                    confirmButtonColor: "#006edc",
+                    confirmButtonText: "OK",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                });
+            } else if (response.status === 201) {
+                setComment('');
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "Thank You!",
+                    text: "Your Comment Posted Successfully.",
+                    confirmButtonColor: "#006edc",
+                    confirmButtonText: "OK",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                });
+            }
+            else {
+                console.error('Failed to post comment:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error posting comment:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <>
-            <BlogNavbar actualCategories={randomCategories} currentCategory={blog.category}/>
+            <BlogNavbar actualCategories={randomCategories} currentCategory={blog.category} />
             <div className="blog-details-container">
                 <div className="blog-featured-posts">
                     <div className="blog-details-post">
@@ -239,6 +301,23 @@ const BlogDetails = () => {
                             <p className="blog-details-post-content">{blog.content}</p>
                         </div>
                     </div>
+                    <div className="blog-details-post blog-details-comments">
+                        <span className="blog-details-count-container">
+                            <span className="blog-details-comments-counts">{(blog && blog.comments) ? blog.comments.length : "0"}</span>
+                        </span>
+                        <span className="blog-details-comments-replies">replies</span>
+                        <span className="blog-details-comments-border"></span>
+                    </div>
+                    <form className="blog-details-post blog-details-comments-input-container" onSubmit={handlePostComment}>
+                        <p className="blog-details-comment-heading">Leave a Reply</p>
+                        <p className="blog-details-comment-sub-heading">
+                            Want to join the discussion?
+                            <br />
+                            Feel free to contribute!
+                        </p>
+                        <textarea className="blog-details-comment-input" value={comment} onChange={handleCommentChange} placeholder="Write your comment here..." name="comment" id="comment" cols="30" rows="8" required></textarea>
+                        <button className="blog-details-comment-button button" type="submit">Post Comment</button>
+                    </form>
                 </div>
                 <div className="blog-featured-suggestions">
                     <p className="blog-featured-sugg-heading">Similar Blog Discoveries</p>
