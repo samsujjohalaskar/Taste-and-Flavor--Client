@@ -404,6 +404,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #5c5757;
 }
 
 .blog-details-like-count, .blog-details-comment-count {

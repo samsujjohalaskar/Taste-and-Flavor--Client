@@ -42,7 +42,15 @@ const Blog = () => {
   const randomCategories = categories.sort(() => 0.5 - Math.random()).slice(0, 10);
   localStorage.setItem("categories", categories);
 
-  const featuredBlogs = blogs.sort((a, b) => b.likes.length - a.likes.length).slice(0, 10); // Sorts blogs by likes length in descending order
+  const featuredBlogs = blogs.sort((a, b) => {
+    const commentsComparison = b.comments.length - a.comments.length;
+    if (commentsComparison !== 0) {
+      return commentsComparison; // If comments are different, return the comparison result
+    } else {
+      // If comments are the same, compare by the number of likes
+      return b.likes.length - a.likes.length;
+    }
+  }).slice(0, 10);
   const featuredSuggBlogs = blogs.slice(-10).reverse();
 
   const [currentPage, setCurrentPage] = useState(1);

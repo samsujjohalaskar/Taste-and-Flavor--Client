@@ -13,6 +13,7 @@ import Signin from '../components/Signin';
 import Signup from '../components/Signup';
 import BlogNavbar from '../componentsBlog/BlogNavbar';
 import Swal from 'sweetalert2';
+import { Link as ScrollLink, Element } from 'react-scroll';
 
 const BlogDetails = () => {
 
@@ -201,57 +202,60 @@ const BlogDetails = () => {
 
     const handlePostComment = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
-
-        try {
-            const response = await fetch(`${BASE_URL}/post-comment`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    blogID,
-                    comment,
-                    userID: userDetails._id,
-                }),
-            });
-
-            if (response.status === 200) {
-                setComment('');
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Thank You!",
-                    text: "Your Comment Updated Successfully.",
-                    confirmButtonColor: "#006edc",
-                    confirmButtonText: "OK",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.reload();
-                    }
+        if (user && userDetails) {
+            setIsLoading(true);
+            try {
+                const response = await fetch(`${BASE_URL}/post-comment`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        blogID,
+                        comment,
+                        userID: userDetails._id,
+                    }),
                 });
-            } else if (response.status === 201) {
-                setComment('');
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Thank You!",
-                    text: "Your Comment Posted Successfully.",
-                    confirmButtonColor: "#006edc",
-                    confirmButtonText: "OK",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.reload();
-                    }
-                });
+
+                if (response.status === 200) {
+                    setComment('');
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Thank You!",
+                        text: "Your Comment Updated Successfully.",
+                        confirmButtonColor: "#006edc",
+                        confirmButtonText: "OK",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                } else if (response.status === 201) {
+                    setComment('');
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Thank You!",
+                        text: "Your Comment Posted Successfully.",
+                        confirmButtonColor: "#006edc",
+                        confirmButtonText: "OK",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                }
+                else {
+                    console.error('Failed to post comment:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error posting comment:', error);
+            } finally {
+                setIsLoading(false);
             }
-            else {
-                console.error('Failed to post comment:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error posting comment:', error);
-        } finally {
-            setIsLoading(false);
+        } else {
+            setShowLogin(true);
         }
     };
 
@@ -270,11 +274,13 @@ const BlogDetails = () => {
                                         <FaHeart onClick={handleLike} title="Unlike" className="blog-details-liked" />
                                     )
                                     }
-                                    <span className="blog-details-like-count"> {(blog && blog.likes) ? blog.likes.length : ""}</span>
+                                    <span className="blog-details-like-count"> {(blog && blog.likes) ? blog.likes.length : "0"}</span>
                                 </div>
                                 <div className="blog-details-comment-div">
-                                    <FaRegComment title="Comments" className="blog-details-comment" />
-                                    <span className="blog-details-comment-count"> {(blog && blog.comments) ? blog.comments.length : ""}</span>
+                                    <ScrollLink to="comment-section" className="blog-details-comment" smooth={true} duration={500}>
+                                        <FaRegComment title="Comments" />
+                                    </ScrollLink>
+                                    <span className="blog-details-comment-count"> {(blog && blog.comments) ? blog.comments.length : "0"}</span>
                                 </div>
                             </div>
                             {(blog && blog.image && blog.image.data) && (
@@ -301,13 +307,13 @@ const BlogDetails = () => {
                             <p className="blog-details-post-content">{blog.content}</p>
                         </div>
                     </div>
-                    <div className="blog-details-post blog-details-comments">
+                    <Element name="comment-section" className="blog-details-post blog-details-comments">
                         <span className="blog-details-count-container">
                             <span className="blog-details-comments-counts">{(blog && blog.comments) ? blog.comments.length : "0"}</span>
                         </span>
                         <span className="blog-details-comments-replies">replies</span>
                         <span className="blog-details-comments-border"></span>
-                    </div>
+                    </Element>
                     <form className="blog-details-post blog-details-comments-input-container" onSubmit={handlePostComment}>
                         <p className="blog-details-comment-heading">Leave a Reply</p>
                         <p className="blog-details-comment-sub-heading">
