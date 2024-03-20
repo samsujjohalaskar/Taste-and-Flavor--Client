@@ -16,6 +16,7 @@ import Restaurant from './pages/Restaurant';
 import History from './pages/History';
 import Signup from './components/Signup';
 import BlogDetails from './pages/BlogDetails';
+import CategoryDetails from './pages/CategoryDetails';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/:city-restaurants/:area/:location" element={<BookTable />} />
         <Route exact path="/blog/all-blogs" element={<Blog />}></Route>
         <Route exact path="/blog/individual-blogs/:blogID/:title" element={<BlogDetails />}></Route>
+        <Route exact path="/blog/category-based-blogs/:blogCategory" element={<CategoryDetails/>}></Route>
         <Route exact path="/history" element={<History />}></Route>
 
         <Route exact path="/owner-home" element={<Owner />}></Route>

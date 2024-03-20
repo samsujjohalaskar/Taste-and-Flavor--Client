@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { TfiPencilAlt } from "react-icons/tfi";
 import { CgProfile } from "react-icons/cg";
 import { Buffer } from 'buffer';
@@ -16,6 +16,7 @@ import Loading from '../components/Loading';
 const BlogNavbar = ({ actualCategories, currentCategory }) => {
 
     const [user] = useAuthState(auth);
+    const navigate = useNavigate();
     const [userDetails, setUserDetails] = useState("");
     const [showUserDetails, setShowUserDetails] = useState(false);
     const [showAddBlog, setShowAddBlog] = useState(false);
@@ -189,7 +190,16 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
 
             <div className="blog-navbar-categories">
                 {actualCategories && actualCategories.map((cat, index) => (
-                    <p key={index} className={cat === currentCategory ? "blog-navbar-category blog-navbar-active-category" : "blog-navbar-category"}>{cat}</p>
+                    <p key={index} title={`See More ${cat} Blogs`} className={cat === currentCategory ? "blog-navbar-category blog-navbar-active-category" : "blog-navbar-category"}
+                        onClick={() => {
+                            const cleanedCategory = cat.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
+                            const url = `/blog/category-based-blogs/${cleanedCategory}`;
+
+                            navigate(url);
+                        }}
+                    >
+                        {cat}
+                    </p>
                 ))}
             </div>
 

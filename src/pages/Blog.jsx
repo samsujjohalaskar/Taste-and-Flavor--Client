@@ -45,12 +45,12 @@ const Blog = () => {
   const featuredBlogs = blogs.sort((a, b) => {
     const commentsComparison = b.comments.length - a.comments.length;
     if (commentsComparison !== 0) {
-      return commentsComparison; // If comments are different, return the comparison result
+      return commentsComparison;
     } else {
-      // If comments are the same, compare by the number of likes
       return b.likes.length - a.likes.length;
     }
   }).slice(0, 10);
+
   const featuredSuggBlogs = blogs.slice(-10).reverse();
 
   const [currentPage, setCurrentPage] = useState(1);
