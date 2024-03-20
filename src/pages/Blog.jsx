@@ -19,7 +19,7 @@ const Blog = () => {
     const fetchBlogs = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`${BASE_URL}/blogs`);
+        const response = await fetch(`${BASE_URL}/blogs/all-available/fetch-all`);
         if (response.ok) {
           const data = await response.json();
           setBlogs(data);
@@ -39,7 +39,7 @@ const Blog = () => {
     fetchBlogs();
   }, []);
 
-  const randomCategories = categories.sort(() => 0.5 - Math.random()).slice(0, 10);
+  const randomCategories = categories.sort(() => 0.5 - Math.random()).slice(0, 6);
   localStorage.setItem("categories", categories);
 
   const featuredBlogs = blogs.sort((a, b) => {

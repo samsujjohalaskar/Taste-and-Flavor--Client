@@ -23,6 +23,7 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [postUser, setPostUser] = useState(false);
 
     const [formData, setFormData] = useState({
         title: '',
@@ -54,6 +55,8 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
                 }
             } catch (error) {
                 console.error('Error fetching user details:', error);
+            } finally {
+                setPostUser(true);
             }
         };
 
@@ -63,6 +66,32 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
             setUserDetails("");
         }
     }, [user]);
+
+    useEffect(() => {
+        const handlePostUser = async () => {
+            try {
+                const res = await fetch(`${BASE_URL}/add-user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        fullName: user.displayName,
+                        userEmail: user.email,
+                        creationTime: user.metadata.creationTime,
+                        lastSignInTime: user.metadata.lastSignInTime,
+                    }),
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        if (postUser && userDetails === null && user) {
+            handlePostUser();
+        }
+
+    }, [user, userDetails, postUser]);
 
     const handleChange = (e) => {
         setFormData({
