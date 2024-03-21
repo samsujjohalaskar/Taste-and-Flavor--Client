@@ -53,7 +53,7 @@ const BlogBigCard = ({ blog }) => {
     };
 
     useEffect(() => {
-        if (user && blog && blog._id && userDetails && userDetails.likes && userDetails.likes.some(like => blog.likes.includes(like._id))) {
+        if (user && blog && blog._id && userDetails && userDetails.likes && userDetails.likes.some(like => blog.likes.includes(like))) {
             setShowLike(true);
         } else {
             setShowLike(false);
