@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaRegComment, FaRegHeart, FaUserCircle } from 'react-icons/fa';
+import { FaRegComment, FaRegEye, FaRegHeart, FaUserCircle } from 'react-icons/fa';
 import { Buffer } from 'buffer';
 import { useNavigate } from 'react-router-dom';
 
@@ -19,6 +19,13 @@ const CategoryCard = ({ blog }) => {
             return trimmedContent + '...';
         }
 
+    };
+
+    const calculateTimeToRead = (content) => {
+        const wordsPerMinute = 238;
+        const words = content.split(/\s+/).length;
+        const timeInMinutes = words / wordsPerMinute;
+        return Math.ceil(timeInMinutes);
     };
 
     return (
@@ -53,7 +60,8 @@ const CategoryCard = ({ blog }) => {
                     </div>
                     <div className="category-details-card-like-comments">
                         <div className="blog-card-like"><FaRegHeart /> <span className="category-details-card-like-comment-count">{blog && blog.likes && blog.likes.length}</span></div>
-                        <div className="blog-card-comment"><FaRegComment /> <span className="category-details-card-like-comment-count">{blog && blog.comments && blog.comments.length}</span></div>
+                        <div className="blog-card-comment"><FaRegComment /> <span className="category-details-card-like-comment-count">{blog && blog.comments && blog.comments.length} </span></div>
+                        <div className="category-details-read"><span><FaRegEye /></span>{calculateTimeToRead(blog ? blog.content : "")} min read</div>
                     </div>
                 </div>
                 <div className="category-details-card-image"

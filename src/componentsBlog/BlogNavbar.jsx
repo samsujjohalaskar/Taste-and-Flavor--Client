@@ -213,7 +213,7 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
 
             {showUserDetails && (
                 <div className="blog-show-user-details">
-                    <div className="blog-user-state" onClick={handleLoginButtonClick}>{user ? "Logout" : "Login/Signup"}</div>
+                    <div className="blog-user-state" onClick={handleLoginButtonClick}>{user ? "Logout" : "Signin"}</div>
                 </div>
             )}
 

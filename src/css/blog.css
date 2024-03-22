@@ -660,6 +660,17 @@
     width: 110px;
 }
 
+.category-details-read, .category-details-read span {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    margin-left: 40px;
+}
+
+.category-details-read span {
+    margin: 0 5px 0 0;
+}
+
 /* Mobile Responsiveness */
 
 @media screen and (min-width: 320px) and (max-width: 425px) {
