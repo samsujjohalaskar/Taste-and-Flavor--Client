@@ -362,7 +362,7 @@
     background-color: #f3f3f3;
 }
 
-.blog-details-non-user-image {
+.blog-details-non-user-image, .blog-details-commented-by-non-user-image {
     opacity: 0.3;
 }
 
@@ -518,6 +518,7 @@
     background-color: #333333;
     color: #ffffff;
     font-size: 22px;
+    cursor: pointer;
 }
 
 .blog-details-comments-replies {
@@ -669,6 +670,87 @@
 
 .category-details-read span {
     margin: 0 5px 0 0;
+}
+
+.blog-details-comment-model {
+    padding: 20px;
+    background-color: white;
+    border-radius: 0px !important;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    max-height: 550px;
+    overflow-y: auto;
+}
+
+.blog-comments-all-count {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.blog-comment-model-input {
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 8px;
+    padding: 10px;
+    margin: 15px 0 20px 0;
+}
+
+.blog-comment-model-input-area {
+    margin-top: 10px;
+    width: 100%;
+    height: 100px;
+    outline: none;
+    border: none;
+}
+
+.blog-comment-model-input-button {
+    background-color: #006edc;
+    color: white;
+    border: 1px solid #006edc !important;
+    padding: 5px 10px 5px 10px;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.blog-details-all-user-comments {
+    padding: 20px 0 10px 0;
+    border-bottom: 1px solid #e7e5e5;
+}
+
+.blog-details-all-user-comments:last-child {
+    border: none;
+}
+
+.blog-details-commented-by-user {
+    display: flex;
+    align-items: center;
+}
+
+.blog-comments-author {
+    margin-left: 5px;
+    background-color: #006edc;
+    color: white;
+    font-size: 12px;
+    padding: 0 5px 0 5px;
+    border-radius: 2px;
+}
+
+.blog-details-commented-by-user-image, .blog-details-commented-by-non-user-image {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+}
+
+.blog-details-commented-by-user-name-date {
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.blog-details-commented-by-user-date {
+    color: #6B6B6B;
+}
+
+.blog-details-comment-by-user {
+    margin-top: 10px;
 }
 
 /* Mobile Responsiveness */

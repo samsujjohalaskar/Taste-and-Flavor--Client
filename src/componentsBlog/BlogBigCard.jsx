@@ -9,6 +9,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import { BASE_URL } from '../utils/services';
 import Loading from '../components/Loading';
+import { IoMdClose } from 'react-icons/io';
+import CommentCard from './CommentCard';
 
 const BlogBigCard = ({ blog }) => {
 
@@ -19,6 +21,7 @@ const BlogBigCard = ({ blog }) => {
     const [showLike, setShowLike] = useState("");
     const [clicked, setClicked] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [showComments, setShowComments] = useState(false);
     const [comment, setComment] = useState('');
 
     useEffect(() => {
@@ -245,7 +248,7 @@ const BlogBigCard = ({ blog }) => {
             </div>
             <Element name="comment-section" className="blog-details-post blog-details-comments">
                 <span className="blog-details-count-container">
-                    <span className="blog-details-comments-counts">{(blog && blog.comments) ? blog.comments.length : "0"}</span>
+                    <span className="blog-details-comments-counts" onClick={() => setShowComments(!showComments)}>{(blog && blog.comments) ? blog.comments.length : "0"}</span>
                 </span>
                 <span className="blog-details-comments-replies">replies</span>
                 <span className="blog-details-comments-border"></span>
@@ -260,6 +263,46 @@ const BlogBigCard = ({ blog }) => {
                 <textarea className="blog-details-comment-input" value={comment} onChange={handleCommentChange} placeholder="Write your comment here..." name="comment" id="comment" cols="30" rows="8" required></textarea>
                 <button className="blog-details-comment-button button" type="submit">Post Comment</button>
             </form>
+
+            {showComments && (
+                <div className="overlay signup-model-overlay">
+                    <div className="modal blog-details-comment-model">
+                        {user && userDetails && (
+                            <form className="blog-comment-model-input" onSubmit={handlePostComment}>
+                                <div className="blog-details-commented-by-user">
+                                    <div className="blog-details-commented-by-user-image">
+                                        {(userDetails && userDetails.image) ? (
+                                            <img className="blog-details-commented-by-user-image"
+                                                src={`data:${userDetails.image.contentType};base64,${Buffer.from(userDetails.image.data).toString('base64')}`}
+                                                alt={userDetails.fullName} />
+                                        ) : (
+                                            <FaUserCircle className="blog-details-commented-by-non-user-image" />
+                                        )}
+                                    </div>
+                                    <div className="blog-details-commented-by-user-name-date">
+                                        <div className="blog-details-commented-by-user-name">
+                                            {userDetails && userDetails.fullName}
+                                            {userDetails && blog && userDetails._id === blog.postedBy._id && (
+                                                <span className="blog-comments-author">AUTHOR</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                                <textarea className="blog-comment-model-input-area" placeholder="What are your thoughts?" value={comment} onChange={handleCommentChange} name="comment" id="comment" required></textarea><br />
+                                <button className="blog-comment-model-input-button" type="submit">Respond</button>
+                            </form>
+                        )}
+                        <p className="blog-comments-all-count">Responces ({(blog && blog.comments) ? blog.comments.length : "0"})</p>
+                        {blog && blog.comments
+                            .sort((a, b) => new Date(b.date) - new Date(a.date))
+                            .map(comment => (
+                                <CommentCard key={comment._id} comment={comment} blogOwner={blog.postedBy._id} />
+                            ))
+                        }
+                    </div>
+                    <div className='signup-close-icon' onClick={() => setShowComments(false)}><IoMdClose /></div>
+                </div>
+            )}
 
             {isLoading && <Loading />}
 
