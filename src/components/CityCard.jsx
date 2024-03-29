@@ -2,32 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Buffer } from 'buffer';
 import { useNavigate } from 'react-router-dom';
 import "../css/bookATable.css";
-import { BASE_URL } from '../utils/services';
 
 export default function CityCard({ restaurant }) {
 
     const [averageRating, setAverageRating] = useState(0);
 
-    const fetchReviewsDetails = async (id) => {
-        try {
-            const res = await fetch(`${BASE_URL}/reviews?restaurantId=${id}`);
-            if (res.ok) {
-                const data = await res.json();
-                const totalRatings = data.length;
-                const ratingSum = totalRatings > 0 ? data.reduce((sum, review) => sum + review.rating, 0) : 0;
-                const avgRating = totalRatings > 0 ? ratingSum / totalRatings : 0;
-                setAverageRating(avgRating.toFixed(1));
-            } else {
-                console.error('Failed to fetch reviews details');
-            }
-        } catch (error) {
-            console.error('Error fetching reviews details:', error);
-        }
-    };
-
     useEffect(() => {
-        fetchReviewsDetails(restaurant._id);
-    }, [restaurant._id]);
+        if (restaurant.reviews && restaurant.reviews.length > 0) {
+            const totalRatings = restaurant.reviews.length;
+            const ratingSum = restaurant.reviews.reduce((sum, review) => sum + review._id.rating, 0);
+            const avgRating = ratingSum / totalRatings;
+            setAverageRating(avgRating.toFixed(1));
+        }
+    }, [restaurant.reviews]);
 
     const navigate = useNavigate();
     const firstImage = restaurant.images && restaurant.images.length > 0 ? restaurant.images[0] : null;

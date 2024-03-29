@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Buffer } from 'buffer';
 import { MdDiscount } from 'react-icons/md';
-import { BASE_URL } from '../utils/services';
 import { useNavigate } from 'react-router-dom';
 
 export default function Card({ key, restaurant }) {

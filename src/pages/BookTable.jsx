@@ -132,15 +132,14 @@ const BookTable = () => {
         setRestaurants(data.restaurants || []);
 
         // Calculate and store average ratings for each restaurant
-        const ratingsArray = await Promise.all(data.restaurants.map(async (restaurant) => {
-          const response = await fetch(`${BASE_URL}/reviews?restaurantId=${restaurant._id}`);
-          const reviewsData = await response.json();
-          const totalRatings = reviewsData.length;
-          const ratingSum = totalRatings > 0 ? reviewsData.reduce((sum, review) => sum + review.rating, 0) : 0;
+        const ratingsArray = data.restaurants.map(restaurant => {
+          const reviews = restaurant.reviews;
+          const totalRatings = reviews.length;
+          const ratingSum = totalRatings > 0 ? reviews.reduce((sum, review) => sum + review._id.rating, 0) : 0;
           const avgRating = totalRatings > 0 ? ratingSum / totalRatings : 0;
 
           return avgRating.toFixed(1);
-        }));
+        });
 
         setAverageRatings(ratingsArray);
 
