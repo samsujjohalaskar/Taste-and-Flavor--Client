@@ -9,6 +9,7 @@ import cities from "../allCities";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa6";
 import Signup from "./Signup";
 import Swal from 'sweetalert2';
+import { BASE_URL } from "../utils/services";
 
 function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
 
@@ -17,6 +18,8 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
   const [showSignUp, setShowSignUp] = useState(false);
   const [showKey, setShowKey] = useState(false);
   const [filteredCities, setFilteredCities] = useState([]);
+  const [postUser, setPostUser] = useState(false);
+  const [userDetails, setUserDetails] = useState(localStorage.getItem("userDetails") ? JSON.parse(localStorage.getItem("userDetails")) : null);
 
   const [user] = useAuthState(auth);
   const cityRef = useRef();
@@ -98,6 +101,57 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [cityRef]);
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/user-info?userEmail=${user.email}`);
+        if (res.ok) {
+          const data = await res.json();
+          setUserDetails(data);
+          localStorage.setItem("userDetails", JSON.stringify(data));
+
+        } else {
+          console.error('Failed to fetch user details');
+        }
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      } finally {
+        setPostUser(true);
+      }
+    };
+
+    if (user && user.email !== userDetails.userEmail) {
+      fetchUserDetails();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const handlePostUser = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/add-user`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            fullName: user.displayName,
+            userEmail: user.email,
+            creationTime: user.metadata.creationTime,
+            lastSignInTime: user.metadata.lastSignInTime,
+          }),
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (postUser && userDetails === null && user) {
+      handlePostUser();
+    }
+
+  }, [user, userDetails, postUser]);
+
 
   return (
     <>

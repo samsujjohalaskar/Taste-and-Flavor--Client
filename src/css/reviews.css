@@ -101,6 +101,10 @@
     border-bottom: 1px solid #ddd;
 }
 
+.reviews-container:last-child {
+    border-bottom: none;
+}
+
 .profile-logo-main {
     height: 50px;
     width: 50px;
@@ -112,7 +116,7 @@
     margin-right: 15px;
 }
 
-.reviews-container-profile-image{
+.reviews-container-profile-image {
     height: 50px;
     width: 50px;
     border-radius: 50%;
@@ -306,19 +310,19 @@
     line-height: 39px;
 }
 
-.reviews-posted-on{
+.reviews-posted-on {
     color: #a0a0a0;
     font-size: 12px;
     font-weight: 100;
 }
 
-.see-more-reviews{
+.see-more-reviews {
     display: flex;
     justify-content: center;
     cursor: pointer;
     color: #006edc;
 }
 
-.see-more-reviews > span{
+.see-more-reviews>span {
     float: inline-end;
 }

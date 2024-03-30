@@ -14,15 +14,14 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
     const [availableSlots, setAvailableSlots] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const [userDetails, setUserDetails] = useState("");
-    const [postUser, setPostUser] = useState(false);
+    const [userDetails, setUserDetails] = useState(localStorage.getItem("userDetails") ? JSON.parse(localStorage.getItem("userDetails")) : null);
 
     const navigate = useNavigate();
 
     const [date, setDate] = useState(null);
     const [time, setTime] = useState(null);
     const [guests, setGuests] = useState(0);
-    const [guestName, setGuestName] = useState('');
+    const [guestName, setGuestName] = useState("");
     const [mobileNumber, setMobileNumber] = useState('');
     const [specialRequest, setSpecialRequest] = useState('');
 
@@ -121,14 +120,14 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
             handleLogin(false); // Reset the showLogin state when the user logs out
         }
         // Update state when the user logs in
-        if (user) {
+        if (user && userDetails) {
             setDate(minDate);
-            setMobileNumber("");
+            setMobileNumber(userDetails.phoneNumber ? userDetails.phoneNumber : "");
+            setGuestName(userDetails.fullName ? userDetails.fullName : "");
             setSpecialRequest("");
             handleLogin(false); // Hide the login modal when the user logs in
-            setGuestName(user.displayName);
         }
-    }, [user]);
+    }, [user, userDetails]);
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -137,10 +136,8 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
                 if (res.ok) {
                     const data = await res.json();
                     setUserDetails(data);
-                    if (data.fullName) {
+                    if (data) {
                         setGuestName(data.fullName);
-                    }
-                    if (data.phoneNumber) {
                         setMobileNumber(data.phoneNumber);
                     }
                 } else {
@@ -149,42 +146,14 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
                 }
             } catch (error) {
                 // console.error('Error fetching user details:', error);
-            } finally {
-                setPostUser(true);
             }
         };
 
-        if (user) {
+        if (user && user.email !== userDetails.userEmail) {
             fetchUserDetails();
         }
 
     }, [user]);
-
-    useEffect(() => {
-        const handlePostUser = async () => {
-            try {
-                const res = await fetch(`${BASE_URL}/add-user`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        fullName: user.displayName,
-                        userEmail: user.email,
-                        creationTime: user.metadata.creationTime,
-                        lastSignInTime: user.metadata.lastSignInTime,
-                    }),
-                });
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        if (postUser && userDetails === null && user) {
-            handlePostUser();
-        }
-
-    }, [user, userDetails, postUser]);
 
     if (date) {
         formattedDate = date.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -234,67 +203,67 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
 
     const handleBooking = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        try {
-            const bookingData = {
-                userEmail: user.email,
-                restaurantId: restaurant._id,
-                restaurantName: restaurant.name,
-                fullName: guestName,
-                phoneNumber: mobileNumber,
-                numberOfPeople: guests,
-                bookingDate: date.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-                entryTime: time,
-                specialRequest: specialRequest,
-            };
+        if (userDetails) {
+            setLoading(true);
+            try {
+                const bookingData = {
+                    userEmail: user.email,
+                    userId: userDetails._id,
+                    restaurantId: restaurant._id,
+                    phoneNumber: mobileNumber,
+                    numberOfPeople: guests,
+                    bookingDate: date.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                    entryTime: time,
+                    specialRequest: specialRequest,
+                };
 
-            const res = await fetch(`${BASE_URL}/book`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(bookingData),
-            });
+                const res = await fetch(`${BASE_URL}/book`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(bookingData),
+                });
 
-            const data = await res.json();
+                const data = await res.json();
 
-            if (res.status === 200) {
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Booking Success!",
-                    text: "Restaurant will contact You Shortly.",
-                    showCloseButton: true,
-                    showConfirmButton: false,
-                    timer: 3500
-                });
-                navigate("/history");
-            } else if (res.status === 201) {
-                Toast.fire({
-                    icon: "success",
-                    title: "Booking Preferences Updated!"
-                });
-                navigate("/history");
-            } else if (res.status === 402 || !data) {
-                Swal.fire({
-                    title: "Attributes Missing!",
-                    text: "Marked Fields Are Mandatory.",
-                    icon: "question"
-                });
-            } else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Booking Failed, Please try again.",
-                });
+                if (res.status === 200) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Booking Success!",
+                        text: "Restaurant will contact You Shortly.",
+                        showCloseButton: true,
+                        showConfirmButton: false,
+                        timer: 3500
+                    });
+                    navigate("/history");
+                } else if (res.status === 201) {
+                    Toast.fire({
+                        icon: "success",
+                        title: "Booking Preferences Updated!"
+                    });
+                    navigate("/history");
+                } else if (res.status === 402 || !data) {
+                    Swal.fire({
+                        title: "Attributes Missing!",
+                        text: "Marked Fields Are Mandatory.",
+                        icon: "question"
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Booking Failed, Please try again.",
+                    });
+                }
+            } catch (error) {
+                console.error('Error during booking:', error);
+            } finally {
+                setLoading(false);
             }
-        } catch (error) {
-            console.error('Error during booking:', error);
-        } finally {
-            setLoading(false);
         }
     };
-
 
     return (
         <>
@@ -377,7 +346,7 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
                 )}
                 <div className="booking-data">
                     <div className='booking-label'>Enter Guest Details</div>
-                    <input className={`datas ${user ? "hover-not-allowed" : " "} `} type="text" placeholder='Guest Name' value={guestName} readOnly disabled={user} />
+                    <input className={`datas ${user ? "hover-not-allowed" : " "} `} type="text" placeholder={`${guestName ? guestName : "Guest Name"}`} value={guestName} readOnly disabled={user} />
                     <input className='datas' type="text" placeholder='Mobile No.' value={mobileNumber} onChange={(e) => {
                         const input = e.target.value;
                         const formattedInput = input.replace(/\D/g, '');

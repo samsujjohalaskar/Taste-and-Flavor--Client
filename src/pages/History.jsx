@@ -23,10 +23,7 @@ const History = () => {
 
     const [bookingDetails, setBookingDetails] = useState([]);
     const [reviewDetails, setReviewDetails] = useState([])
-    const [userDetails, setUserDetails] = useState("")
-    const [restaurantNames, setRestaurantNames] = useState([]);
-    const [restaurantCity, setRestaurantCity] = useState([]);
-    const [restaurantArea, setRestaurantArea] = useState([]);
+    const [userDetails, setUserDetails] = useState("");
 
     const [showFilterOptions, setShowFilterOptions] = useState(false);
     const [showImageInput, setShowImageInput] = useState(false);
@@ -34,11 +31,11 @@ const History = () => {
     const [postUser, setPostUser] = useState(false);
     const [filter, setFilter] = useState('All');
 
-    // useEffect(() => {
-    //     if (!user) {
-    //         navigate('/');
-    //     }
-    // });
+    useEffect(() => {
+        if (!user) {
+            navigate('/');
+        }
+    }, [user, navigate]);
 
     useEffect(() => {
         setShowLoading(true);
@@ -92,69 +89,13 @@ const History = () => {
     }, [user, userDetails, postUser]);
 
     useEffect(() => {
-        setShowLoading(true)
-        const fetchReviewsDetails = async () => {
-            try {
-                const res = await fetch(`${BASE_URL}/reviews?userEmail=${user.email}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    setReviewDetails(data);
 
-                } else {
-                    console.error('Failed to fetch review details');
-                }
-            } catch (error) {
-                console.error('Error fetching review details:', error);
-            } finally {
-                setShowLoading(false);
-            }
-        };
-
-        if (user) {
-            fetchReviewsDetails();
+        if (userDetails) {
+            setReviewDetails(userDetails.reviews);
+            setBookingDetails(userDetails.bookings)
         }
-    }, [user]);
 
-    useEffect(() => {
-        const fetchRestaurants = async () => {
-            try {
-                const promises = reviewDetails.map(async (review) => {
-                    const response = await fetch(`${BASE_URL}/restaurants-names?_id=${review.restaurant}`);
-                    if (response.status === 200) {
-                        const data = await response.json();
-                        return {
-                            name: data.restaurants.name,
-                            city: data.restaurants.city,
-                            area: data.restaurants.area
-                        };
-                    } else {
-                        console.error('Failed to fetch restaurant details');
-                        return null;
-                    }
-                });
-
-                // Wait for all promises to resolve
-                const restaurantDetails = await Promise.all(promises.filter(Boolean));
-
-                // Extract names, cities, and areas separately
-                const names = restaurantDetails.map(details => details.name);
-                const cities = restaurantDetails.map(details => details.city);
-                const areas = restaurantDetails.map(details => details.area);
-
-                // Update the state with the extracted data
-                setRestaurantNames(names);
-                setRestaurantCity(cities);
-                setRestaurantArea(areas);
-            } catch (error) {
-                console.error('Error fetching restaurant details:', error);
-            }
-        };
-
-        if (reviewDetails.length > 0) {
-            fetchRestaurants();
-        }
-    }, [reviewDetails]);
-
+    }, [user, userDetails]);
 
     const handleFilter = () => {
         setShowFilterOptions(!showFilterOptions);
@@ -183,29 +124,6 @@ const History = () => {
                 return true;
         }
     });
-
-    useEffect(() => {
-        setShowLoading(true);
-        const fetchBookingDetails = async () => {
-            try {
-                const res = await fetch(`${BASE_URL}/bookings?userEmail=${user.email}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    setBookingDetails(data);
-                } else {
-                    console.error('Failed to fetch booking details');
-                }
-            } catch (error) {
-                console.error('Error fetching booking details:', error);
-            } finally {
-                setShowLoading(false);
-            }
-        };
-
-        if (user) {
-            fetchBookingDetails();
-        }
-    }, [user]);
 
     const handleCancelBooking = async (bookingId) => {
 
@@ -317,10 +235,10 @@ const History = () => {
         }
     };
 
-    const handleEditClick = async (index, rating, resId, fullName, comment) => {
-        const cleanedName = restaurantNames[restaurantNames.length - 1 - index].replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
-        const cleanedCity = restaurantCity[restaurantCity.length - 1 - index].replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
-        const cleanedArea = restaurantArea[restaurantArea.length - 1 - index].replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
+    const handleEditClick = async (restaurantCity, restaurantArea, restaurantName, rating, resId, fullName, comment) => {
+        const cleanedName = restaurantName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
+        const cleanedCity = restaurantCity.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
+        const cleanedArea = restaurantArea.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
 
         const url = `/${cleanedCity}-restaurants/${cleanedArea}/${cleanedName}/${resId}?ratingD=${encodeURIComponent(rating)}&fullNameD=${encodeURIComponent(fullName)}&commentD=${encodeURIComponent(comment)}`;
 
@@ -407,8 +325,8 @@ const History = () => {
                                         <div>
                                             <strong>Time of Arrival:</strong> {booking.entryTime}
                                         </div>
-                                        <div title={`${booking.restaurantName}`}>
-                                            <strong>Restaurant:</strong> {booking.restaurantName.slice(0, 15)}
+                                        <div title={`${booking.restaurant.name}`}>
+                                            <strong>Restaurant:</strong> {booking.restaurant.name.slice(0, 15)}
                                         </div>
                                         <div>
                                             <strong>Party Size:</strong> {booking.numberOfPeople}
@@ -446,7 +364,7 @@ const History = () => {
                                         <div className='history-item'>
                                             <span>{reviewDetails.length - index}.</span>
                                             <div>
-                                                <strong>Restaurant Name:</strong> {restaurantNames[restaurantNames.length - 1 - index]}
+                                                <strong>Restaurant Name:</strong> {rate.restaurant.name}
                                             </div>
                                             <div>
                                                 <strong>Rated:</strong> {rate.rating}
@@ -475,15 +393,15 @@ const History = () => {
                                                 })}
                                             </div>
                                         </div>
-                                        {restaurantCity[restaurantCity.length - 1 - index] &&
-                                            restaurantArea[restaurantArea.length - 1 - index] &&
-                                            restaurantNames[restaurantNames.length - 1 - index] &&
+                                        {rate.restaurant.city &&
+                                            rate.restaurant.area &&
+                                            rate.restaurant.name &&
                                             rate.restaurant &&
                                             (
                                                 <button
                                                     className='history-button'
                                                     title='Edit Response'
-                                                    onClick={() => handleEditClick(index, rate.rating, rate.restaurant, rate.fullName, rate.comment)}
+                                                    onClick={() => handleEditClick(rate.restaurant.city, rate.restaurant.area, rate.restaurant.name, rate.rating, rate.restaurant._id, rate.fullName, rate.comment)}
                                                 >
                                                     Edit
                                                 </button>

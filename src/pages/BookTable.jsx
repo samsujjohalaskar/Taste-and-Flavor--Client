@@ -135,7 +135,7 @@ const BookTable = () => {
         const ratingsArray = data.restaurants.map(restaurant => {
           const reviews = restaurant.reviews;
           const totalRatings = reviews.length;
-          const ratingSum = totalRatings > 0 ? reviews.reduce((sum, review) => sum + review._id.rating, 0) : 0;
+          const ratingSum = totalRatings > 0 ? reviews.reduce((sum, review) => sum + review.rating, 0) : 0;
           const avgRating = totalRatings > 0 ? ratingSum / totalRatings : 0;
 
           return avgRating.toFixed(1);

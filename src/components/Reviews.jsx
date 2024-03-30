@@ -15,7 +15,6 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
     const [reviewDetails, setReviewDetails] = useState([])
 
     const [rate, setRate] = useState(ratingD ? ratingD : 0);
-    const [fullName, setFullName] = useState(fullNameD ? fullNameD : user ? user.displayName : "");
     const [loading, setLoading] = useState(false);
     const [comment, setComment] = useState(commentD ? commentD : '');
 
@@ -27,10 +26,7 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
     const [showLogin, setShowLogin] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
 
-    const [userDetails, setUserDetails] = useState("");
-    const [postUser, setPostUser] = useState(false);
-
-    const [userImage, setUserImage] = useState([]);
+    const [userDetails, setUserDetails] = useState(localStorage.getItem("userDetails") ? JSON.parse(localStorage.getItem("userDetails")) : null);
 
     const [displayedReviews, setDisplayedReviews] = useState(3);
     const handleSeeMoreClick = () => {
@@ -52,7 +48,6 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
                 const res = await fetch(`${BASE_URL}/user-info?userEmail=${user.email}`);
                 if (res.ok) {
                     const data = await res.json();
-                    setFullName(data.fullName);
                     setUserDetails(data);
                 } else {
                     console.error('Failed to fetch user details');
@@ -60,98 +55,28 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
             } catch (error) {
                 console.error('Error fetching user details:', error);
                 setUserDetails(null);
-            } finally {
-                setPostUser(true);
             }
         };
 
-        if (user) {
+        if (user && user.email !== userDetails.userEmail) {
             fetchUserDetails();
         }
 
     }, [user]);
 
     useEffect(() => {
-        const handlePostUser = async () => {
-            try {
-                const res = await fetch(`${BASE_URL}/add-user`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        fullName: user.displayName,
-                        userEmail: user.email,
-                        creationTime: user.metadata.creationTime,
-                        lastSignInTime: user.metadata.lastSignInTime,
-                    }),
-                });
-            } catch (error) {
-                console.log(error);
-            }
-        };
+        setReviewDetails(restaurant.reviews);
 
-        if (postUser && userDetails === null && user) {
-            handlePostUser();
-        }
+        const averageRating = restaurant.reviews.length > 0
+            ? restaurant.reviews.reduce((sum, review) => sum + review.rating, 0) / restaurant.reviews.length
+            : 0;
 
-    }, [user, userDetails, postUser]);
+        const totalReviews = restaurant.reviews.filter(review => review.comment).length;
 
-    useEffect(() => {
-        const fetchReviewsDetails = async () => {
-            try {
-                const res = await fetch(`${BASE_URL}/reviews?restaurantId=${restaurant._id}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    setReviewDetails(data);
+        // Call the callback function with the calculated values
+        onReviewsData(averageRating, totalReviews);
 
-                    const averageRating = data.length > 0
-                        ? data.reduce((sum, review) => sum + review.rating, 0) / data.length
-                        : 0;
-
-                    const totalReviews = data.filter(review => review.comment).length;
-
-                    // Call the callback function with the calculated values
-                    onReviewsData(averageRating, totalReviews);
-                } else {
-                    console.error('Failed to fetch review details');
-                }
-            } catch (error) {
-                console.error('Error fetching review details:', error);
-            }
-        };
-
-        if (restaurant) {
-            fetchReviewsDetails();
-        }
     }, [restaurant, onReviewsData]);
-
-    useEffect(() => {
-        const fetchUserImage = async () => {
-            try {
-                const promises = reviewDetails.map(async (review) => {
-                    const response = await fetch(`${BASE_URL}/user-image?userEmail=${review.userEmail}`);
-                    if (response.status === 200) {
-                        const data = await response.json();
-                        return data.image;
-                    } else {
-                        console.error('Failed to fetch user image');
-                        return null;
-                    }
-                });
-
-                // Wait for all promises to resolve
-                const images = await Promise.all(promises.filter(Boolean));
-                setUserImage(images);
-            } catch (error) {
-                console.error('Error fetching user image:', error);
-            }
-        };
-
-        if (reviewDetails.length > 0) {
-            fetchUserImage();
-        }
-    }, [reviewDetails]);
 
     const Toast = Swal.mixin({
         toast: true,
@@ -167,66 +92,68 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
 
     const handleSubmitReview = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        try {
-            const response = await fetch(`${BASE_URL}/add-review?restaurantId=${restaurant._id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    userEmail: user.email,
-                    fullName,
-                    rating: rate,
-                    comment,
-                    liked: selectedLiked.join(','),
-                    disLiked: selectedDisliked.join(','),
-                    canBeImproved: selectedCanBeImproved.join(','),
-                }),
-            });
+        if (userDetails) {
+            setLoading(true);
+            try {
+                const response = await fetch(`${BASE_URL}/add-review?restaurantId=${restaurant._id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: userDetails._id,
+                        userEmail: user.email,
+                        rating: rate,
+                        comment,
+                        liked: selectedLiked.join(','),
+                        disLiked: selectedDisliked.join(','),
+                        canBeImproved: selectedCanBeImproved.join(','),
+                    }),
+                });
 
-            if (response.status === 201) {
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Thank You!",
-                    text: "Your Review is Valuable to Us.",
-                    confirmButtonColor: "#006edc",
-                    confirmButtonText: "I Appreciate it",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.reload();
-                    }
-                });
-            } else if (response.status === 200) {
-                Toast.fire({
-                    icon: "success",
-                    title: "Your Review Updated Successfully!"
-                });
-                navigate("/history");
-            } else if (response.status === 402) {
-                Swal.fire({
-                    title: "Attributes Missing!",
-                    text: "Some Attributes is not Present",
-                    icon: "question"
-                });
-            } else if (response.status === 404) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Restaurant not Found., Please try Later.",
-                });
-            } else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Failed to Add Review., Please try Later.",
-                });
+                if (response.status === 201) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Thank You!",
+                        text: "Your Review is Valuable to Us.",
+                        confirmButtonColor: "#006edc",
+                        confirmButtonText: "I Appreciate it",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                } else if (response.status === 200) {
+                    Toast.fire({
+                        icon: "success",
+                        title: "Your Review Updated Successfully!"
+                    });
+                    navigate("/history");
+                } else if (response.status === 402) {
+                    Swal.fire({
+                        title: "Attributes Missing!",
+                        text: "Some Attributes is not Present",
+                        icon: "question"
+                    });
+                } else if (response.status === 404) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Restaurant not Found., Please try Later.",
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Failed to Add Review., Please try Later.",
+                    });
+                }
+            } catch (error) {
+                console.error('Error submitting review:', error);
+            } finally {
+                setLoading(false);
             }
-        } catch (error) {
-            console.error('Error submitting review:', error);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -280,8 +207,8 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
         }
     };
 
-    const totalRatings = reviewDetails.length;
-    const totalReviews = reviewDetails.filter(review => review.comment).length;
+    const totalRatings = reviewDetails ? reviewDetails.length : 0;
+    const totalReviews = reviewDetails ? reviewDetails.filter(review => review.comment).length : 0;
     const averageRating = totalRatings > 0
         ? reviewDetails.reduce((sum, review) => sum + review.rating, 0) / totalRatings
         : 0;
@@ -449,18 +376,18 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
                 [...reviewDetails].reverse().slice(0, displayedReviews).map((r, index) => (
                     <div className="reviews-container" key={index}>
                         <div className="profile-logo">
-                            {userImage[userImage.length - 1 - index] && userImage[userImage.length - 1 - index].data ? (
+                            {r.reviewedBy && r.reviewedBy.image ? (
                                 <img
                                     className="reviews-container-profile-image"
-                                    src={`data:${userImage[userImage.length - 1 - index].contentType};base64,${Buffer.from(userImage[userImage.length - 1 - index].data).toString('base64')}`}
-                                    alt={`${userImage[userImage.length - 1 - index].contentType}`}
+                                    src={`data:${r.reviewedBy.image.contentType};base64,${Buffer.from(r.reviewedBy.image.data).toString('base64')}`}
+                                    alt={`${r.reviewedBy.image.contentType}`}
                                 />
                             ) : (
                                 <FaUserCircle className='profile-logo-main' />
                             )}
                         </div>
                         <div className="profile-info">
-                            <h3>{r.fullName}</h3>
+                            <h3>{r.reviewedBy.fullName}</h3>
                             <h4 style={{ color: getStarColor(r.rating) }}>
                                 {r.rating} &#9733;
                             </h4>

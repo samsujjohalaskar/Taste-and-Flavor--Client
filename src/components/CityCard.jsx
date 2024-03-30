@@ -10,7 +10,7 @@ export default function CityCard({ restaurant }) {
     useEffect(() => {
         if (restaurant.reviews && restaurant.reviews.length > 0) {
             const totalRatings = restaurant.reviews.length;
-            const ratingSum = restaurant.reviews.reduce((sum, review) => sum + review._id.rating, 0);
+            const ratingSum = restaurant.reviews.reduce((sum, review) => sum + review.rating, 0);
             const avgRating = ratingSum / totalRatings;
             setAverageRating(avgRating.toFixed(1));
         }
