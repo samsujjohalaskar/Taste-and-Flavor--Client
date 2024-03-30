@@ -121,7 +121,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
       }
     };
 
-    if (user && user.email !== userDetails.userEmail) {
+    if (user && user.email !== (userDetails ? userDetails.userEmail : null)) {
       fetchUserDetails();
     }
   }, [user]);

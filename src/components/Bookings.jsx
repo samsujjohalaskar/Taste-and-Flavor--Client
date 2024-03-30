@@ -149,7 +149,7 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
             }
         };
 
-        if (user && user.email !== userDetails.userEmail) {
+        if (user && user.email !== (userDetails ? userDetails.userEmail : null)) {
             fetchUserDetails();
         }
 

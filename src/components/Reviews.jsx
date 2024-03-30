@@ -58,7 +58,7 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
             }
         };
 
-        if (user && user.email !== userDetails.userEmail) {
+        if (user && user.email !== (userDetails ? userDetails.userEmail : null)) {
             fetchUserDetails();
         }
 
