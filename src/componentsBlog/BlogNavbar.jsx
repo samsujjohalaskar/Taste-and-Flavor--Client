@@ -60,7 +60,7 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
             }
         };
 
-        if (user) {
+        if (user && !userDetails) {
             fetchUserDetails();
         } else {
             setUserDetails("");
@@ -87,7 +87,7 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
             }
         };
 
-        if (postUser && userDetails === null && user) {
+        if (postUser && !userDetails && user) {
             handlePostUser();
         }
 

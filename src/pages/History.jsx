@@ -57,7 +57,7 @@ const History = () => {
             }
         };
 
-        if (user) {
+        if (user && !userDetails) {
             fetchUserDetails();
         }
     }, [user]);
@@ -82,19 +82,17 @@ const History = () => {
             }
         };
 
-        if (postUser && userDetails === null && user) {
+        if (postUser && !userDetails && user) {
             handlePostUser();
         }
 
     }, [user, userDetails, postUser]);
 
     useEffect(() => {
-
         if (userDetails) {
             setReviewDetails(userDetails.reviews);
-            setBookingDetails(userDetails.bookings)
+            setBookingDetails(userDetails.bookings);
         }
-
     }, [user, userDetails]);
 
     const handleFilter = () => {
@@ -235,12 +233,12 @@ const History = () => {
         }
     };
 
-    const handleEditClick = async (restaurantCity, restaurantArea, restaurantName, rating, resId, fullName, comment) => {
+    const handleEditClick = async (restaurantCity, restaurantArea, restaurantName, rating, resId, comment) => {
         const cleanedName = restaurantName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
         const cleanedCity = restaurantCity.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
         const cleanedArea = restaurantArea.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
 
-        const url = `/${cleanedCity}-restaurants/${cleanedArea}/${cleanedName}/${resId}?ratingD=${encodeURIComponent(rating)}&fullNameD=${encodeURIComponent(fullName)}&commentD=${encodeURIComponent(comment)}`;
+        const url = `/${cleanedCity}-restaurants/${cleanedArea}/${cleanedName}/${resId}?ratingD=${encodeURIComponent(rating)}&commentD=${encodeURIComponent(comment)}`;
 
         navigate(url);
     };
@@ -401,7 +399,7 @@ const History = () => {
                                                 <button
                                                     className='history-button'
                                                     title='Edit Response'
-                                                    onClick={() => handleEditClick(rate.restaurant.city, rate.restaurant.area, rate.restaurant.name, rate.rating, rate.restaurant._id, rate.fullName, rate.comment)}
+                                                    onClick={() => handleEditClick(rate.restaurant.city, rate.restaurant.area, rate.restaurant.name, rate.rating, rate.restaurant._id, rate.comment)}
                                                 >
                                                     Edit
                                                 </button>

@@ -9,12 +9,10 @@ import { ImShrink } from "react-icons/im";
 import Loading from './Loading';
 import Swal from 'sweetalert2';
 
-const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBooking }) => {
+const Bookings = ({ user, userDetails, restaurant, handleLogin, showBooking, handleShowBooking }) => {
     const [selectedMeal, setSelectedMeal] = useState('lunch'); // Set 'lunch' as the default meal
     const [availableSlots, setAvailableSlots] = useState([]);
     const [loading, setLoading] = useState(false);
-
-    const [userDetails, setUserDetails] = useState(localStorage.getItem("userDetails") ? JSON.parse(localStorage.getItem("userDetails")) : null);
 
     const navigate = useNavigate();
 
@@ -129,32 +127,6 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
         }
     }, [user, userDetails]);
 
-    useEffect(() => {
-        const fetchUserDetails = async () => {
-            try {
-                const res = await fetch(`${BASE_URL}/user-info?userEmail=${user.email}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    setUserDetails(data);
-                    if (data) {
-                        setGuestName(data.fullName);
-                        setMobileNumber(data.phoneNumber);
-                    }
-                } else {
-                    console.error('Failed to fetch user details');
-                    setUserDetails(null);
-                }
-            } catch (error) {
-                // console.error('Error fetching user details:', error);
-            }
-        };
-
-        if (user && user.email !== (userDetails ? userDetails.userEmail : null)) {
-            fetchUserDetails();
-        }
-
-    }, [user]);
-
     if (date) {
         formattedDate = date.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     }
@@ -208,6 +180,7 @@ const Bookings = ({ user, restaurant, handleLogin, showBooking, handleShowBookin
             try {
                 const bookingData = {
                     userEmail: user.email,
+                    fullName: user.displayName,
                     userId: userDetails._id,
                     restaurantId: restaurant._id,
                     phoneNumber: mobileNumber,

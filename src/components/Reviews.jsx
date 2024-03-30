@@ -9,7 +9,7 @@ import { BASE_URL } from '../utils/services';
 import Loading from './Loading';
 import Swal from 'sweetalert2';
 
-const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD }) => {
+const Reviews = ({ user, userDetails, restaurant, onReviewsData, ratingD, commentD }) => {
 
     const navigate = useNavigate();
     const [reviewDetails, setReviewDetails] = useState([])
@@ -26,8 +26,6 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
     const [showLogin, setShowLogin] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
 
-    const [userDetails, setUserDetails] = useState(localStorage.getItem("userDetails") ? JSON.parse(localStorage.getItem("userDetails")) : null);
-
     const [displayedReviews, setDisplayedReviews] = useState(3);
     const handleSeeMoreClick = () => {
         setDisplayedReviews(displayedReviews + 1);
@@ -41,28 +39,6 @@ const Reviews = ({ user, restaurant, onReviewsData, ratingD, fullNameD, commentD
             setShowRate(true);
         }
     };
-
-    useEffect(() => {
-        const fetchUserDetails = async () => {
-            try {
-                const res = await fetch(`${BASE_URL}/user-info?userEmail=${user.email}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    setUserDetails(data);
-                } else {
-                    console.error('Failed to fetch user details');
-                }
-            } catch (error) {
-                console.error('Error fetching user details:', error);
-                setUserDetails(null);
-            }
-        };
-
-        if (user && user.email !== (userDetails ? userDetails.userEmail : null)) {
-            fetchUserDetails();
-        }
-
-    }, [user]);
 
     useEffect(() => {
         setReviewDetails(restaurant.reviews);

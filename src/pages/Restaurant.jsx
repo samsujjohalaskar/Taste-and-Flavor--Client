@@ -28,8 +28,10 @@ const Restaurant = () => {
     const queryParams = new URLSearchParams(location.search);
 
     const ratingD = queryParams.get('ratingD');
-    const fullNameD = queryParams.get('fullNameD');
     const commentD = queryParams.get('commentD');
+
+    const [postUser, setPostUser] = useState(false);
+    const [userDetails, setUserDetails] = useState("");
 
     useEffect(() => {
         const fetchRestaurantDetails = async () => {
@@ -52,6 +54,56 @@ const Restaurant = () => {
         fetchRestaurantDetails();
     }, [_id, area, city, name]);
 
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+            try {
+                const res = await fetch(`${BASE_URL}/user-info?userEmail=${user.email}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setUserDetails(data);
+                } else {
+                    console.error('Failed to fetch user details');
+                }
+            } catch (error) {
+                console.error('Error fetching user details:', error);
+                setUserDetails(null);
+            } finally {
+                setPostUser(true);
+            }
+        };
+
+        if (user && !userDetails) {
+            fetchUserDetails();
+        }
+
+    }, [user]);
+
+    useEffect(() => {
+        const handlePostUser = async () => {
+            try {
+                const res = await fetch(`${BASE_URL}/add-user`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        fullName: user.displayName,
+                        userEmail: user.email,
+                        creationTime: user.metadata.creationTime,
+                        lastSignInTime: user.metadata.lastSignInTime,
+                    }),
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        if (postUser && !userDetails && user) {
+            handlePostUser();
+        }
+
+    }, [user, userDetails, postUser]);
+
     if (!_id) {
         return <div>No restaurant data available.</div>;
     }
@@ -68,12 +120,13 @@ const Restaurant = () => {
             {!restaurant && <Loading />}
             <div className="resMain">
                 <div className="resMainOne">
-                    <ResDetails user={user} restaurant={restaurant} ratingD={ratingD} fullNameD={fullNameD} commentD={commentD} />
+                    <ResDetails user={user} userDetails={userDetails} restaurant={restaurant} ratingD={ratingD} commentD={commentD} />
                 </div>
                 <div className={`resMainTwo ${showBooking ? "decrease-height" : ""}`}>
                     {restaurant ? (
                         <Bookings
                             user={user}
+                            userDetails={userDetails}
                             restaurant={restaurant}
                             showBooking={showBooking}
                             handleShowBooking={() => (setShowBooking(!showBooking))}
