@@ -137,6 +137,15 @@
     width: 270px !important;
 }
 
+.city-non-restaurant {
+    border-radius: 5px !important;
+    height: 180px;
+    width: 270px !important;
+    background-color: #d9d7d7;
+    cursor: not-allowed;
+    margin: 0px 18px 18px 0px;
+}
+
 .city-card-extras {
     display: flex;
 }

@@ -218,7 +218,7 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
             )}
 
             <div className="blog-navbar-categories">
-                {actualCategories && actualCategories.map((cat, index) => (
+                {actualCategories && actualCategories.length !== 0 ? (actualCategories.map((cat, index) => (
                     <p key={index} title={`See More ${cat} Blogs`} className={cat === currentCategory ? "blog-navbar-category blog-navbar-active-category" : "blog-navbar-category"}
                         onClick={() => {
                             const cleanedCategory = cat.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
@@ -229,7 +229,11 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
                     >
                         {cat}
                     </p>
-                ))}
+                ))) : (
+                    [...Array(6)].map((_, index) => (
+                        <p key={index} className='blog-navbar-non-category'></p>
+                    ))
+                )}
             </div>
 
             {showAddBlog && (

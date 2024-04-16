@@ -29,7 +29,9 @@ const ResDetails = ({ userDetails, restaurant, user, ratingD, commentD }) => {
     };
 
     if (!restaurant) {
-        return <div>Loading...Please Wait</div>;
+        return (
+            <div className='res-non-restaurant'></div>
+        )
     }
 
     const handleReviewsData = (averageRating, totalReviews) => {

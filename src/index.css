@@ -63,7 +63,7 @@ header {
   min-width: 980px;
 }
 
-.navbar-border-bottom a{
+.navbar-border-bottom a {
   color: #FF5757 !important;
 }
 
@@ -290,6 +290,18 @@ header {
   background-color: #f2f2f2;
   transform: scale(1.01);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
+}
+
+.non-restaurant {
+  height: 160px;
+  background-color: #d9d7d7;
+  cursor: not-allowed;
+}
+
+.non-restaurant:hover {
+  background-color: #d9d7d7;
+  transform: none;
+  box-shadow: none;
 }
 
 .restaurantImg img {

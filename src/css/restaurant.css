@@ -22,6 +22,15 @@
     width: 810px;
 }
 
+.res-non-restaurant{
+    background-color: #d9d7d7;
+    cursor: not-allowed;
+    width: 810px;
+    height: 545px;
+    border-radius: 5px;
+    margin-top: 40px;
+}
+
 .resMainImages>div {
     background-color: #f3f3f3 !important;
 }

@@ -51,11 +51,19 @@ export default function Carousel({ city, restaurants }) {
                 <Link to={`/${city}-restaurants`} className="seeAllLink">See All</Link>
             </div>
             <div className="restaurantSlider">
-                <Slider {...settings}>
-                    {restaurants.map((restaurant, index) => (
-                        <Card key={index} restaurant={restaurant} />
-                    ))}
-                </Slider>
+                {restaurants && restaurants.length !== 0 ? (
+                    <Slider {...settings}>
+                        {restaurants.map((restaurant, index) => (
+                            <Card key={index} restaurant={restaurant} />
+                        ))}
+                    </Slider>
+                ) : (
+                    <Slider {...settings}>
+                        {[...Array(slidesToShow)].map((_, index) => (
+                            <div key={index} className='restaurant non-restaurant'></div>
+                        ))}
+                    </Slider>
+                )}
             </div>
         </section>
     );

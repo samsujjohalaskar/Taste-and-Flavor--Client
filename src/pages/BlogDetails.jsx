@@ -58,8 +58,11 @@ const BlogDetails = () => {
     }, [blog, blog.category]);
 
     const categories = localStorage.getItem("categories");
-    const categoriesArray = categories.split(',');
-    const randomCategories = categoriesArray.sort(() => 0.5 - Math.random()).slice(0, 6);
+    let randomCategories = [];
+    if (categories) {
+        const categoriesArray = categories.split(',');
+        randomCategories = categoriesArray.sort(() => 0.5 - Math.random()).slice(0, 6);
+    }
 
     if (blog.category && !randomCategories.includes(blog.category)) {
         randomCategories.push(blog.category);
@@ -81,6 +84,11 @@ const BlogDetails = () => {
                         <p className="blog-featured-no-similar-posts">
                             No Similar Posts Available..
                         </p>
+                    }
+                    {similarBlog.length === 0 &&
+                        [...Array(3)].map((_, index) => (
+                            <div key={index} className="blog-featured-non-sugg-posts"></div>
+                        ))
                     }
                     {shuffledSimilarBlogs
                         .filter(blog => blog.title !== currentTitle)

@@ -534,7 +534,13 @@ const BookTable = () => {
           </div>
           <div className="city-restaurants">
             {showNoRestaurant ? (
-              <h1 className='city-no-restaurant'>No Food Found!</h1>
+              showLoading ? (
+                [...Array(recordsPerPage)].map((_, index) => (
+                  <div key={index} className='city-non-restaurant'></div>
+                ))
+              ) : (
+                <h1 className='city-no-restaurant'>No Food Found!</h1>
+              )
             ) : (
               records.map((restaurant) => (
                 <CityCard key={restaurant._id} restaurant={restaurant} />

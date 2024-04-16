@@ -201,6 +201,12 @@ const BlogBigCard = ({ blog }) => {
         }
     };
 
+    if(blog && blog.length === 0){
+        return (
+            <div className='blog-non-details-post'></div>
+        )
+    }
+
     return (
         <>
             <div className="blog-details-post">

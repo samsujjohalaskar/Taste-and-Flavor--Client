@@ -64,35 +64,6 @@ function Home() {
 
     const cityToLowerCase = selectedCity ? selectedCity.toLowerCase() : '';
 
-    // const restaurantAreaArrays = filteredRestaurants ? filteredRestaurants.map((restaurant) => restaurant.area) : [];
-    // const uniqueArea = [...new Set(restaurantAreaArrays.flat())];
-
-    // const restaurantLocations = filteredRestaurants ? filteredRestaurants.map((restaurant) => restaurant.location) : [];
-
-    // const restaurantCuisineArrays = filteredRestaurants ? filteredRestaurants.map((restaurant) => restaurant.cuisine) : [];
-    // const uniqueCuisines = [...new Set(restaurantCuisineArrays.flat())];
-
-    // const restaurantFeatureArrays = filteredRestaurants ? filteredRestaurants.map((restaurant) => restaurant.types) : [];
-    // const uniqueFeature = [...new Set(restaurantFeatureArrays.flat())];
-
-    // function getRandomElements(arr, count) {
-    //     const shuffled = arr.sort(() => 0.5 - Math.random());
-    //     return shuffled.slice(0, count);
-    // }
-
-    // const actualArea = getRandomElements(uniqueArea, 1);
-    // const actualLocations = getRandomElements(restaurantLocations, 6);
-    // const actualCuisines = getRandomElements(uniqueCuisines, 5);
-    // const actualFeatures = getRandomElements(uniqueFeature, 5);
-
-    // let convertedArea = '';
-
-    // if (Array.isArray(actualArea) && actualArea.length > 0) {
-    //     convertedArea = actualArea[0].toLowerCase().replace(/\s+/g, '-');
-    // } else {
-    //     console.error("Invalid actualArea format");
-    // }
-
     return (
         <>
             <Navbar city={cityToLowerCase} active={"Home"} onSelectCity={setSelectedCity} onCityChangeRedirect={(selectedCity) => { navigate('/'); }} />

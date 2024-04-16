@@ -67,8 +67,11 @@ const CategoryDetails = () => {
     }, [blog]);
 
     const categories = localStorage.getItem("categories");
-    const categoriesArray = categories.split(',');
-    const randomCategories = categoriesArray.sort(() => 0.5 - Math.random()).slice(0, 6);
+    let randomCategories = [];
+    if (categories) {
+        const categoriesArray = categories.split(',');
+        randomCategories = categoriesArray.sort(() => 0.5 - Math.random()).slice(0, 6);
+    }
 
     if (blogCat && !randomCategories.includes(blogCat)) {
         randomCategories.push(blogCat);
@@ -88,16 +91,25 @@ const CategoryDetails = () => {
             <BlogNavbar actualCategories={randomCategories} currentCategory={blogCat} />
             <div className="blog-details-container">
                 <div className="blog-featured-posts">
-                    {randomBlog.map(blog => (
+                    {randomBlog && randomBlog.length !== 0 ? (randomBlog.map(blog => (
                         <CategoryCard key={blog._id} blog={blog} />
-                    ))}
+                    ))):(
+                        [...Array(2)].map((_, index) => (
+                            <div key={index} className="category-non-details-card"></div>
+                        ))
+                    )}
                 </div>
                 <div className="blog-featured-suggestions">
                     <p className="blog-featured-sugg-heading">Top Picks</p>
-                    {topPicksBlogs.length === 0 &&
+                    {topPicksBlogs.length === 0 && !isLoading &&
                         <p className="blog-featured-no-similar-posts">
                             No Posts Available..
                         </p>
+                    }
+                    {topPicksBlogs.length === 0 && isLoading &&
+                        [...Array(3)].map((_, index) => (
+                            <div key={index} className="blog-featured-non-sugg-posts"></div>
+                        ))
                     }
                     {topPicksBlogs.map(blog => (
                         <BlogDetailsSimilarCard key={blog._id} blog={blog} />

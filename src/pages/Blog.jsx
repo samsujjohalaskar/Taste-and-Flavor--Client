@@ -84,9 +84,15 @@ const Blog = () => {
     <>
       <BlogNavbar actualCategories={randomCategories} />
       <div className="blog-container">
-        {records.map((blog) => (
-          <BlogCard key={blog._id} blog={blog} />
-        ))}
+        {records && records.length !== 0 ? (
+          records.map((blog) => (
+            <BlogCard key={blog._id} blog={blog} />
+          ))
+        ) : (
+          [...Array(recordsPerPage)].map((_, index) => (
+            <p key={index} className='blog-non-card-container'></p>
+          ))
+        )}
       </div>
       {records.length < blogs.length ?
         (<div className='blog-pagination-container'>

@@ -41,8 +41,6 @@ const Restaurant = () => {
 
                 if (res.status === 200) {
                     setRestaurant(data.restaurant);
-                } else if (res.status === 403) {
-                    window.alert('Unauthorized Access.');
                 } else {
                     console.error('Failed to fetch restaurant details');
                 }
