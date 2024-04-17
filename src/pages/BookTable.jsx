@@ -509,7 +509,7 @@ const BookTable = () => {
               }
               {' '}Restaurants Near Me in{' '}
               {location ? `${formatString(location)}, ${formatString(area)}` : area ? formatString(area) : capitalizedCity}
-              <span className="city-restaurants-length"> ({records.length}) </span>
+              <span className="city-restaurants-length"> ({filterRestaurants().length}) </span>
             </div>
             <span className='city-sort-by'>Sort by</span>
             <div className="city-restaurants-sort">
