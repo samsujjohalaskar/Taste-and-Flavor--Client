@@ -91,6 +91,12 @@
     padding-top: 7px;
 }
 
+.disabled-slots{
+    opacity: 0.5;
+    cursor: not-allowed;
+    color: #5c5b5b
+}
+
 .chosen>span {
     margin-left: 160px;
     background-color: #2b98f7;

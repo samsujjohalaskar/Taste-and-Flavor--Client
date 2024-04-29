@@ -22,6 +22,7 @@ const Bookings = ({ user, userDetails, restaurant, handleLogin, showBooking, han
     const [guestName, setGuestName] = useState("");
     const [mobileNumber, setMobileNumber] = useState('');
     const [specialRequest, setSpecialRequest] = useState('');
+    const [bookedSlots, setBookedSlots] = useState([]);
 
     const minDate = new Date();
     const maxDate = new Date();
@@ -238,6 +239,30 @@ const Bookings = ({ user, userDetails, restaurant, handleLogin, showBooking, han
         }
     };
 
+    const findBookedSlots = async () => {
+        setLoading(true);
+        try {
+            const actualD = date.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const res = await fetch(`${BASE_URL}/bookedSlots/${restaurant._id}/${actualD}`);
+            if (res.status === 200) {
+                const data = await res.json();
+                setBookedSlots(data);
+            } else {
+                setBookedSlots([]);
+            }
+        } catch (error) {
+            // console.error("Error fetching booked slots:", error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (restaurant._id && date !== null) {
+            findBookedSlots();
+        }
+    }, [date]);
+
     return (
         <>
             <form method='POST' onSubmit={handleBooking}>
@@ -267,9 +292,16 @@ const Bookings = ({ user, userDetails, restaurant, handleLogin, showBooking, han
                         </div>
                         {selectedMeal === 'lunch' && (
                             <div className="booking-lunch">
-                                {lunchSlots.length === 0 ? (<div className='slot-not-available'>not available</div>) : (
+                                {lunchSlots.length === 0 ? (
+                                    <div className='slot-not-available'>not available</div>
+                                ) : (
                                     availableSlots.map((l) => (
-                                        <div className="lunch" onClick={() => setTime(l)} key={l}>
+                                        <div
+                                            className={`lunch ${bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? 'disabled-slots' : ''}`}
+                                            onClick={bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? null : () => setTime(l)}
+                                            title={bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? 'Reserved' : 'Select'}
+                                            key={l}
+                                        >
                                             {l}
                                         </div>
                                     ))
@@ -278,15 +310,23 @@ const Bookings = ({ user, userDetails, restaurant, handleLogin, showBooking, han
                         )}
                         {selectedMeal === 'dinner' && (
                             <div className="booking-dinner">
-                                {dinnerSlots.length === 0 ? (<div className='slot-not-available'>not available</div>) : (
+                                {dinnerSlots.length === 0 ? (
+                                    <div className='slot-not-available'>not available</div>
+                                ) : (
                                     availableSlots.map((l) => (
-                                        <div className="dinner" onClick={() => setTime(l)} key={l}>
+                                        <div
+                                            className={`dinner ${bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? 'disabled-slots' : ''}`}
+                                            onClick={bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? null : () => setTime(l)}
+                                            title={bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? 'Reserved' : 'Select'}
+                                            key={l}
+                                        >
                                             {l}
                                         </div>
                                     ))
                                 )}
                             </div>
                         )}
+
                     </div>
                 ) : (
                     <div className="time-slot">
