@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Buffer } from 'buffer';
 import { auth } from '../firebase';
 import Navbar from '../components/Navbar';
 import "../css/history.css";
-import { CiFilter } from 'react-icons/ci';
-import { RiImageAddLine } from "react-icons/ri";
-import { RxCross2 } from "react-icons/rx";
 import { useCity } from '../CityContext';
 import logo from "../assets/logo.png"
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/services';
 import Loading from '../components/Loading';
-import Swal from 'sweetalert2';
+import Profile from '../componentsHistory/Profile';
+import Bookings from '../componentsHistory/Bookings';
+import Reviews from '../componentsHistory/Reviews';
+import Blogs from '../componentsHistory/Blogs';
+import Likes from '../componentsHistory/Likes';
+import Comments from '../componentsHistory/Comments';
 
 const History = () => {
 
@@ -21,15 +22,13 @@ const History = () => {
     const navigate = useNavigate();
     const { selectedCity, setSelectedCity } = useCity();
 
-    const [bookingDetails, setBookingDetails] = useState([]);
-    const [reviewDetails, setReviewDetails] = useState([])
     const [userDetails, setUserDetails] = useState("");
+    const [bookingStatus, setBookingStatus] = useState("All");
 
-    const [showFilterOptions, setShowFilterOptions] = useState(false);
-    const [showImageInput, setShowImageInput] = useState(false);
     const [showLoading, setShowLoading] = useState(false);
+    const [showSubOptions, setShowSubOptions] = useState(false);
     const [postUser, setPostUser] = useState(false);
-    const [filter, setFilter] = useState('All');
+    const [selectedOption, setSelectedOption] = useState('Profile');
 
     useEffect(() => {
         if (!user) {
@@ -52,8 +51,8 @@ const History = () => {
             } catch (error) {
                 console.error('Error fetching user details:', error);
             } finally {
-                setPostUser(true);
                 setShowLoading(false);
+                setPostUser(true);
             }
         };
 
@@ -89,90 +88,17 @@ const History = () => {
     }, [user, userDetails, postUser]);
 
     useEffect(() => {
-        if (userDetails) {
-            setReviewDetails(userDetails.reviews);
-            setBookingDetails(userDetails.bookings);
+        if (selectedOption !== "Bookings") {
+            setShowSubOptions(false);
+            setBookingStatus("All");
         }
-    }, [user, userDetails]);
+    }, [selectedOption]);
 
-    const handleFilter = () => {
-        setShowFilterOptions(!showFilterOptions);
+    const handleOptionClick = (option) => {
+        setSelectedOption(option);
     };
 
-    const handleFilterOptionClick = (option) => {
-        setFilter(option);
-        setShowFilterOptions(false);
-    };
-
-    const filteredReservations = bookingDetails.filter((booking) => {
-        switch (filter.toLowerCase()) {
-            case 'all':
-                return true;
-            case 'pending':
-                return booking.status === 'Pending';
-            case 'confirmed':
-                return booking.status === 'Confirmed';
-            case 'cancelled':
-                return booking.status === 'Cancelled';
-            case 'unattended':
-                return booking.status === 'Unattended';
-            case 'fulfilled':
-                return booking.status === 'Fulfilled';
-            default:
-                return true;
-        }
-    });
-
-    const handleCancelBooking = async (bookingId) => {
-
-        const result = await Swal.fire({
-            title: "Are you sure?",
-            text: "Do you really want to cancel the reservation?",
-            icon: "warning",
-            iconColor: "#ff7676",
-            showCloseButton: true,
-            confirmButtonColor: "#006edc",
-            confirmButtonText: "Yes, Cancel Reservation"
-        });
-
-        if (result.isConfirmed) {
-            setShowLoading(true);
-            try {
-                const res = await fetch(`${BASE_URL}/bookings/${bookingId}`, {
-                    method: 'DELETE',
-                });
-                if (res.ok) {
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Cancelled.",
-                        text: "Your Reservation Cancelled Successfully.",
-                        showConfirmButton: false,
-                        showCloseButton: true,
-                        timer: 3500
-                    });
-                    setBookingDetails(prevDetails => prevDetails.map(booking => {
-                        if (booking._id === bookingId) {
-                            return { ...booking, status: 'Cancelled' };
-                        }
-                        return booking;
-                    }));
-                } else {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Failed to Cancel Reservation, Please try later.",
-                    });
-                }
-            } catch (error) {
-                console.error('Error cancelling Reservation:', error);
-            } finally {
-                setShowLoading(false);
-            }
-        }
-    };
-
-    const getStatusCircleColor = (status) => {
+    const getBorderColor = (status) => {
         switch (status) {
             case 'Pending':
                 return '#ffcc00'; // Yellow
@@ -189,60 +115,6 @@ const History = () => {
         }
     };
 
-    const handleImageChange = async (e) => {
-        setShowLoading(true);
-        const file = e.target.files[0];
-
-        // Create a FormData object to send the file
-        const formData = new FormData();
-        formData.append('image', file);
-
-        try {
-            const res = await fetch(`${BASE_URL}/upload-image?userEmail=${user.email}`, {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (res.ok) {
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Image uploaded successfully",
-                    confirmButtonColor: "#006edc",
-                    confirmButtonText: "OK",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.reload();
-                    }
-                });
-            } else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Failed to upload image, Please try again.",
-                });
-            }
-        } catch (error) {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: `Error: ${error}`,
-            });
-        } finally {
-            setShowLoading(false);
-        }
-    };
-
-    const handleEditClick = async (restaurantCity, restaurantArea, restaurantName, rating, resId, comment) => {
-        const cleanedName = restaurantName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
-        const cleanedCity = restaurantCity.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
-        const cleanedArea = restaurantArea.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
-
-        const url = `/${cleanedCity}-restaurants/${cleanedArea}/${cleanedName}/${resId}?ratingD=${encodeURIComponent(rating)}&commentD=${encodeURIComponent(comment)}`;
-
-        navigate(url);
-    };
-
     return (
         <>
             <Navbar city={selectedCity.toLowerCase()}
@@ -252,165 +124,61 @@ const History = () => {
                     navigate(`/${selectedCity.toLowerCase()}`);
                 }}
             />
-            {showLoading && <Loading />}
-            <div className="profile-container">
-                <div className="profile-main-cont">
-                    {user ? (
-                        <>
-                            <div className="profile-image">
-                                {userDetails && userDetails.image && userDetails.image !== undefined ? (
-                                    <img className="profile-image"
-                                        src={`data:${userDetails.image.contentType};base64,${Buffer.from(userDetails.image.data).toString('base64')}`}
-                                        alt={`${userDetails.fullName}`}
-                                    />
-                                ) : (
-                                    <RiImageAddLine className="profile-image-icon" onClick={() => setShowImageInput(true)} title='Add Photo' />
-                                )
-                                }
+            {/* {showLoading && <Loading />} */}
+            <div className="history-dashboard">
+                <div className='history-dashboard-heading'>Dashboard</div>
+                <div className="history-dashboard-container">
+                    <div className="history-dashboard-options">
+                        <div className={`${selectedOption === 'Profile' ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => handleOptionClick('Profile')}>My Profile</div>
+                        <div className={`${selectedOption === 'Bookings' && bookingStatus === "All" ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => { handleOptionClick('Bookings'); setShowSubOptions(true); setBookingStatus("All") }}>Bookings </div>
+                        {showSubOptions && (
+                            <div className="history-dashboard-suboptions-container">
+                                <div className="history-dashboard-suboptions-pending" onClick={() => setBookingStatus("Pending")} style={{ borderLeft: bookingStatus === "Pending" ? `3px solid ${getBorderColor("Pending")}` : "", }}>Pending</div>
+                                <div className="history-dashboard-suboptions-confirmed" onClick={() => setBookingStatus("Confirmed")} style={{ borderLeft: bookingStatus === "Confirmed" ? `3px solid ${getBorderColor("Confirmed")}` : "", }}>Confirmed</div>
+                                <div className="history-dashboard-suboptions-cancelled" onClick={() => setBookingStatus("Cancelled")} style={{ borderLeft: bookingStatus === "Cancelled" ? `3px solid ${getBorderColor("Cancelled")}` : "", }}>Cancelled</div>
+                                <div className="history-dashboard-suboptions-fulfilled" onClick={() => setBookingStatus("Fulfilled")} style={{ borderLeft: bookingStatus === "Fulfilled" ? `3px solid ${getBorderColor("Fulfilled")}` : "", }}>Fulfilled</div>
+                                <div className="history-dashboard-suboptions-unattended" onClick={() => setBookingStatus("Unattended")} style={{ borderLeft: bookingStatus === "Unattended" ? `3px solid ${getBorderColor("Unattended")}` : "", }}>Unattended</div>
                             </div>
-                            {showImageInput && (
-                                <div className='overlay'>
-                                    <div className="profile-image-input">
-                                        <div>
-                                            <label>Upload Profile Image:</label><br /><br />
-                                            <input type="file" name="images" accept="image/*" onChange={handleImageChange} />
-                                        </div>
-                                        <RxCross2 className="profile-image-cross" onClick={() => setShowImageInput(false)} />
-                                    </div>
-                                </div>
-                            )}
-                            <div className="profile-information">
-                                <div>Username/Email: {user.email}</div>
-                                <div>Profile Name: {user.displayName || userDetails.fullName}</div>
-                                {userDetails && userDetails.phoneNumber && (
-                                    <div>Contact Number: {userDetails.phoneNumber}</div>
-                                )}
+                        )}
+                        <div className={`${selectedOption === 'Reviews' ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => handleOptionClick('Reviews')}>Reviews</div>
+                        <div className={`${selectedOption === 'Blogs' ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => handleOptionClick('Blogs')}>Blogs</div>
+                        <div className={`${selectedOption === 'Likes' ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => handleOptionClick('Likes')}>Likes</div>
+                        <div className={`${selectedOption === 'Comments' ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => handleOptionClick('Comments')}>Comments</div>
+                    </div>
+                    <div className="history-dashboard-content">
+                        {selectedOption === 'Profile' &&
+                            <div>
+                                <Profile userDetails={userDetails} />
                             </div>
-                        </>
-                    ) : ""}
+                        }
+                        {selectedOption === 'Bookings' &&
+                            <div>
+                                <Bookings bookings={userDetails ? (bookingStatus === "All" ? userDetails.bookings : userDetails.bookings.filter(booking => booking.status === bookingStatus)) : []} bookingStatus={bookingStatus} />
+                            </div>
+                        }
+                        {selectedOption === 'Reviews' &&
+                            <div>
+                                <Reviews reviews={userDetails ? userDetails.reviews : ""} />
+                            </div>
+                        }
+                        {selectedOption === 'Blogs' &&
+                            <div>
+                                <Blogs blogs={userDetails ? userDetails.blogs : ""} />
+                            </div>
+                        }
+                        {selectedOption === 'Likes' &&
+                            <div>
+                                <Likes likes={userDetails ? userDetails.likes : ""} userName={userDetails && userDetails.fullName} />
+                            </div>
+                        }
+                        {selectedOption === 'Comments' &&
+                            <div>
+                                <Comments comments={userDetails ? userDetails.comments : ""} userName={userDetails && userDetails.fullName} />
+                            </div>
+                        }
+                    </div>
                 </div>
-                <div className='history-container profile-container-bb'>
-                    <span className='history-filter' title='Filter' onClick={handleFilter} ><CiFilter /></span>
-                    {showFilterOptions && (
-                        <div className="filterOptions historyFilterOptions" onClick={(e) => handleFilterOptionClick(e.target.innerText)}>
-                            <div>All</div>
-                            <div>Pending</div>
-                            <div>Confirmed</div>
-                            <div>Cancelled</div>
-                            <div>Unattended</div>
-                            <div>Fulfilled</div>
-                        </div>
-                    )}
-                    <h1>Booking History</h1>
-                    {filteredReservations.length === 0 ? (
-                        <p className='history-not-found'>No {filter === "All" ? " " : filter} Reservations Found.</p>
-                    ) : (
-                        <div className='history-list'>
-                            {[...filteredReservations].reverse().map((booking) => (
-                                <div key={booking._id} className='history-items'>
-                                    <div className='history-item' title={`Reservation ${booking.status}`}>
-                                        <span
-                                            style={{
-                                                backgroundColor: getStatusCircleColor(booking.status),
-                                            }}
-                                        />
-                                        <div>
-                                            <strong>Status:</strong> {booking.status}
-                                        </div>
-                                        <div>
-                                            <strong>Reserved on:</strong> {booking.bookingDate}
-                                        </div>
-                                        <div>
-                                            <strong>Time of Arrival:</strong> {booking.entryTime}
-                                        </div>
-                                        <div title={`${booking.restaurant.name}`}>
-                                            <strong>Restaurant:</strong> {booking.restaurant.name.slice(0, 15)}
-                                        </div>
-                                        <div>
-                                            <strong>Party Size:</strong> {booking.numberOfPeople}
-                                        </div>
-                                        <div title={`${booking.specialRequest}`}>
-                                            <strong>Special Requests:</strong> {booking.specialRequest ? booking.specialRequest.slice(0, 10) : 'N/A'}
-                                        </div>
-                                        <div>
-                                            <strong>Booked At:</strong> {new Date(booking.createdAt).toLocaleDateString('en-US', {
-                                                month: 'short',
-                                                day: 'numeric',
-                                                year: 'numeric',
-                                            })}
-                                        </div>
-                                    </div>
-                                    {booking.status === 'Pending' || booking.status === 'Confirmed' ? (
-                                        <button className='history-button' type='button' onClick={() => handleCancelBooking(booking._id)} title='Cancel Reservation'>Cancel</button>
-                                    ) : (
-                                        <button className='history-button' type='button' disabled >Cancel</button>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-                <div className='history-container'>
-                    <h1>My Reviews</h1>
-                    {reviewDetails.length === 0 ? (
-                        <p className='history-not-found'>No Reviews Found.</p>
-                    ) : (
-                        <div className='history-list'>
-                            {
-                                [...reviewDetails].reverse().map((rate, index) => (
-                                    <div className='history-items' key={index}>
-                                        <div className='history-item'>
-                                            <span>{reviewDetails.length - index}.</span>
-                                            <div>
-                                                <strong>Restaurant Name:</strong> {rate.restaurant.name}
-                                            </div>
-                                            <div>
-                                                <strong>Rated:</strong> {rate.rating}
-                                            </div>
-                                            <div>
-                                                {rate.liked ? (
-                                                    <strong>Liked:</strong>
-                                                ) : rate.disLiked ? (
-                                                    <strong>Disliked:</strong>
-                                                ) : rate.canBeImproved ? (
-                                                    <strong>Suggested for Betterment :</strong>
-                                                ) : (
-                                                    ""
-                                                )}
-                                                {rate.liked || rate.disLiked || rate.canBeImproved ? ` ${rate.liked || rate.disLiked || rate.canBeImproved}` : ""}
-                                            </div>
-
-                                            <div title={`${rate.comment}`}>
-                                                <strong>Reviews:</strong> {rate.comment ? rate.comment.slice(0, 30) : 'N/A'}
-                                            </div>
-                                            <div>
-                                                <strong>Posted on:</strong> {new Date(rate.createdAt).toLocaleDateString('en-US', {
-                                                    month: 'short',
-                                                    day: 'numeric',
-                                                    year: 'numeric',
-                                                })}
-                                            </div>
-                                        </div>
-                                        {rate.restaurant.city &&
-                                            rate.restaurant.area &&
-                                            rate.restaurant.name &&
-                                            rate.restaurant &&
-                                            (
-                                                <button
-                                                    className='history-button'
-                                                    title='Edit Response'
-                                                    onClick={() => handleEditClick(rate.restaurant.city, rate.restaurant.area, rate.restaurant.name, rate.rating, rate.restaurant._id, rate.comment)}
-                                                >
-                                                    Edit
-                                                </button>
-                                            )
-                                        }
-                                    </div>
-                                ))}
-                        </div>
-                    )}
-                </div>
-            </div >
+            </div>
             <div className="footerBottom flex">
                 <div className="mainColor flex-item logo">
                     <img src={logo} alt="" />
