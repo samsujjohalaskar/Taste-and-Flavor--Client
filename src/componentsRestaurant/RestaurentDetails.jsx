@@ -365,10 +365,10 @@ const RestaurentDetails = () => {
                                         }}
                                     />
                                     <div title={`${booking.fullName}`}>
-                                        <strong>Customer:</strong> {booking.fullName.slice(0, 15)}
+                                        <strong>Customer:</strong> {booking && booking.fullName && booking.fullName.slice(0, 15)}
                                     </div>
                                     <div title={`${booking.userEmail},${booking.phoneNumber}`}>
-                                        <strong>Contact:</strong> {booking.userEmail.slice(0, 15)}, {booking.phoneNumber}
+                                        <strong>Contact:</strong> {booking && booking.userEmail && booking.userEmail.slice(0, 15)}, {booking.phoneNumber}
                                     </div>
                                     <div>
                                         <strong>Reserved for:</strong> {booking.entryTime},{booking.bookingDate}
@@ -377,7 +377,7 @@ const RestaurentDetails = () => {
                                         <strong>Party Size:</strong> {booking.numberOfPeople}
                                     </div>
                                     <div title={`${booking.specialRequest}`}>
-                                        <strong>Special Requests:</strong> {booking.specialRequest ? booking.specialRequest.slice(0, 10) : 'N/A'}
+                                        <strong>Special Requests:</strong> {booking && booking.specialRequest ? booking.specialRequest.slice(0, 10) : 'N/A'}
                                     </div>
                                     <div>
                                         <strong>Booked At:</strong> {new Date(booking.createdAt).toLocaleDateString('en-US', {
