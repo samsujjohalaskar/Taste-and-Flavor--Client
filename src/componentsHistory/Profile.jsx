@@ -8,6 +8,7 @@ import { auth } from '../firebase';
 import { Buffer } from 'buffer';
 import { IoMdLogOut } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../components/Loading';
 
 const Profile = ({ userDetails }) => {
     const [showImageInput, setShowImageInput] = useState(false);
@@ -123,6 +124,7 @@ const Profile = ({ userDetails }) => {
     return (
         <>
             <p>My Profile</p>
+            {showLoading && <Loading />}
             <div className='history-profile-container'>
                 {user ? (
                     <div className='history-profile-image-plus-info'>

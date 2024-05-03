@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PiArrowCircleUpRight } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
+import { wordCount, calculateReach, getBorderColor } from '../someBlogsFunctions';
 
 const Comments = ({ comments, userName }) => {
     const [sortedComments, setSortedComments] = useState([]);
@@ -18,41 +19,13 @@ const Comments = ({ comments, userName }) => {
         navigate(url);
     }
 
-    function wordCount(str) {
-        str = str.trim();
-        if (str === "") {
-            return 0;
-        }
-        return str.split(/\s+/).length;
-    }
-
-    function calculateReach(postDate, likesCount, commentsCount, totalWordCount) {
-        // Convert postDate string to Date object
-        const postDateTime = new Date(postDate);
-
-        // Calculate days since posting
-        const currentDate = new Date();
-        const daysSincePosting = Math.ceil((currentDate - postDateTime) / (1000 * 60 * 60 * 24));
-
-        // Calculate engagement score
-        const engagementScore = likesCount + commentsCount;
-
-        // Calculate reach score
-        const reachScore = engagementScore / totalWordCount;
-
-        // Calculate reach percentage
-        const reachPercentage = reachScore * (1 - Math.pow(Math.E, -daysSincePosting / 7)) * 100;
-
-        return reachPercentage.toFixed(2) * 100; // Round to 2 decimal places
-    }
-
     if (comments && comments.length > 0) {
         return (
             <>
                 <p>My Comments ({comments.length})</p>
                 {sortedComments.reverse().map((comment, index) => (
                     <div key={index} className='history-bookings-container'>
-                        <div className="history-bookings-details">
+                        <div className="history-bookings-details" style={{ borderLeft: `3px solid ${getBorderColor(calculateReach(comment.blog.date, comment.blog.likes.length, comment.blog.comments.length, wordCount(comment.blog.content)))}` }}>
                             <div title={`${comment.comment}`}>
                                 <p className="history-information-heading">Comment</p>
                                 <p className="history-bookings-subheading">{comment && comment.comment && comment.comment && comment.comment.length > 20 ? comment.comment.slice(0, 17) + "..." : comment.comment}</p>

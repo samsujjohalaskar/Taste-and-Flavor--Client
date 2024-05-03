@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { MdOutlineCancel } from "react-icons/md";
+import { BiSolidPlaneTakeOff } from "react-icons/bi";
 import Swal from 'sweetalert2';
 import { BASE_URL } from '../utils/services';
+import Loading from '../components/Loading';
+import { useNavigate } from 'react-router-dom';
 
 const Bookings = ({ bookings, bookingStatus }) => {
     const [sortedBookings, setSortedBookings] = useState([]);
     const [showLoading, setShowLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const sorted = [...bookings].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
@@ -78,11 +82,20 @@ const Bookings = ({ bookings, bookingStatus }) => {
         }
     };
 
+    const handleReplan = (name, city, area, id) => {
+        const cleanedName = name.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
+        const cleanedCity = city.replace(/[^a-zA-Z]/g, '-').toLowerCase();
+        const cleanedArea = area.replace(/[^a-zA-Z]/g, '-').toLowerCase();
+        const url = `/${cleanedCity}-restaurants/${cleanedArea}/${cleanedName}/${id}`;
+
+        navigate(url);
+    }
+
     if (bookings && bookings.length > 0) {
         return (
             <>
                 <p>{bookingStatus} Bookings ({bookings.length})</p>
-                {/* {showLoading && <Loading />} */}
+                {showLoading && <Loading />}
                 {sortedBookings.reverse().map((booking, index) => (
                     <div key={index} className='history-bookings-container'>
                         <div className="history-bookings-details" style={{ borderLeft: `3px solid ${getBorderColor(booking.status)}` }}>
@@ -123,9 +136,9 @@ const Bookings = ({ bookings, bookingStatus }) => {
                                 <MdOutlineCancel className='history-profile-logout-icon' />
                             </div>
                         ) : (
-                            <div className="history-profile-logout-button-disabled">
-                                <p className="history-information-heading">Cancel </p>
-                                <MdOutlineCancel className='history-profile-logout-icon' />
+                            <div className="history-profile-logout-button" onClick={() => handleReplan(booking.restaurant.name, booking.restaurant.city, booking.restaurant.area, booking.restaurant._id)} title='Revisit Restaurant'>
+                                <p className="history-information-heading">Replan </p>
+                                <BiSolidPlaneTakeOff className='history-profile-logout-icon' />
                             </div>
                         )}
 

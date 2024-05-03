@@ -124,7 +124,7 @@ const History = () => {
                     navigate(`/${selectedCity.toLowerCase()}`);
                 }}
             />
-            {/* {showLoading && <Loading />} */}
+            {showLoading && <Loading />}
             <div className="history-dashboard">
                 <div className='history-dashboard-heading'>Dashboard</div>
                 <div className="history-dashboard-container">
