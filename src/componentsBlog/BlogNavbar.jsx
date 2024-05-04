@@ -163,22 +163,7 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
     const handleLoginButtonClick = () => {
         setShowUserDetails(false);
         if (user) {
-            Swal.fire({
-                title: "Are you sure?",
-                icon: "warning",
-                iconColor: "#ff7676",
-                showCancelButton: true,
-                confirmButtonColor: "#006edc",
-                confirmButtonText: "Yes, Logout!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    auth.signOut();
-                    Toast.fire({
-                        icon: "success",
-                        title: "Logged out Successfully!"
-                    });
-                }
-            });
+            navigate('/history');
         } else {
             setShowLogin(true);
         }
@@ -213,7 +198,7 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
 
             {showUserDetails && (
                 <div className="blog-show-user-details">
-                    <div className="blog-user-state" onClick={handleLoginButtonClick}>{user ? "Logout" : "Signin"}</div>
+                    <div className="blog-user-state" onClick={handleLoginButtonClick}>{user ? "Dashboard" : "Signin"}</div>
                 </div>
             )}
 
