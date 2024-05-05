@@ -12,7 +12,7 @@ import Loading from '../components/Loading';
 import { IoMdClose } from 'react-icons/io';
 import CommentCard from './CommentCard';
 
-const BlogBigCard = ({ blog }) => {
+const BlogBigCard = ({ blog, onCommentPosted }) => {
 
     const [user] = useAuthState(auth);
     const [userDetails, setUserDetails] = useState("")
@@ -23,9 +23,12 @@ const BlogBigCard = ({ blog }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [showComments, setShowComments] = useState(false);
     const [comment, setComment] = useState('');
+    const [likesCount, setLikesCount] = useState((blog && blog.likes) ? blog.likes.length : 0);
+    const [commentsCount, setCommentsCount] = useState((blog && blog.comments) ? blog.comments.length : 0);
 
     useEffect(() => {
         const fetchUserDetails = async () => {
+            setIsLoading(true);
             try {
                 const res = await fetch(`${BASE_URL}/user-info?userEmail=${user.email}`);
                 if (res.ok) {
@@ -37,6 +40,8 @@ const BlogBigCard = ({ blog }) => {
                 }
             } catch (error) {
                 console.error('Error fetching user details:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -49,11 +54,17 @@ const BlogBigCard = ({ blog }) => {
         if (!user) {
             setShowLogin(true);
         } else {
-            setIsLoading(true);
             setClicked(true);
-            setShowLike(!showLike);
+            setShowLike(prevState => !prevState);
         }
     };
+
+    useEffect(() => {
+        if (blog.likes && blog.comments) {
+            setLikesCount(blog.likes.length);
+            setCommentsCount(blog.comments.length);
+        }
+    }, [blog]);
 
     useEffect(() => {
         if (user && blog && blog._id && userDetails && userDetails.likes && userDetails.likes.some(like => blog.likes.includes(like._id))) {
@@ -65,6 +76,7 @@ const BlogBigCard = ({ blog }) => {
 
     useEffect(() => {
         const postLike = async () => {
+            setIsLoading(true);
             try {
                 const response = await fetch(`${BASE_URL}/like-blog`, {
                     method: 'POST',
@@ -78,16 +90,20 @@ const BlogBigCard = ({ blog }) => {
                     }),
                 });
                 if (response.ok) {
-                    window.location.reload();
+                    setShowLike(true);
+                    setLikesCount(prevCount => prevCount + 1);
                 } else {
                     console.error('Failed to like blog:', response.statusText);
                 }
             } catch (error) {
                 console.error('Error liking blog:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
         const postUnlike = async () => {
+            setIsLoading(true);
             try {
                 const response = await fetch(`${BASE_URL}/unlike-blog`, {
                     method: 'POST',
@@ -100,12 +116,15 @@ const BlogBigCard = ({ blog }) => {
                     }),
                 });
                 if (response.ok) {
-                    window.location.reload();
+                    setShowLike(false);
+                    setLikesCount(prevCount => prevCount - 1);
                 } else {
                     console.error('Failed to unlike blog:', response.statusText);
                 }
             } catch (error) {
                 console.error('Error unliking blog:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -116,7 +135,7 @@ const BlogBigCard = ({ blog }) => {
                 postUnlike();
             }
         }
-    }, [clicked]);
+    }, [clicked, showLike]);
 
     const handleCommentChange = (e) => {
         setComment(e.target.value);
@@ -140,7 +159,9 @@ const BlogBigCard = ({ blog }) => {
                 });
 
                 if (response.status === 200) {
+                    const newComment = await response.json();
                     setComment('');
+                    onCommentPosted(newComment);
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -148,13 +169,11 @@ const BlogBigCard = ({ blog }) => {
                         text: "Your Comment Updated Successfully.",
                         confirmButtonColor: "#006edc",
                         confirmButtonText: "OK",
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.reload();
-                        }
-                    });
+                    })
                 } else if (response.status === 201) {
+                    const newComment = await response.json();
                     setComment('');
+                    onCommentPosted(newComment);
                     Swal.fire({
                         position: "center",
                         icon: "success",
@@ -162,11 +181,7 @@ const BlogBigCard = ({ blog }) => {
                         text: "Your Comment Posted Successfully.",
                         confirmButtonColor: "#006edc",
                         confirmButtonText: "OK",
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.reload();
-                        }
-                    });
+                    })
                 }
                 else {
                     console.error('Failed to post comment:', response.statusText);
@@ -201,7 +216,7 @@ const BlogBigCard = ({ blog }) => {
         }
     };
 
-    if(blog && blog.length === 0){
+    if (blog && blog.length === 0) {
         return (
             <div className='blog-non-details-post'></div>
         )
@@ -219,13 +234,13 @@ const BlogBigCard = ({ blog }) => {
                                 <FaHeart onClick={handleLike} title="Unlike" className="blog-details-liked" />
                             )
                             }
-                            <span className="blog-details-like-count"> {(blog && blog.likes) ? blog.likes.length : "0"}</span>
+                            <span className="blog-details-like-count"> {likesCount}</span>
                         </div>
                         <div className="blog-details-comment-div">
                             <ScrollLink to="comment-section" className="blog-details-comment" smooth={true} duration={500}>
                                 <FaRegComment title="Comments" />
                             </ScrollLink>
-                            <span className="blog-details-comment-count"> {(blog && blog.comments) ? blog.comments.length : "0"}</span>
+                            <span className="blog-details-comment-count"> {commentsCount}</span>
                         </div>
                     </div>
                     {(blog && blog.image && blog.image.data) && (
@@ -254,7 +269,7 @@ const BlogBigCard = ({ blog }) => {
             </div>
             <Element name="comment-section" className="blog-details-post blog-details-comments">
                 <span className="blog-details-count-container">
-                    <span className="blog-details-comments-counts" onClick={() => setShowComments(!showComments)}>{(blog && blog.comments) ? blog.comments.length : "0"}</span>
+                    <span className="blog-details-comments-counts" onClick={() => setShowComments(!showComments)}>{commentsCount}</span>
                 </span>
                 <span className="blog-details-comments-replies">replies</span>
                 <span className="blog-details-comments-border"></span>
@@ -298,7 +313,7 @@ const BlogBigCard = ({ blog }) => {
                                 <button className="blog-comment-model-input-button" type="submit">Respond</button>
                             </form>
                         )}
-                        <p className="blog-comments-all-count">Responces ({(blog && blog.comments) ? blog.comments.length : "0"})</p>
+                        <p className="blog-comments-all-count">Responces ({commentsCount})</p>
                         {blog && blog.comments
                             .sort((a, b) => new Date(b.date) - new Date(a.date))
                             .map(comment => (

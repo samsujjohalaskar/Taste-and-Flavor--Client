@@ -71,12 +71,38 @@ const BlogDetails = () => {
     const shuffledSimilarBlogs = similarBlog.sort(() => Math.random() - 0.5).slice(0, 10);
     const currentTitle = (blog && blog.title) ? blog.title : "";
 
+    const handleCommentPosted = (newComment) => {
+        // Check if the comment already exists in the comments list
+        const existingCommentIndex = blog.comments.findIndex(comment => comment._id === newComment.comment._id);
+        
+        if (existingCommentIndex !== -1) {
+            setBlog(prevBlog => ({
+                ...prevBlog,
+                comments: prevBlog.comments.map((comment, index) => {
+                    if (index === existingCommentIndex) {
+                        // Update only the 'comment' field
+                        return { ...comment, comment: newComment.comment.comment };
+                    }
+                    return comment;
+                }),
+            }));
+        } else {
+            const commentData = newComment.comment ? newComment.comment : newComment;
+
+            // Update blog state to include new comment
+            setBlog(prevBlog => ({
+                ...prevBlog,
+                comments: [...prevBlog.comments, commentData],
+            }));
+        }
+    };
+
     return (
         <>
             <BlogNavbar actualCategories={randomCategories} currentCategory={blog.category} />
             <div className="blog-details-container">
                 <div className="blog-featured-posts">
-                    <BlogBigCard blog={blog} />
+                    <BlogBigCard blog={blog} onCommentPosted={handleCommentPosted} />
                 </div>
                 <div className="blog-featured-suggestions">
                     <p className="blog-featured-sugg-heading">Similar Blog Discoveries</p>
