@@ -31,8 +31,8 @@ function Home() {
     }, [city, setSelectedCity, selectedCity]);
 
     useEffect(() => {
-        setShowLoading(true);
         const fetchRestaurants = async () => {
+            setShowLoading(true);
             try {
                 const response = await fetch(`${BASE_URL}/restaurants-slider?city=${selectedCity}`);
                 const data = await response.json();

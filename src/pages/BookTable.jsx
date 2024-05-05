@@ -110,8 +110,8 @@ const BookTable = () => {
   }
 
   useEffect(() => {
-    setShowLoading(true);
     const fetchRestaurants = async () => {
+      setShowLoading(true);
       try {
         const response = await fetch(
           types
