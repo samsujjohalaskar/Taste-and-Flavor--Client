@@ -225,6 +225,18 @@
     align-items: center;
 }
 
+.history-every-header-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.history-every-header-refresh {
+    margin: 0 20px 5px 0;
+    font-size: 30px !important;
+    cursor: pointer;
+    color: gray;
+}
+
 /* Mobile Responsiveness */
 
 @media screen and (min-width: 320px) and (max-width: 425px) {

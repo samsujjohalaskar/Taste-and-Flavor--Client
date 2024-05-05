@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { PiArrowCircleUpRight } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 import { wordCount, calculateReach, getBorderColor } from '../someBlogsFunctions';
+import { IoMdRefresh } from 'react-icons/io';
 
-const Comments = ({ comments, userName }) => {
+const Comments = ({ comments, userName, onFetchUser }) => {
     const [sortedComments, setSortedComments] = useState([]);
     const navigate = useNavigate();
 
@@ -22,7 +23,10 @@ const Comments = ({ comments, userName }) => {
     if (comments && comments.length > 0) {
         return (
             <>
-                <p>My Comments ({comments.length})</p>
+                <div className='history-every-header-div'>
+                    <p>My Comments ({comments.length})</p>
+                    <p className='history-every-header-refresh' onClick={onFetchUser} title='Refresh'><IoMdRefresh /></p>
+                </div>
                 {sortedComments.reverse().map((comment, index) => (
                     <div key={index} className='history-bookings-container'>
                         <div className="history-bookings-details" style={{ borderLeft: `3px solid ${getBorderColor(calculateReach(comment.blog.date, comment.blog.likes.length, comment.blog.comments.length, wordCount(comment.blog.content)))}` }}>

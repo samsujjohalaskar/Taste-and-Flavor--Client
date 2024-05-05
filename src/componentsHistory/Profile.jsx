@@ -6,11 +6,11 @@ import Swal from 'sweetalert2';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import { Buffer } from 'buffer';
-import { IoMdLogOut } from 'react-icons/io';
+import { IoMdLogOut, IoMdRefresh } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 
-const Profile = ({ userDetails }) => {
+const Profile = ({ userDetails, onFetchUser }) => {
     const [showImageInput, setShowImageInput] = useState(false);
     const [showLoading, setShowLoading] = useState(false);
     const [user] = useAuthState(auth);
@@ -66,7 +66,8 @@ const Profile = ({ userDetails }) => {
                     confirmButtonText: "OK",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.reload();
+                        setShowImageInput(false);
+                        onFetchUser();
                     }
                 });
             } else {
@@ -120,10 +121,16 @@ const Profile = ({ userDetails }) => {
         }
     };
 
+    const handleRefreshUser = () => {
+        onFetchUser();
+    };
 
     return (
         <>
-            <p>My Profile</p>
+            <div className='history-every-header-div'>
+                <p>My Profile</p>
+                <p className='history-every-header-refresh' onClick={handleRefreshUser} title='Refresh'><IoMdRefresh /></p>
+            </div>
             {showLoading && <Loading />}
             <div className='history-profile-container'>
                 {user ? (

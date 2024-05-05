@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
+import { IoMdRefresh } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 
-const Reviews = ({ reviews }) => {
+const Reviews = ({ reviews, onFetchUser }) => {
     const [sortedBookings, setSortedBookings] = useState([]);
     const navigate = useNavigate();
 
@@ -41,7 +42,10 @@ const Reviews = ({ reviews }) => {
     if (reviews && reviews.length > 0) {
         return (
             <>
-                <p>All Reviews ({reviews.length})</p>
+                <div className='history-every-header-div'>
+                    <p>All Reviews ({reviews.length})</p>
+                    <p className='history-every-header-refresh' onClick={onFetchUser} title='Refresh'><IoMdRefresh /></p>
+                </div>
                 {sortedBookings.reverse().map((review, index) => (
                     <div key={index} className='history-bookings-container'>
                         <div className="history-bookings-details" style={{ borderLeft: `3px solid ${getBorderColor(review.rating)}` }}>

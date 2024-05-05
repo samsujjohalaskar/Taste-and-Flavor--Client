@@ -135,7 +135,7 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
                     confirmButtonText: "OK",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.reload();
+                        navigate("/history");
                     }
                 });
             } else {

@@ -5,8 +5,9 @@ import Swal from 'sweetalert2';
 import { BASE_URL } from '../utils/services';
 import Loading from '../components/Loading';
 import { useNavigate } from 'react-router-dom';
+import { IoMdRefresh } from 'react-icons/io';
 
-const Bookings = ({ bookings, bookingStatus }) => {
+const Bookings = ({ bookings, bookingStatus, onFetchUser }) => {
     const [sortedBookings, setSortedBookings] = useState([]);
     const [showLoading, setShowLoading] = useState(false);
     const navigate = useNavigate();
@@ -94,7 +95,10 @@ const Bookings = ({ bookings, bookingStatus }) => {
     if (bookings && bookings.length > 0) {
         return (
             <>
-                <p>{bookingStatus} Bookings ({bookings.length})</p>
+                <div className='history-every-header-div'>
+                    <p>{bookingStatus} Bookings ({bookings.length})</p>
+                    <p className='history-every-header-refresh' onClick={onFetchUser} title='Refresh'><IoMdRefresh /></p>
+                </div>
                 {showLoading && <Loading />}
                 {sortedBookings.reverse().map((booking, index) => (
                     <div key={index} className='history-bookings-container'>

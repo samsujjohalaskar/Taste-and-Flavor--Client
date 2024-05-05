@@ -94,10 +94,10 @@ const Reviews = ({ user, userDetails, restaurant, onReviewsData, ratingD, commen
                         title: "Thank You!",
                         text: "Your Review is Valuable to Us.",
                         confirmButtonColor: "#006edc",
-                        confirmButtonText: "I Appreciate it",
+                        confirmButtonText: "Ok",
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.reload();
+                            navigate("/history");
                         }
                     });
                 } else if (response.status === 200) {
@@ -331,7 +331,7 @@ const Reviews = ({ user, userDetails, restaurant, onReviewsData, ratingD, commen
                                 {/* <input type="text" id="fullName" placeholder="Tell us your name (required)" value={fullName} onChange={(e) => setFullName(e.target.value)} required /><br /> */}
                                 <textarea id="comment" cols="42" rows="5" placeholder={`Tell us about your experience at ${restaurant.name}`} value={comment} onChange={(e) => setComment(e.target.value)}></textarea><br />
                             </div>
-                            <div className="reviews-input-container-item-4" onClick={handleSubmitReview}>
+                            <div className={`reviews-input-container-item-4 ${loading ? "reviews-input-container-item-4-disabled" : ""}`} onClick={!loading ? handleSubmitReview : null}>
                                 {loading ? "Rating..." : "Rate"}
                             </div>
                         </div>

@@ -326,3 +326,8 @@
 .see-more-reviews>span {
     float: inline-end;
 }
+
+.reviews-input-container-item-4-disabled{
+    cursor: not-allowed;
+    opacity: 0.3;
+}

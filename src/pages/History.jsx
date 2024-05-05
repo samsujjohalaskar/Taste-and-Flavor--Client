@@ -28,6 +28,7 @@ const History = () => {
     const [showLoading, setShowLoading] = useState(false);
     const [showSubOptions, setShowSubOptions] = useState(false);
     const [postUser, setPostUser] = useState(false);
+    const [fetchUser, setFetchUser] = useState(false);
     const [selectedOption, setSelectedOption] = useState('Profile');
 
     useEffect(() => {
@@ -37,8 +38,8 @@ const History = () => {
     }, [user, navigate]);
 
     useEffect(() => {
-        setShowLoading(true);
         const fetchUserDetails = async () => {
+            setShowLoading(true);
             try {
                 const res = await fetch(`${BASE_URL}/user-info?userEmail=${user.email}`);
                 if (res.ok) {
@@ -53,13 +54,14 @@ const History = () => {
             } finally {
                 setShowLoading(false);
                 setPostUser(true);
+                setFetchUser(false);
             }
         };
 
-        if (user && !userDetails) {
+        if (user && (!userDetails || fetchUser === true)) {
             fetchUserDetails();
         }
-    }, [user]);
+    }, [user, fetchUser]);
 
     useEffect(() => {
         const handlePostUser = async () => {
@@ -148,32 +150,32 @@ const History = () => {
                     <div className="history-dashboard-content">
                         {selectedOption === 'Profile' &&
                             <div>
-                                <Profile userDetails={userDetails} />
+                                <Profile userDetails={userDetails} onFetchUser={() => setFetchUser(true)} />
                             </div>
                         }
                         {selectedOption === 'Bookings' &&
                             <div>
-                                <Bookings bookings={userDetails ? (bookingStatus === "All" ? userDetails.bookings : userDetails.bookings.filter(booking => booking.status === bookingStatus)) : []} bookingStatus={bookingStatus} />
+                                <Bookings onFetchUser={() => setFetchUser(true)} bookings={userDetails ? (bookingStatus === "All" ? userDetails.bookings : userDetails.bookings.filter(booking => booking.status === bookingStatus)) : []} bookingStatus={bookingStatus} />
                             </div>
                         }
                         {selectedOption === 'Reviews' &&
                             <div>
-                                <Reviews reviews={userDetails ? userDetails.reviews : ""} />
+                                <Reviews onFetchUser={() => setFetchUser(true)} reviews={userDetails ? userDetails.reviews : ""} />
                             </div>
                         }
                         {selectedOption === 'Blogs' &&
                             <div>
-                                <Blogs blogs={userDetails ? userDetails.blogs : ""} />
+                                <Blogs onFetchUser={() => setFetchUser(true)} blogs={userDetails ? userDetails.blogs : ""} />
                             </div>
                         }
                         {selectedOption === 'Likes' &&
                             <div>
-                                <Likes likes={userDetails ? userDetails.likes : ""} userName={userDetails && userDetails.fullName} />
+                                <Likes onFetchUser={() => setFetchUser(true)} likes={userDetails ? userDetails.likes : ""} userName={userDetails && userDetails.fullName} />
                             </div>
                         }
                         {selectedOption === 'Comments' &&
                             <div>
-                                <Comments comments={userDetails ? userDetails.comments : ""} userName={userDetails && userDetails.fullName} />
+                                <Comments onFetchUser={() => setFetchUser(true)} comments={userDetails ? userDetails.comments : ""} userName={userDetails && userDetails.fullName} />
                             </div>
                         }
                     </div>
