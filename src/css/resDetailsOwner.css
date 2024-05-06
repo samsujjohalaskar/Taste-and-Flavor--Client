@@ -34,9 +34,7 @@
 }
 
 .reservations-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 70px;
 }
 
 .booked-item>div {
@@ -60,6 +58,7 @@
 .book-button-disabled {
     display: flex;
     justify-content: center;
+    cursor: not-allowed;
 }
 
 .filterOptions {

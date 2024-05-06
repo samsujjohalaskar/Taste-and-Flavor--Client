@@ -7,6 +7,7 @@ import "../css/resDetailsOwner.css";
 import { Buffer } from 'buffer';
 import { IoFilterSharp } from 'react-icons/io5';
 import { BASE_URL } from '../utils/services';
+import "../css/history.css";
 
 const RestaurentDetails = () => {
     const navigate = useNavigate();
@@ -355,36 +356,44 @@ const RestaurentDetails = () => {
                 {filteredReservations.length === 0 ? (
                     <p className='history-not-found'>No {filter === "All" ? " " : filter} Reservations Found.</p>
                 ) : (
-                    <div className='history-list'>
+                    <div>
                         {filteredReservations.reverse().map((booking) => (
-                            <div key={booking._id} className='history-items'>
-                                <div className='history-item booked-item' title={`Reservation ${booking.status}`}>
-                                    <span
+                            <div key={booking._id} className='history-bookings-container'>
+                                <div className='history-bookings-details' style={{ borderLeft: `3px solid ${getStatusCircleColor(booking.status)}` }} title={`Reservation ${booking.status}`}>
+                                    {/* <span
                                         style={{
                                             backgroundColor: getStatusCircleColor(booking.status),
                                         }}
-                                    />
+                                    /> */}
                                     <div title={`${booking.fullName}`}>
-                                        <strong>Customer:</strong> {booking && booking.fullName && booking.fullName.slice(0, 15)}
+                                        <p className="history-information-heading">Customer</p>
+                                        <p className="history-bookings-subheading">{booking && booking.bookedBy.fullName && booking.bookedBy.fullName.slice(0, 15)}</p>
                                     </div>
                                     <div title={`${booking.userEmail},${booking.phoneNumber}`}>
-                                        <strong>Contact:</strong> {booking && booking.userEmail && booking.userEmail.slice(0, 15)}, {booking.phoneNumber}
+                                        <p className="history-information-heading">Contact</p>
+                                        <p className="history-bookings-subheading">{booking && booking.bookedBy.userEmail && booking.bookedBy.userEmail.slice(0, 15)}, {booking.bookedBy.phoneNumber}</p>
                                     </div>
                                     <div>
-                                        <strong>Reserved for:</strong> {booking.entryTime},{booking.bookingDate}
+                                        <p className="history-information-heading">Reserved for</p>
+                                        <p className="history-bookings-subheading">{booking.entryTime},{booking.bookingDate}</p>
                                     </div>
                                     <div>
-                                        <strong>Party Size:</strong> {booking.numberOfPeople}
+                                        <p className="history-information-heading">Party Size</p>
+                                        <p className="history-bookings-subheading">{booking.numberOfPeople}</p>
                                     </div>
                                     <div title={`${booking.specialRequest}`}>
-                                        <strong>Special Requests:</strong> {booking && booking.specialRequest ? booking.specialRequest.slice(0, 10) : 'N/A'}
+                                        <p className="history-information-heading">Special Requests</p>
+                                        <p className="history-bookings-subheading">{booking && booking.specialRequest ? booking.specialRequest.slice(0, 10) : 'N/A'}</p>
                                     </div>
                                     <div>
-                                        <strong>Booked At:</strong> {new Date(booking.createdAt).toLocaleDateString('en-US', {
-                                            month: 'short',
-                                            day: 'numeric',
-                                            year: 'numeric',
-                                        })}
+                                        <p className="history-information-heading">Secured on</p>
+                                        <p className="history-bookings-subheading">
+                                            {new Date(booking.createdAt).toLocaleDateString('en-US', {
+                                                month: 'short',
+                                                day: 'numeric',
+                                                year: 'numeric',
+                                            })}
+                                        </p>
                                     </div>
                                 </div>
                                 {booking.status === 'Pending' ? (
