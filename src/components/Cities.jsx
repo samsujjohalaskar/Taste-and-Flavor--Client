@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 export default function Cities({data}) {
     return (
@@ -16,7 +17,7 @@ export default function Cities({data}) {
 
                         return (
                             <li key={c.cityName}>
-                                <a href={url}>{c.cityName}</a>
+                                <Link to={url}>{c.cityName}</Link>
                             </li>
                         );
                     })}

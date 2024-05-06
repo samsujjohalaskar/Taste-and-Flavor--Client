@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar';
 import "../css/bookATable.css";
 import Footer from '../components/Footer';
 import CityCard from '../components/CityCard';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { GoChevronDown, GoChevronUp } from "react-icons/go";
 import { IoClose } from "react-icons/io5";
@@ -459,13 +459,13 @@ const BookTable = () => {
         </div>
         <div className="city-restaurant-content">
           <div className="resMainUrls">
-            <a className='url' href={"/"}> Taste&Flavor {'>'} </a>
-            <a className='url' href={`/${city}-restaurants`}> {capitalizedCity} {'>'} </a>
+            <Link className='url' to={"/"}> Taste&Flavor {'>'} </Link>
+            <Link className='url' to={`/${city}-restaurants`}> {capitalizedCity} {'>'} </Link>
             {area &&
-              <a className='url' href={`/${city}-restaurants/${area}`}> {formatString(area)} {'>'} </a>
+              <Link className='url' to={`/${city}-restaurants/${area}`}> {formatString(area)} {'>'} </Link>
             }
             {location &&
-              <a className='url' href={`/${city}-restaurants/${area}/${location}`}> {formatString(location)} {'>'} </a>
+              <Link className='url' to={`/${city}-restaurants/${area}/${location}`}> {formatString(location)} {'>'} </Link>
             }
             {
               amenities ? kebabToTitleCase(amenities) + " Feature" :
@@ -550,17 +550,17 @@ const BookTable = () => {
           {records.length < filterRestaurants().length ?
             (<div className='pagination-container'>
               <li className='pagination-item'>
-                <a href="#" onClick={prevPage}>Prev</a>
+                <a href={`#page${currentPage}`} onClick={prevPage}>Prev</a>
               </li>
               {
                 numbers.map((n, i) => (
                   <li key={i} className={`pagination-item ${currentPage === n ? 'active' : ''}`}>
-                    <a href="#" onClick={() => changeCurrentPage(n)} >{n}</a>
+                    <a href={`#page${currentPage}`} onClick={() => changeCurrentPage(n)} >{n}</a>
                   </li>
                 ))
               }
               <li className='pagination-item'>
-                <a href="#" onClick={nextPage}>Next</a>
+                <a href={`#page${currentPage}`} onClick={nextPage}>Next</a>
               </li>
             </div>)
             : ""

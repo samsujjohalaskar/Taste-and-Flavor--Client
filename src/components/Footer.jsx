@@ -2,6 +2,7 @@ import React from 'react'
 import logo from "../assets/logo.png"
 import Cities from './Cities';
 import cities from "../allCities";
+import { Link } from 'react-router-dom';
 
 export default function Footer({ city }) {
 
@@ -337,7 +338,7 @@ export default function Footer({ city }) {
 
                   return (
                     <li key={index}>
-                      <a href={url}>{item}</a>
+                      <Link to={url}>{item}</Link>
                     </li>
                   );
                 })}
@@ -359,7 +360,7 @@ export default function Footer({ city }) {
 
                     return (
                       <li key={index}>
-                        <a href={url}>{item}</a>
+                        <Link to={url}>{item}</Link>
                       </li>
                     );
                   })
@@ -385,7 +386,7 @@ export default function Footer({ city }) {
 
                     return (
                       <li key={index}>
-                        <a href={url}>{item}</a>
+                        <Link to={url}>{item}</Link>
                       </li>
                     );
                   })
@@ -414,7 +415,7 @@ export default function Footer({ city }) {
 
                     return (
                       <li key={index}>
-                        <a href={url}>{location.name}</a>
+                        <Link to={url}>{location.name}</Link>
                       </li>
                     );
                   })
@@ -432,7 +433,7 @@ export default function Footer({ city }) {
           <div className="flex-item">
             <p>Every Bite Speaks Taste, Flavorful Journey</p>
           </div>
-          <div className="flex-item">Write to us at: <strong><a className='write-us' href="https://mail.google.com/mail/?view=cm&fs=1&to=samsujjohalaskar@gmail.com">samsujjohalaskar@gmail.com</a></strong></div>
+          <div className="flex-item">Write to us at: <strong><Link className='write-us' to="https://mail.google.com/mail/?view=cm&fs=1&to=samsujjohalaskar@gmail.com">samsujjohalaskar@gmail.com</Link></strong></div>
           <div className="flex-item">
             <p>© 2023 - Taste&Flavor All Rights Reserved</p>
           </div>

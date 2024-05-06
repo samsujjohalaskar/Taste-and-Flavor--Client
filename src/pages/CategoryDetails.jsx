@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import "../css/blog.css";
 import logo from "../assets/logo.png";
 import { BASE_URL } from '../utils/services';
@@ -126,7 +126,7 @@ const CategoryDetails = () => {
                 <div className="flex-item">
                     <p>Every Bite Speaks Taste, Flavorful Journey</p>
                 </div>
-                <div className="flex-item">Write to us at: <strong><a className='write-us' href="https://mail.google.com/mail/?view=cm&fs=1&to=samsujjohalaskar@gmail.com">samsujjohalaskar@gmail.com</a></strong></div>
+                <div className="flex-item">Write to us at: <strong><Link className='write-us' to="https://mail.google.com/mail/?view=cm&fs=1&to=samsujjohalaskar@gmail.com">samsujjohalaskar@gmail.com</Link></strong></div>
                 <div className="flex-item">
                     <p>© 2023 - Taste&Flavor All Rights Reserved</p>
                 </div>
