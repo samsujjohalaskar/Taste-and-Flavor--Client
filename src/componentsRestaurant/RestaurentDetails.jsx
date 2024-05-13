@@ -8,6 +8,7 @@ import { Buffer } from 'buffer';
 import { IoFilterSharp } from 'react-icons/io5';
 import { BASE_URL } from '../utils/services';
 import "../css/history.css";
+import { getStatusBorderColor } from '../someBlogsFunctions';
 
 const RestaurentDetails = () => {
     const navigate = useNavigate();
@@ -76,23 +77,6 @@ const RestaurentDetails = () => {
                 return true;
         }
     });
-
-    const getStatusCircleColor = (status) => {
-        switch (status) {
-            case 'Pending':
-                return '#ffcc00'; // Yellow
-            case 'Confirmed':
-                return '#00cc00'; // Green
-            case 'Cancelled':
-                return '#cc0000'; // Red
-            case 'Fulfilled':
-                return '#0066cc'; // Blue
-            case 'Unattended':
-                return '#cccccc'; // Grey
-            default:
-                return '#000000'; // Black (default)
-        }
-    };
 
     useEffect(() => {
         const fetchBookingDetails = async () => {
@@ -337,19 +321,19 @@ const RestaurentDetails = () => {
             </div>
             <div className='reservations-counts'>
                 <div className='reservations-count'>
-                    <span style={{ backgroundColor: getStatusCircleColor('Fulfilled'), }} />Fulfilled: {fulfilledCount}
+                    <span style={{ backgroundColor: getStatusBorderColor('Fulfilled'), }} />Fulfilled: {fulfilledCount}
                 </div>
                 <div className='reservations-count'>
-                    <span style={{ backgroundColor: getStatusCircleColor('Pending'), }} />Pending: {pendingCount}
+                    <span style={{ backgroundColor: getStatusBorderColor('Pending'), }} />Pending: {pendingCount}
                 </div>
                 <div className='reservations-count'>
-                    <span style={{ backgroundColor: getStatusCircleColor('Confirmed'), }} />Confirmed: {confirmedCount}
+                    <span style={{ backgroundColor: getStatusBorderColor('Confirmed'), }} />Confirmed: {confirmedCount}
                 </div>
                 <div className='reservations-count'>
-                    <span style={{ backgroundColor: getStatusCircleColor('Cancelled'), }} />Cancelled: {cancelledCount}
+                    <span style={{ backgroundColor: getStatusBorderColor('Cancelled'), }} />Cancelled: {cancelledCount}
                 </div>
                 <div className='reservations-count'>
-                    <span style={{ backgroundColor: getStatusCircleColor('Unattended'), }} />Unattended: {unattendedCount}
+                    <span style={{ backgroundColor: getStatusBorderColor('Unattended'), }} />Unattended: {unattendedCount}
                 </div>
             </div>
             <div className="reservations-container">
@@ -359,10 +343,10 @@ const RestaurentDetails = () => {
                     <div>
                         {filteredReservations.reverse().map((booking) => (
                             <div key={booking._id} className='history-bookings-container'>
-                                <div className='history-bookings-details' style={{ borderLeft: `3px solid ${getStatusCircleColor(booking.status)}` }} title={`Reservation ${booking.status}`}>
+                                <div className='history-bookings-details' style={{ borderLeft: `3px solid ${getStatusBorderColor(booking.status)}` }} title={`Reservation ${booking.status}`}>
                                     {/* <span
                                         style={{
-                                            backgroundColor: getStatusCircleColor(booking.status),
+                                            backgroundColor: getStatusBorderColor(booking.status),
                                         }}
                                     /> */}
                                     <div title={`${booking.fullName}`}>

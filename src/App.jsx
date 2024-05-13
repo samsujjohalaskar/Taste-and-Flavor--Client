@@ -17,6 +17,7 @@ import History from './pages/History';
 import Signup from './components/Signup';
 import BlogDetails from './pages/BlogDetails';
 import CategoryDetails from './pages/CategoryDetails';
+// import AddBlog from './componentsBlog/AddBlog';
 
 function App() {
   return (
@@ -34,9 +35,12 @@ function App() {
         <Route path="/:city-restaurants/:area/:cuisine-cuisine" element={<BookTable />} />
         <Route path="/:city-restaurants/:area/:amenities-feature" element={<BookTable />} />
         <Route path="/:city-restaurants/:area/:location" element={<BookTable />} />
+
         <Route exact path="/blog/all-blogs" element={<Blog />}></Route>
+        {/* <Route exact path="/add-blog" element={<AddBlog />}></Route> */}  
         <Route exact path="/blog/individual-blogs/:blogID/:title" element={<BlogDetails />}></Route>
         <Route exact path="/blog/category-based-blogs/:blogCategory" element={<CategoryDetails/>}></Route>
+
         <Route exact path="/history" element={<History />}></Route>
 
         <Route exact path="/owner-home" element={<Owner />}></Route>

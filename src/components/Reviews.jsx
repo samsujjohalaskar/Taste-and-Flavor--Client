@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/services';
 import Loading from './Loading';
 import Swal from 'sweetalert2';
+import { getRatingColor, getStarColor } from '../someBlogsFunctions';
 
 const Reviews = ({ user, userDetails, restaurant, onReviewsData, ratingD, commentD }) => {
 
@@ -147,39 +148,6 @@ const Reviews = ({ user, userDetails, restaurant, onReviewsData, ratingD, commen
                 break;
             default:
                 break;
-        }
-    };
-
-    const getStarColor = (rating) => {
-        switch (rating) {
-            case 1:
-                return '#e74c3c';
-            case 2:
-                return '#e67e22';
-            case 3:
-                return '#f39c12';
-            case 4:
-                return '#b3ca42';
-            case 5:
-                return '#79b63a';
-            default:
-                return '#000';
-        }
-    };
-
-    const getRatingColor = (rating) => {
-        if (rating >= 0 && rating <= 1.4) {
-            return '#e74c3c';
-        } else if (rating >= 1.5 && rating <= 2.4) {
-            return '#e67e22';
-        } else if (rating >= 2.5 && rating <= 3.4) {
-            return '#f39c12';
-        } else if (rating >= 3.5 && rating <= 4.4) {
-            return '#b3ca42';
-        } else if (rating >= 4.5 && rating <= 5) {
-            return '#79b63a';
-        } else {
-            return '#000';
         }
     };
 

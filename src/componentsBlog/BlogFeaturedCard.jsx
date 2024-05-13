@@ -1,16 +1,10 @@
 import React from 'react';
 import { Buffer } from 'buffer';
 import { useNavigate } from 'react-router-dom';
-import { formatDate } from '../someBlogsFunctions';
+import { formatDate, trimContent } from '../someBlogsFunctions';
 
 const BlogFeaturedCard = ({ blog }) => {
     const navigate = useNavigate();
-
-    const trimContent = (content) => {
-        const words = content.split(' ');
-        const trimmedContent = words.slice(0, 50).join(' ');
-        return trimmedContent + '...';
-    };
 
     return (
         <>
@@ -35,7 +29,7 @@ const BlogFeaturedCard = ({ blog }) => {
                 <div className="blog-featured-post-info">
                     <p className="blog-featured-post-title">{blog.title}</p>
                     <p className="blog-featured-post-date">{formatDate(blog.date)} / by {blog.postedBy.fullName}</p>
-                    <p className="blog-featured-post-content">{trimContent(blog.content)}</p>
+                    <p className="blog-featured-post-content">{trimContent(blog.content, 320)}</p>
                 </div>
                 <div className="blog-featured-post-read-more"
                     onClick={() => {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Buffer } from 'buffer';
 import { MdDiscount } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { getRatingColor, getAverageRating } from '../someBlogsFunctions';
 
 export default function Card({ key, restaurant }) {
 
@@ -10,30 +11,11 @@ export default function Card({ key, restaurant }) {
 
     useEffect(() => {
         if (restaurant.reviews && restaurant.reviews.length > 0) {
-            const totalRatings = restaurant.reviews.length;
-            const ratingSum = restaurant.reviews.reduce((sum, review) => sum + review.rating, 0);
-            const avgRating = ratingSum / totalRatings;
-            setAverageRating(avgRating.toFixed(1));
+            setAverageRating(getAverageRating(restaurant.reviews));
         }
-    }, [restaurant.reviews]);    
-    
-    const firstImage = restaurant.images && restaurant.images.length > 0 ? restaurant.images[0] : null;
+    }, [restaurant.reviews]);
 
-    const getRatingColor = (rating) => {
-        if (rating >= 0 && rating <= 1.4) {
-            return '#e74c3c';
-        } else if (rating >= 1.5 && rating <= 2.4) {
-            return '#e67e22';
-        } else if (rating >= 2.5 && rating <= 3.4) {
-            return '#f39c12';
-        } else if (rating >= 3.5 && rating <= 4.4) {
-            return '#b3ca42';
-        } else if (rating >= 4.5 && rating <= 5) {
-            return '#79b63a';
-        } else {
-            return '#000';
-        }
-    };
+    const firstImage = restaurant.images && restaurant.images.length > 0 ? restaurant.images[0] : null;
 
     return (
         <>

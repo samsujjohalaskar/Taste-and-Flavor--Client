@@ -6,6 +6,7 @@ import { BASE_URL } from '../utils/services';
 import Loading from '../components/Loading';
 import { useNavigate } from 'react-router-dom';
 import { IoMdRefresh } from 'react-icons/io';
+import { getStatusBorderColor } from '../someBlogsFunctions';
 
 const Bookings = ({ bookings, bookingStatus, onFetchUser }) => {
     const [sortedBookings, setSortedBookings] = useState([]);
@@ -17,25 +18,7 @@ const Bookings = ({ bookings, bookingStatus, onFetchUser }) => {
         setSortedBookings(sorted);
     }, [bookings]);
 
-    const getBorderColor = (status) => {
-        switch (status) {
-            case 'Pending':
-                return '#ffcc00'; // Yellow
-            case 'Confirmed':
-                return '#00cc00'; // Green
-            case 'Cancelled':
-                return '#cc0000'; // Red
-            case 'Fulfilled':
-                return '#0066cc'; // Blue
-            case 'Unattended':
-                return '#cccccc';
-            default:
-                return '#000000'; // Black (default)
-        }
-    };
-
     const handleCancelBooking = async (bookingId) => {
-
         const result = await Swal.fire({
             title: "Are you sure?",
             text: "Do you really want to cancel the reservation?",
@@ -102,7 +85,7 @@ const Bookings = ({ bookings, bookingStatus, onFetchUser }) => {
                 {showLoading && <Loading />}
                 {sortedBookings.reverse().map((booking, index) => (
                     <div key={index} className='history-bookings-container'>
-                        <div className="history-bookings-details" style={{ borderLeft: `3px solid ${getBorderColor(booking.status)}` }}>
+                        <div className="history-bookings-details" style={{ borderLeft: `3px solid ${getStatusBorderColor(booking.status)}` }}>
                             <div>
                                 <p className="history-information-heading">Reserved Date/Time</p>
                                 <p className="history-bookings-subheading">{booking.bookingDate} at {booking.entryTime}</p>

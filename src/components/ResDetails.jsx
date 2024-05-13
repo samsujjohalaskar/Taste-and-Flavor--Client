@@ -14,6 +14,7 @@ import { CgScreenWide } from "react-icons/cg";
 import { MdAcUnit, MdCurrencyRupee, MdDeliveryDining, MdOutdoorGrill, MdOutlineDiscount, MdOutlineElevator, MdOutlineFeaturedPlayList, MdPets } from "react-icons/md";
 import Reviews from './Reviews';
 import { Link as ScrollLink, Element } from 'react-scroll';
+import { getRatingColor } from '../someBlogsFunctions';
 
 const ResDetails = ({ userDetails, restaurant, user, ratingD, commentD }) => {
     const [averageRating, setAverageRating] = useState(0);
@@ -75,22 +76,6 @@ const ResDetails = ({ userDetails, restaurant, user, ratingD, commentD }) => {
             </div>
         )
     ));
-
-    const getRatingColor = (rating) => {
-        if (rating >= 0 && rating <= 1.4) {
-            return '#e74c3c';
-        } else if (rating >= 1.5 && rating <= 2.4) {
-            return '#e67e22';
-        } else if (rating >= 2.5 && rating <= 3.4) {
-            return '#f39c12';
-        } else if (rating >= 3.5 && rating <= 4.4) {
-            return '#b3ca42';
-        } else if (rating >= 4.5 && rating <= 5) {
-            return '#79b63a';
-        } else {
-            return '#000';
-        }
-    };
 
     return (
         <>

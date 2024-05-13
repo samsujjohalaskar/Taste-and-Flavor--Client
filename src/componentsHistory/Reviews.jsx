@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import { IoMdRefresh } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
+import { getStarColor } from '../someBlogsFunctions';
 
 const Reviews = ({ reviews, onFetchUser }) => {
     const [sortedBookings, setSortedBookings] = useState([]);
@@ -11,23 +12,6 @@ const Reviews = ({ reviews, onFetchUser }) => {
         const sorted = [...reviews].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
         setSortedBookings(sorted);
     }, [reviews]);
-
-    const getBorderColor = (rating) => {
-        switch (rating) {
-            case 1:
-                return '#e74c3c';
-            case 2:
-                return '#e67e22';
-            case 3:
-                return '#f39c12';
-            case 4:
-                return '#b3ca42';
-            case 5:
-                return '#79b63a';
-            default:
-                return '#000';
-        }
-    };
 
     const handleEditClick = async (restaurantCity, restaurantArea, restaurantName, rating, resId, comment) => {
         const cleanedName = restaurantName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
@@ -48,7 +32,7 @@ const Reviews = ({ reviews, onFetchUser }) => {
                 </div>
                 {sortedBookings.reverse().map((review, index) => (
                     <div key={index} className='history-bookings-container'>
-                        <div className="history-bookings-details" style={{ borderLeft: `3px solid ${getBorderColor(review.rating)}` }}>
+                        <div className="history-bookings-details" style={{ borderLeft: `3px solid ${getStarColor(review.rating)}` }}>
                             <div title={`${review.restaurant.name}`}>
                                 <p className="history-information-heading">Restaurant</p>
                                 <p className="history-bookings-subheading">{review.restaurant.name.length > 20 ? review.restaurant.name.slice(0, 17) + "..." : review.restaurant.name},{review.restaurant.city}</p>

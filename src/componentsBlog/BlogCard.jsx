@@ -4,26 +4,10 @@ import '../css/signin.css';
 import "../css/blog.css";
 import { FaRegHeart, FaRegComment, FaUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { simpleDate, trimContent, trimTitle } from '../someBlogsFunctions';
 
 const BlogCard = ({ blog }) => {
-
     const navigate = useNavigate();
-
-    const formatDate = (dateString) => {
-        const options = { month: 'short', day: 'numeric', year: 'numeric' };
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', options);
-    };
-
-    const trimContent = (content) => {
-        const trimmedContent = content.slice(0, 120);
-        return trimmedContent + '...';
-    };
-
-    const trimTitle = (content) => {
-        const trimmedContent = content.slice(0, 45);
-        return trimmedContent + '...';
-    };
 
     return (
         <>
@@ -46,9 +30,9 @@ const BlogCard = ({ blog }) => {
                     )}
                 </div>
                 <div className="blog-card-info">
-                    <p className="blog-card-date">{formatDate(blog.date)}</p>
-                    <p className="blog-card-title">{trimTitle(blog.title)}</p>
-                    <p className="blog-card-content">{trimContent(blog.content)}</p>
+                    <p className="blog-card-date">{simpleDate(blog.date)}</p>
+                    <p className="blog-card-title">{trimTitle(blog.title, 45)}</p>
+                    <p className="blog-card-content">{trimContent(blog.content, 120)}</p>
                     <div className="blog-card-user">
                         <div className="blog-card-like-comment">
                             <div className="blog-card-like"><FaRegHeart /> <span className="blog-card-like-comment-count">{blog.likes.length}</span></div>

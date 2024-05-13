@@ -1,38 +1,9 @@
 import React from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { Buffer } from 'buffer';
+import { countTillDate } from '../someBlogsFunctions';
 
 const CommentCard = ({ comment, blogOwner }) => {
-
-    function formatCommentDate(commentDate) {
-        const currentDate = new Date();
-        const postedDate = new Date(commentDate);
-
-        const difference = currentDate - postedDate;
-
-        const differenceInDays = Math.floor(difference / (1000 * 60 * 60 * 24));
-
-        if (differenceInDays === 0) {
-            return "Today";
-        } else if (differenceInDays === 1) {
-            return "1 day ago";
-        } else if (differenceInDays < 7) {
-            return `${differenceInDays} days ago`;
-        } else if (differenceInDays < 14) {
-            return "1 week ago";
-        } else if (differenceInDays < 21) {
-            return "2 weeks ago";
-        } else if (differenceInDays < 28) {
-            return "3 weeks ago";
-        } else {
-            const differenceInMonths = Math.floor(differenceInDays / 30);
-            if (differenceInMonths === 1) {
-                return "1 month ago";
-            } else {
-                return `${differenceInMonths} months ago`;
-            }
-        }
-    }
 
     return (
         <>
@@ -54,7 +25,7 @@ const CommentCard = ({ comment, blogOwner }) => {
                                 <span className="blog-comments-author">AUTHOR</span>
                             )}
                         </div>
-                        <div className="blog-details-commented-by-user-date">{formatCommentDate(comment.date)}</div>
+                        <div className="blog-details-commented-by-user-date">{countTillDate(comment.date)}</div>
                     </div>
                 </div>
                 <div className="blog-details-comment-by-user">{comment.comment}</div>

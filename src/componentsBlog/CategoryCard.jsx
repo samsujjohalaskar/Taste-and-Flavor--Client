@@ -2,31 +2,10 @@ import React from 'react';
 import { FaRegComment, FaRegEye, FaRegHeart, FaUserCircle } from 'react-icons/fa';
 import { Buffer } from 'buffer';
 import { useNavigate } from 'react-router-dom';
+import { simpleDate, trimContent, calculateTimeToRead } from '../someBlogsFunctions';
 
 const CategoryCard = ({ blog }) => {
-
     const navigate = useNavigate();
-
-    const formatDate = (dateString) => {
-        const options = { month: 'short', day: 'numeric', year: 'numeric' };
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', options);
-    };
-
-    const trimContent = (content) => {
-        if (content) {
-            const trimmedContent = content.slice(0, 200);
-            return trimmedContent + '...';
-        }
-
-    };
-
-    const calculateTimeToRead = (content) => {
-        const wordsPerMinute = 238;
-        const words = content.split(/\s+/).length;
-        const timeInMinutes = words / wordsPerMinute;
-        return Math.ceil(timeInMinutes);
-    };
 
     return (
         <>
@@ -45,7 +24,7 @@ const CategoryCard = ({ blog }) => {
                             }
                         </div>
                         <div className="category-details-card-user-name">{blog && blog.postedBy && blog.postedBy.fullName} · </div>
-                        <div className="category-details-card-blog-date">{blog && formatDate(blog.date)}</div>
+                        <div className="category-details-card-blog-date">{blog && simpleDate(blog.date)}</div>
                     </div>
                     <div className="category-details-card-title-content"
                         onClick={() => {
@@ -56,7 +35,7 @@ const CategoryCard = ({ blog }) => {
                         }}
                     >
                         <p className="category-details-card-blog-title">{blog ? blog.title : ""}</p>
-                        <p className="category-details-card-blog-content">{trimContent(blog ? blog.content : "")}</p>
+                        <p className="category-details-card-blog-content">{trimContent(blog ? blog.content : "", 180)}</p>
                     </div>
                     <div className="category-details-card-like-comments">
                         <div className="blog-card-like"><FaRegHeart /> <span className="category-details-card-like-comment-count">{blog && blog.likes && blog.likes.length}</span></div>
