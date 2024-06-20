@@ -14,6 +14,7 @@ import Reviews from '../componentsHistory/Reviews';
 import Blogs from '../componentsHistory/Blogs';
 import Likes from '../componentsHistory/Likes';
 import Comments from '../componentsHistory/Comments';
+import { getStatusBorderColor } from '../someBlogsFunctions';
 
 const History = () => {
 
@@ -100,23 +101,6 @@ const History = () => {
         setSelectedOption(option);
     };
 
-    const getBorderColor = (status) => {
-        switch (status) {
-            case 'Pending':
-                return '#ffcc00'; // Yellow
-            case 'Confirmed':
-                return '#00cc00'; // Green
-            case 'Cancelled':
-                return '#cc0000'; // Red
-            case 'Fulfilled':
-                return '#0066cc'; // Blue
-            case 'Unattended':
-                return '#cccccc';
-            default:
-                return '#000000'; // Black (default)
-        }
-    };
-
     return (
         <>
             <Navbar city={selectedCity.toLowerCase()}
@@ -135,11 +119,11 @@ const History = () => {
                         <div className={`${selectedOption === 'Bookings' && bookingStatus === "All" ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => { handleOptionClick('Bookings'); setShowSubOptions(true); setBookingStatus("All") }}>Bookings </div>
                         {showSubOptions && (
                             <div className="history-dashboard-suboptions-container">
-                                <div className="history-dashboard-suboptions-pending" onClick={() => setBookingStatus("Pending")} style={{ borderLeft: bookingStatus === "Pending" ? `3px solid ${getBorderColor("Pending")}` : "", }}>Pending</div>
-                                <div className="history-dashboard-suboptions-confirmed" onClick={() => setBookingStatus("Confirmed")} style={{ borderLeft: bookingStatus === "Confirmed" ? `3px solid ${getBorderColor("Confirmed")}` : "", }}>Confirmed</div>
-                                <div className="history-dashboard-suboptions-cancelled" onClick={() => setBookingStatus("Cancelled")} style={{ borderLeft: bookingStatus === "Cancelled" ? `3px solid ${getBorderColor("Cancelled")}` : "", }}>Cancelled</div>
-                                <div className="history-dashboard-suboptions-fulfilled" onClick={() => setBookingStatus("Fulfilled")} style={{ borderLeft: bookingStatus === "Fulfilled" ? `3px solid ${getBorderColor("Fulfilled")}` : "", }}>Fulfilled</div>
-                                <div className="history-dashboard-suboptions-unattended" onClick={() => setBookingStatus("Unattended")} style={{ borderLeft: bookingStatus === "Unattended" ? `3px solid ${getBorderColor("Unattended")}` : "", }}>Unattended</div>
+                                <div className="history-dashboard-suboptions-pending" onClick={() => setBookingStatus("Pending")} style={{ borderLeft: bookingStatus === "Pending" ? `3px solid ${getStatusBorderColor("Pending")}` : "", }}>Pending</div>
+                                <div className="history-dashboard-suboptions-confirmed" onClick={() => setBookingStatus("Confirmed")} style={{ borderLeft: bookingStatus === "Confirmed" ? `3px solid ${getStatusBorderColor("Confirmed")}` : "", }}>Confirmed</div>
+                                <div className="history-dashboard-suboptions-cancelled" onClick={() => setBookingStatus("Cancelled")} style={{ borderLeft: bookingStatus === "Cancelled" ? `3px solid ${getStatusBorderColor("Cancelled")}` : "", }}>Cancelled</div>
+                                <div className="history-dashboard-suboptions-fulfilled" onClick={() => setBookingStatus("Fulfilled")} style={{ borderLeft: bookingStatus === "Fulfilled" ? `3px solid ${getStatusBorderColor("Fulfilled")}` : "", }}>Fulfilled</div>
+                                <div className="history-dashboard-suboptions-unattended" onClick={() => setBookingStatus("Unattended")} style={{ borderLeft: bookingStatus === "Unattended" ? `3px solid ${getStatusBorderColor("Unattended")}` : "", }}>Unattended</div>
                             </div>
                         )}
                         <div className={`${selectedOption === 'Reviews' ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => handleOptionClick('Reviews')}>Reviews</div>

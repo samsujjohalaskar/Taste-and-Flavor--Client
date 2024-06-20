@@ -9,11 +9,13 @@ import cities from "../allCities";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa6";
 import Signup from "./Signup";
 import Swal from 'sweetalert2';
+import { VscClose, VscThreeBars } from "react-icons/vsc";
 
 function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [showLogin, setShowLogin] = useState(false);
+  const [showSideBar, setShowSideBar] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showKey, setShowKey] = useState(false);
   const [filteredCities, setFilteredCities] = useState([]);
@@ -101,69 +103,154 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
 
   return (
     <>
-      <nav className="navBar flex">
-        <div className="flex-item logo">
-          <img src={logo} alt="Taste&Flavor" />
-        </div>
-        <div className="flex-item dropdownMenu">
-          <span>
-            <CiLocationOn className="locationIcon" />
-          </span>
-          <input
-            type="text"
-            placeholder={showKey ? "Search City.." : capitalizeWords(city) ? capitalizeWords(city) : "Search City.."}
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              handleCitySearch(e.target.value);
-            }}
-            onFocus={() => searchTerm === '' && setFilteredCities(cities)}
-            onClick={() => setShowKey(true)}
-            className="searchInput"
-          />
-          {showKey && filteredCities && (
-            <ul className="citySuggestions" ref={cityRef}>
-              {filteredCities.map((city) => (
-                <li key={city.cityName} onClick={() => handleCitySelect(city.cityName)}>
-                  {city.cityName}
-                </li>
-              ))}
-            </ul>
-          )}
-          {!showKey ? (
-            <FaCaretDown onClick={() => toggleDropdown()} className="locationIcon showKey" />
-          ) : (
-            <FaCaretUp onClick={() => toggleDropdown()} className="locationIcon showKey" />
-          )}
-        </div>
-        <div className="flex-item">
-          <ul className="flex links">
-            {links.map(({ name, link }) => {
-              return (
-                <li className={name === active ? "navbar-border-bottom" : ""} key={name}>
-                  <Link to={link}>{name}</Link>
-                </li>
-              );
-            })}
-            {user && (
-              <li className={active === "History" ? "navbar-border-bottom" : ""} key="History">
-                <Link to="/history">Profile</Link>
-              </li>
+      <nav className="">
+        <div className="flex justify-evenly items-center bg-white h-[60px] w-full">
+          <VscThreeBars className="absolute text-text left-4 cursor-pointer md:hidden" onClick={() => setShowSideBar(true)} size={25} />
+          <div>
+            <img className="h-[60px] w-64" src={logo} alt="Taste&Flavor" />
+          </div>
+          <div className="hidden items-center border-[0.5px] border-border rounded md:flex">
+            <span>
+              <CiLocationOn className="text-xl text-text" />
+            </span>
+            <input
+              type="text"
+              placeholder={showKey ? "Search City.." : capitalizeWords(city) ? capitalizeWords(city) : "Search City.."}
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                handleCitySearch(e.target.value);
+              }}
+              onFocus={() => searchTerm === '' && setFilteredCities(cities)}
+              onClick={() => setShowKey(true)}
+              className="h-7 text-text outline-none text-md ml-3"
+            />
+            {showKey && filteredCities && (
+              <ul className="absolute w-48 bg-white list-none p-0 m-0 z-10 max-h-48 overflow-y-scroll top-11 ml-4 shadow-cities" ref={cityRef}>
+                {filteredCities.map((city) => (
+                  <li key={city.cityName} onClick={() => handleCitySelect(city.cityName)} className="px-4 py-2 text-text cursor-pointer hover:bg-gray-200">
+                    {city.cityName}
+                  </li>
+                ))}
+              </ul>
             )}
-          </ul>
+            {!showKey ? (
+              <FaCaretDown onClick={() => toggleDropdown()} className="text-text" />
+            ) : (
+              <FaCaretUp onClick={() => toggleDropdown()} className=" text-text" />
+            )}
+          </div>
+          <div className="hidden lg:flex">
+            <ul className="flex gap-4 text-text lg:gap-16">
+              {links.map(({ name, link }) => {
+                return (
+                  <li className={name === active ? "text-theme" : ""} key={name}>
+                    <Link to={link}>{name}</Link>
+                  </li>
+                );
+              })}
+              {user && (
+                <li className={active === "History" ? "text-theme" : ""} key="History">
+                  <Link to="/history">Profile</Link>
+                </li>
+              )}
+            </ul>
+          </div>
+          <div className="hidden md:flex">
+            <button onClick={handleLoginButtonClick} className="bg-theme py-2 px-6 text-white font-extrabold rounded hover:bg-hover">
+              {user ? 'Logout' : 'Login'}
+            </button>
+          </div>
         </div>
-        <div className="flex-item login">
-          <button onClick={handleLoginButtonClick} className="loginButton">
-            {user ? 'Logout' : 'Login'}
-          </button>
+
+        {/* sidebar component */}
+
+        <div className={`fixed h-dvh w-48 bg-gray-200 ${showSideBar ? "left-0 top-0" : "left-[-200px] top-0"} z-20 transition-all duration-500 md:hidden`}>
+          <div className="p-4">
+            <VscClose size={25} className="cursor-pointer float-right" onClick={() => setShowSideBar(false)} />
+            <div className="mt-10">
+              <ul className="flex flex-col gap-4 text-text">
+                {links.map(({ name, link }) => {
+                  return (
+                    <li className={name === active ? "text-theme" : ""} key={name}>
+                      <Link to={link}>{name}</Link>
+                    </li>
+                  );
+                })}
+                {user && (
+                  <li className={active === "History" ? "text-theme" : ""} key="History">
+                    <Link to="/history">Profile</Link>
+                  </li>
+                )}
+              </ul>
+            </div>
+            <div className="mt-5 flex items-center border-[0.5px] border-border rounded">
+              <span>
+                <CiLocationOn className="text-xl text-text" />
+              </span>
+              <input
+                type="text"
+                placeholder={showKey ? "Search City.." : capitalizeWords(city) ? capitalizeWords(city) : "Search City.."}
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  handleCitySearch(e.target.value);
+                }}
+                onFocus={() => searchTerm === '' && setFilteredCities(cities)}
+                onClick={() => setShowKey(true)}
+                className="h-7 text-text outline-none text-sm ml-3 w-28 bg-gray-200"
+              />
+              {showKey && filteredCities && (
+                <ul className="absolute w-48 bg-white list-none p-0 m-0 z-10 max-h-48 overflow-y-scroll top-60 shadow-cities" ref={cityRef}>
+                  {filteredCities.map((city) => (
+                    <li key={city.cityName} onClick={() => handleCitySelect(city.cityName)} className="px-4 py-2 text-text cursor-pointer hover:bg-gray-200">
+                      {city.cityName}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {!showKey ? (
+                <FaCaretDown onClick={() => toggleDropdown()} className="text-text" />
+              ) : (
+                <FaCaretUp onClick={() => toggleDropdown()} className=" text-text" />
+              )}
+            </div>
+            <div className="absolute bottom-4">
+              <button onClick={handleLoginButtonClick} className="w-40 bg-theme py-2 px-6 text-white font-extrabold rounded hover:bg-hover">
+                {user ? 'Logout' : 'Login'}
+              </button>
+            </div>
+          </div>
         </div>
-      </nav>
+
+        {/* sidebar component ends*/}
+
+      </nav >
+      <div className="hidden justify-center items-center border-t-[1px] p-2 md:flex lg:hidden">
+        <ul className="flex text-text gap-16">
+          {links.map(({ name, link }) => {
+            return (
+              <li className={name === active ? "text-theme" : ""} key={name}>
+                <Link to={link}>{name}</Link>
+              </li>
+            );
+          })}
+          {user && (
+            <li className={active === "History" ? "text-theme" : ""} key="History">
+              <Link to="/history">Profile</Link>
+            </li>
+          )}
+        </ul>
+      </div>
       {showLogin && <Signin onClose={() => setShowLogin(false)}
         handleSignUp={() => { setShowLogin(false); setShowSignUp(true); }}
-      />}
-      {showSignUp && <Signup onClose={() => setShowSignUp(false)}
-        handleSignIn={() => { setShowSignUp(false); setShowLogin(true) }}
-      />}
+      />
+      }
+      {
+        showSignUp && <Signup onClose={() => setShowSignUp(false)}
+          handleSignIn={() => { setShowSignUp(false); setShowLogin(true) }}
+        />
+      }
     </>
   );
 }
