@@ -69,9 +69,9 @@ function Home() {
         <>
             <Navbar city={cityToLowerCase} active={"Home"} onSelectCity={setSelectedCity} onCityChangeRedirect={(selectedCity) => { navigate('/'); }} />
             <Banner city={cityToLowerCase} restaurants={filteredRestaurants} />
+            <Carousel city={cityToLowerCase} restaurants={filteredRestaurants} />
             <Offers />
             {showLoading && <Loading />}
-            <Carousel city={cityToLowerCase} restaurants={filteredRestaurants} />
             <Footer city={cityToLowerCase} />
             {showLocationSelect && <SelectLocation onSelectCity={handleCitySelect} />}
         </>

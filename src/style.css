@@ -12,3 +12,30 @@
         display: none;
     }
 }
+
+.slick-prev, .slick-next {
+    width: 25px !important;
+    height: 28px !important;
+    background: #FF5757 !important;
+    border-radius: 50% !important;
+}
+
+.slick-prev {
+    /* margin-left: 24px !important; */
+    z-index: 1;
+    left: 10px !important;
+}
+
+.slick-next {
+    right: 18px !important;
+}
+
+.slick-initialized {
+    margin-right: 34px !important;
+}
+
+.slick-prev:before, .slick-next:before {
+    font-family: monospace !important;
+    font-size: 28px !important;
+    color: #faf6f6 !important;
+}

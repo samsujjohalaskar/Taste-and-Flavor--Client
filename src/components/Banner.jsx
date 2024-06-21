@@ -114,9 +114,9 @@ function Banner({ city, restaurants }) {
             <div className="flex h-[350px] flex-col min-w-full bg-cover" style={{ backgroundImage: `url(${bgi})` }}>
                 <h1 className="flex justify-center flex-wrap gap-1 text-white font-extrabold mt-28 text-2xl sm:text-3xl" >Every Bite Speaks Taste,<span className='text-theme'> Flavorful Journey!</span></h1>
                 <div className="flex justify-center items-center w-full m-auto bg-white mb-36 rounded-lg pl-2 lg:w-[1000px]">
-                    <span className="text-theme pl-6"><BsSearch size={30}/></span>
+                    <span className="text-theme pl-1 md:pl-6"><BsSearch size={30}/></span>
                     <input
-                        className="h-14 w-full text-lg border-none ml-4 outline-none"
+                        className="h-14 w-full text-lg border-none ml-1 md:ml-4 outline-none"
                         type="text"
                         id="restaurantSearch"
                         placeholder="Search for Restaurants, Facilities, Location..."
