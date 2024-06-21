@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
-import '../css/banner.css';
 import { IoIosRestaurant } from 'react-icons/io';
+import bgi from "../assets/backgroundImage.jpg";
 
 function Banner({ city, restaurants }) {
     const [searchInput, setSearchInput] = useState('');
@@ -111,12 +111,12 @@ function Banner({ city, restaurants }) {
 
     return (
         <>
-            <div className="flex searchBanner">
-                <h1 className="flex-item heading">Every Bite Speaks Taste, <span className='mainColor'> Flavorful Journey!</span></h1>
-                <div className="flex flex-item searchMain">
-                    <span className="flex-item restaurantIcon mainColor"><BsSearch /></span>
+            <div className="flex h-[350px] flex-col min-w-full bg-cover" style={{ backgroundImage: `url(${bgi})` }}>
+                <h1 className="flex justify-center gap-1 text-white font-extrabold mt-28 sm:text-3xl" >Every Bite Speaks Taste,<span className='text-theme'> Flavorful Journey!</span></h1>
+                <div className="flex justify-center items-center w-full m-auto bg-white mb-36 rounded-lg pl-2 lg:w-[1000px]">
+                    <span className="text-theme pl-6"><BsSearch size={30}/></span>
                     <input
-                        className="flex-item restaurantSearch"
+                        className="h-14 w-full text-lg border-none ml-4 outline-none"
                         type="text"
                         id="restaurantSearch"
                         placeholder="Search for Restaurants, Facilities, Location..."
@@ -129,7 +129,7 @@ function Banner({ city, restaurants }) {
                         }}
                     />
                     <button
-                        className="restaurantSubmit button flex-item"
+                        className="bg-theme py-[6px] px-6 mr-2 text-white text-lg font-extrabold rounded hover:bg-hover"
                         type="submit"
                         value="restaurantSubmit"
                         onClick={handleSearch}
@@ -140,34 +140,34 @@ function Banner({ city, restaurants }) {
             </div>
 
             {showSuggestions && (
-                <div className="suggestions" ref={suggestionsRef}>
+                <div className="absolute top-[265px] bg-white w-80 mx-2 shadow-cities overflow-y-auto max-h-[220px] no-scrollbar sm:w-[500px] md:top-[307px] md:w-[550px] md:left-4 lg:top-[264px] lg:left-32 xl:left-64 2xl:left-[450px]" ref={suggestionsRef}>
                     {filteredSuggestions.map((suggestion, index) => (
                         <div
                             key={index}
-                            className={`banner-suggestion ${selectedSuggestion === suggestion ? 'selected' : ''}`}
+                            className={`flex justify-between p-[10px] cursor-pointer border-b-[1px] border-border hover:bg-bg ${selectedSuggestion === suggestion ? 'selected' : ''}`}
                             onClick={() => handleSuggestionClick(suggestion)}
                         >
                             <>
-                                <div className="suggestion-content">
+                                <div className="flex gap-2">
                                     {suggestion.type === 'restaurant' &&
-                                        <span className="suggestion-icon">
-                                            <IoIosRestaurant />
+                                        <span className="rounded-full pt-[3px] h-7 w-7 text-white bg-theme">
+                                            <IoIosRestaurant size={26}/>
                                         </span>
                                     }
                                     <div>
-                                        <div className="suggestion-content-header">
+                                        <div className="font-extrabold text-[15px]">
                                             {suggestion.type === 'restaurant' && suggestion.value.name}
                                             {suggestion.type === 'type' && suggestion.value}
                                             {suggestion.type === 'area' && suggestion.value}
                                             {suggestion.type === 'location' && suggestion.value}
                                         </div>
-                                        <div className="suggestion-content-footer">
+                                        <div className="pt-[3px] text-xs text-text">
                                             {suggestion.value.location ? `${suggestion.value.location},` : " "}
                                             {suggestion.area ? suggestion.area : " "}
                                         </div>
                                     </div>
                                 </div>
-                                <div className="suggestion-tag">
+                                <div className="text-[10px] text-text">
                                     {suggestion.type === 'restaurant' ? 'Restaurant'
                                         : suggestion.type === 'type' ? 'Facilities'
                                             : suggestion.type === 'location' ? 'Location'

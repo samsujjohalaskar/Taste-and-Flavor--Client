@@ -123,7 +123,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
               }}
               onFocus={() => searchTerm === '' && setFilteredCities(cities)}
               onClick={() => setShowKey(true)}
-              className="h-7 text-text outline-none text-md ml-3"
+              className="h-7 text-text outline-none text-sm ml-3"
             />
             {showKey && filteredCities && (
               <ul className="absolute w-48 bg-white list-none p-0 m-0 z-10 max-h-48 overflow-y-scroll top-11 ml-4 shadow-cities" ref={cityRef}>
@@ -157,7 +157,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
             </ul>
           </div>
           <div className="hidden md:flex">
-            <button onClick={handleLoginButtonClick} className="bg-theme py-2 px-6 text-white font-extrabold rounded hover:bg-hover">
+            <button onClick={handleLoginButtonClick} className="bg-theme py-[6px] px-6 text-lg text-white font-extrabold rounded hover:bg-hover">
               {user ? 'Logout' : 'Login'}
             </button>
           </div>
@@ -201,7 +201,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
                 className="h-7 text-text outline-none text-sm ml-3 w-28 bg-gray-200"
               />
               {showKey && filteredCities && (
-                <ul className="absolute w-48 bg-white list-none p-0 m-0 z-10 max-h-48 overflow-y-scroll top-60 shadow-cities" ref={cityRef}>
+                <ul className="absolute w-48 bg-white list-none p-0 m-0 z-10 max-h-48 overflow-y-scroll top-54 shadow-cities" ref={cityRef}>
                   {filteredCities.map((city) => (
                     <li key={city.cityName} onClick={() => handleCitySelect(city.cityName)} className="px-4 py-2 text-text cursor-pointer hover:bg-gray-200">
                       {city.cityName}
