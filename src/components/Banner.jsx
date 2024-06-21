@@ -112,7 +112,7 @@ function Banner({ city, restaurants }) {
     return (
         <>
             <div className="flex h-[350px] flex-col min-w-full bg-cover" style={{ backgroundImage: `url(${bgi})` }}>
-                <h1 className="flex justify-center gap-1 text-white font-extrabold mt-28 sm:text-3xl" >Every Bite Speaks Taste,<span className='text-theme'> Flavorful Journey!</span></h1>
+                <h1 className="flex justify-center flex-wrap gap-1 text-white font-extrabold mt-28 text-2xl sm:text-3xl" >Every Bite Speaks Taste,<span className='text-theme'> Flavorful Journey!</span></h1>
                 <div className="flex justify-center items-center w-full m-auto bg-white mb-36 rounded-lg pl-2 lg:w-[1000px]">
                     <span className="text-theme pl-6"><BsSearch size={30}/></span>
                     <input

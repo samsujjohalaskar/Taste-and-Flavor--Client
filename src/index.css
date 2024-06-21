@@ -75,32 +75,6 @@ header {
   color: black;
 }
 
-.bestOffers {
-  height: 212px;
-  /* border: red solid 2px; */
-  background-color: #f3f3f3;
-  padding: 45px 370px 50px 370px;
-  min-width: 880px;
-}
-
-.offersActual {
-  display: flex;
-  /* border: solid black 1px; */
-  margin-top: 10px;
-
-}
-
-.offers {
-  height: 156px;
-  margin: 2px 12px 0px 0px;
-  border-radius: 5px;
-  box-shadow: 4px 8px 8px 0 rgba(0, 0, 0, 0.25);
-}
-
-.offers img {
-  width: 122px;
-}
-
 .restaurantNearby {
   height: 260px;
   /* border: black solid 1px; */

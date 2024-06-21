@@ -8,20 +8,17 @@ import { Link } from 'react-router-dom';
 function Offers() {
   return (
     <>
-      <section className="bestOffers">
-        <h1 className="">Best Offers</h1>
-        <div className="offersActual">
-          <div className="offers">
-            <Link to="#" className="offers30"><img src={offers30} alt="offers30" /></Link>
-          </div>
-          <div className="offers">
-            <Link to="#" className="offers25"><img src={offers25} alt="offers25" /></Link>
-          </div>
-          <div className="offers">
-            <Link to="#" className="offers20"><img src={offers20} alt="offers20" /></Link>
-          </div>
-          <div className="offers">
-            <Link to="#" className="offers15"><img src={offers15} alt="offers15" /></Link>
+      <section className="flex flex-wrap justify-center items-center flex-col bg-bg pt-6 pb-12 px-4 h-max w-full md:py-14">
+        <div className='flex flex-col justify-center max-w-[880px]'>
+          <p className="text-xl font-extrabold md:text-2xl">Best Offers</p>
+          <div className="flex flex-wrap gap-4 mt-2">
+            {[offers30, offers25, offers20, offers15].map((offer, index) => (
+              <div key={index} className="h-20 rounded shadow-offers md:h-[156px]">
+                <Link to="#">
+                  <img className='w-16 md:w-[122px]' src={offer} alt={offer.toString} />
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </section>
