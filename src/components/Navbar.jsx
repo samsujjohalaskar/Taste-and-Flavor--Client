@@ -165,7 +165,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
 
         {/* sidebar component */}
 
-        <div className={`fixed h-fill-available w-48 bg-gray-200 ${showSideBar ? "left-0 top-0" : "left-[-200px] top-0"} z-20 transition-all duration-500 md:hidden`}>
+        <div className={`fixed h-dvh w-48 bg-gray-200 ${showSideBar ? "left-0 top-0" : "left-[-200px] top-0"} z-20 transition-all duration-500 md:hidden`}>
           <div className="p-4">
             <VscClose size={25} className="cursor-pointer float-right" onClick={() => setShowSideBar(false)} />
             <div className="mt-10">
