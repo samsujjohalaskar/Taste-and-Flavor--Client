@@ -140,7 +140,7 @@ function Banner({ city, restaurants }) {
             </div>
 
             {showSuggestions && (
-                <div className="absolute top-[265px] bg-white w-80 mx-2 shadow-cities overflow-y-auto max-h-[220px] no-scrollbar sm:w-[500px] md:top-[307px] md:w-[550px] md:left-4 lg:top-[264px] lg:left-32 xl:left-64 2xl:left-[450px]" ref={suggestionsRef}>
+                <div className="absolute top-[230px] bg-white w-80 mx-2 shadow-cities overflow-y-auto max-h-[220px] no-scrollbar sm:w-[500px] sm:top-[265px] md:top-[300px] md:w-[550px] md:left-4 lg:top-[264px] lg:left-32 xl:left-64 2xl:left-[450px]" ref={suggestionsRef}>
                     {filteredSuggestions.map((suggestion, index) => (
                         <div
                             key={index}
