@@ -46,7 +46,7 @@ export default function Carousel({ city, restaurants }) {
     };
 
     return (
-        <section className="flex justify-center flex-col pt-6 pb-12 pl-4 h-max w-full md:py-14 md:pl-20 lg:pl-32 2xl:items-center">
+        <section className="flex justify-center flex-col pt-6 pb-12 pl-4 h-max w-full md:py-14 md:pl-20 lg:pl-32 2xl:items-center 2xl:pl-0">
             <div className='flex flex-col w-full xl:w-[1140px] 2xl:w-[1200px]'>
                 <div className="flex justify-between items-center">
                     <p className='text-xl font-extrabold md:text-2xl'>Restaurants Near You</p>

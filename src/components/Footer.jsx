@@ -1,6 +1,5 @@
 import React from 'react'
 import logo from "../assets/logo.png"
-import Cities from './Cities';
 import cities from "../allCities";
 import { Link } from 'react-router-dom';
 
@@ -322,122 +321,146 @@ export default function Footer({ city }) {
   return (
     <>
       <div className="footer">
-        <Cities data={cities} />
-        <div className="footerMid">
-          {midSections.map((section, index) => (
-            <div className="dynamicMid" key={index}>
-              <h4 className="subHeading">{section.title}</h4>
-              <ul className="dynamicMidComponent">
-                {section.items.map((item, index) => {
-                  const cleanedItem = item
-                    .toLowerCase()
-                    .replace(/[^a-zA-Z]/g, '-')
-                    .replace(/--+/g, '-');
+        <section className="flex justify-center flex-col pt-6 pb-12 pl-4 h-max w-full border-b-2 border-bg md:py-14 md:pl-20 lg:pl-32 2xl:items-center 2xl:pl-0">
+          <div className='flex flex-col w-full xl:w-[1140px] 2xl:w-[1200px]'>
+            <h4 className="subHeading">Available in</h4>
+            <ul className="flex list-none flex-row flex-wrap gap-2 sm:gap-0">
+              {cities.map((c) => {
+                const cleanedCityName = c.cityName
+                  .toLowerCase()
+                  .replace(/[^a-zA-Z]/g, '-')
+                  .replace(/--+/g, '-');
 
-                  const url = `/${cleanedItem}`;
+                const url = `/${cleanedCityName}-restaurants`;
 
-                  return (
-                    <li key={index}>
-                      <Link to={url}>{item}</Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
-          {midSectionsCuisine.map((section, index) => (
-            <div className="dynamicMid" key={index}>
-              <h4 className="subHeading">{section.title}</h4>
-              <ul className="dynamicMidComponent">
-                {section.items ? (
-                  section.items.map((item, index) => {
+                return (
+                  <li key={c.cityName} className='min-w-[20%] pt-3'>
+                    <Link to={url}>{c.cityName}</Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+        <section className="flex justify-center flex-col pt-6 pb-12 pl-4 h-max w-full border-b-2 border-bg md:py-14 md:pl-20 lg:pl-32 2xl:items-center 2xl:pl-0">
+          <div className='flex flex-col flex-wrap w-full gap-2 md:flex-row sm:gap-0 xl:w-[1140px] 2xl:w-[1200px]'>
+            {midSections.map((section, index) => (
+              <div className="min-w-[20%] pt-3" key={index}>
+                <h4 className="subHeading">{section.title}</h4>
+                <ul className="flex list-none flex-col pt-2 gap-2 flex-wrap">
+                  {section.items.map((item, index) => {
                     const cleanedItem = item
                       .toLowerCase()
                       .replace(/[^a-zA-Z]/g, '-')
                       .replace(/--+/g, '-');
 
-                    const url = `/${city}-restaurants/${cleanedItem}-cuisine`;
+                    const url = `/${cleanedItem}`;
 
                     return (
                       <li key={index}>
                         <Link to={url}>{item}</Link>
                       </li>
                     );
-                  })
-                ) : (
-                  " "
-                )}
-              </ul>
-            </div>
-          ))}
-          {midSectionsFeature.map((section, index) => (
-            <div className="dynamicMid" key={index}>
-              <h4 className="subHeading">{section.title}</h4>
-              <ul className="dynamicMidComponent">
-                {section.items ? (
-                  section.items.map((item, index) => {
-                    const cleanedItem = item
-                      .toLowerCase()
-                      .replace(/[^a-zA-Z0-9]/g, '-')
-                      .replace(/--+/g, '-')
-                      .replace(/^-+|-+$/g, '');
+                  })}
+                </ul>
+              </div>
+            ))}
+            {midSectionsCuisine.map((section, index) => (
+              <div className="min-w-[20%] pt-3" key={index}>
+                <h4 className="subHeading">{section.title}</h4>
+                <ul className="flex list-none flex-col pt-2 gap-2 flex-wrap">
+                  {section.items ? (
+                    section.items.map((item, index) => {
+                      const cleanedItem = item
+                        .toLowerCase()
+                        .replace(/[^a-zA-Z]/g, '-')
+                        .replace(/--+/g, '-');
 
-                    const url = `/${city}-restaurants/${cleanedItem}-facilities`;
+                      const url = `/${city}-restaurants/${cleanedItem}-cuisine`;
 
-                    return (
-                      <li key={index}>
-                        <Link to={url}>{item}</Link>
-                      </li>
-                    );
-                  })
-                ) : (
-                  " "
-                )}
-              </ul>
-            </div>
-          ))}
-          {midSectionsLocations.map((section, index) => (
-            <div className="dynamicMid" key={index}>
-              <h4 className="subHeading">{section.title}</h4>
-              <ul className="dynamicMidComponent">
-                {section.items ? (
-                  section.items.map((location, index) => {
-                    const cleanedItem = location.name
-                      .toLowerCase()
-                      .replace(/[^a-zA-Z]/g, '-')
-                      .replace(/--+/g, '-');
-                    const cleanedArea = location.area
-                      .toLowerCase()
-                      .replace(/[^a-zA-Z]/g, '-')
-                      .replace(/--+/g, '-');
+                      return (
+                        <li key={index}>
+                          <Link to={url}>{item}</Link>
+                        </li>
+                      );
+                    })
+                  ) : (
+                    " "
+                  )}
+                </ul>
+              </div>
+            ))}
+            {midSectionsFeature.map((section, index) => (
+              <div className="min-w-[20%] pt-3" key={index}>
+                <h4 className="subHeading">{section.title}</h4>
+                <ul className="flex list-none flex-col pt-2 gap-2 flex-wrap">
+                  {section.items ? (
+                    section.items.map((item, index) => {
+                      const cleanedItem = item
+                        .toLowerCase()
+                        .replace(/[^a-zA-Z0-9]/g, '-')
+                        .replace(/--+/g, '-')
+                        .replace(/^-+|-+$/g, '');
 
-                    const url = `/${city}-restaurants/${cleanedArea}/${cleanedItem}`;
+                      const url = `/${city}-restaurants/${cleanedItem}-facilities`;
 
-                    return (
-                      <li key={index}>
-                        <Link to={url}>{location.name}</Link>
-                      </li>
-                    );
-                  })
-                ) : (
-                  " "
-                )}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div className="footerBottom flex">
-          <div className="mainColor flex-item logo">
-            <img src={logo} alt="" />
+                      return (
+                        <li key={index}>
+                          <Link to={url}>{item}</Link>
+                        </li>
+                      );
+                    })
+                  ) : (
+                    " "
+                  )}
+                </ul>
+              </div>
+            ))}
+            {midSectionsLocations.map((section, index) => (
+              <div className="min-w-[20%] pt-3" key={index}>
+                <h4 className="subHeading">{section.title}</h4>
+                <ul className="flex list-none flex-col pt-2 gap-2 flex-wrap">
+                  {section.items ? (
+                    section.items.map((location, index) => {
+                      const cleanedItem = location.name
+                        .toLowerCase()
+                        .replace(/[^a-zA-Z]/g, '-')
+                        .replace(/--+/g, '-');
+                      const cleanedArea = location.area
+                        .toLowerCase()
+                        .replace(/[^a-zA-Z]/g, '-')
+                        .replace(/--+/g, '-');
+
+                      const url = `/${city}-restaurants/${cleanedArea}/${cleanedItem}`;
+
+                      return (
+                        <li key={index}>
+                          <Link to={url}>{location.name}</Link>
+                        </li>
+                      );
+                    })
+                  ) : (
+                    " "
+                  )}
+                </ul>
+              </div>
+            ))}
           </div>
-          <div className="flex-item">
-            <p>Every Bite Speaks Taste, Flavorful Journey</p>
+        </section>
+        <section className="flex justify-center items-center flex-col pt-6 pb-12 h-max w-full border-b-2 border-bg md:py-14">
+          <div className='flex flex-col justify-center items-center w-full text-text xl:w-[1140px] 2xl:w-[1200px]'>
+            <div>
+              <img className="h-[60px] w-64" src={logo} alt="Taste&Flavor" />
+            </div>
+            <div>
+              <p className='text-sm'>Every Bite Speaks Taste, Flavorful Journey</p>
+            </div>
+            <div className='flex gap-1'>Write to us at: <p><Link className='text-black font-extrabold' to="https://mail.google.com/mail/?view=cm&fs=1&to=samsujjohalaskar@gmail.com"> samsujjohalaskar@gmail.com</Link></p></div>
+            <div>
+              <p className='text-sm'>© 2023 - Taste&Flavor All Rights Reserved</p>
+            </div>
           </div>
-          <div className="flex-item">Write to us at: <strong><Link className='write-us' to="https://mail.google.com/mail/?view=cm&fs=1&to=samsujjohalaskar@gmail.com">samsujjohalaskar@gmail.com</Link></strong></div>
-          <div className="flex-item">
-            <p>© 2023 - Taste&Flavor All Rights Reserved</p>
-          </div>
-        </div>
+        </section>
       </div>
     </>
   );

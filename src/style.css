@@ -39,3 +39,27 @@
     font-size: 28px !important;
     color: #faf6f6 !important;
 }
+
+.subHeading {
+    color: #FF5757;
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.subHeading::after {
+    content: "";
+    display: block;
+    width: 25px;
+    padding: 0.5rem 0 0 0;
+    border-bottom: 2px solid #FF5757;
+}
+
+.footer a{
+    color: #5c5757;
+}
+
+.footer a:hover {
+    color: #FF5757;
+  }

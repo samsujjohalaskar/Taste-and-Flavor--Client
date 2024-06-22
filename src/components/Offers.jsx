@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 function Offers() {
   return (
     <>
-      <section className="flex flex-wrap justify-center flex-col bg-bg pt-6 pb-12 pl-4 h-max w-full md:py-14 md:pl-20 lg:pl-32 2xl:items-center">
+      <section className="flex flex-wrap justify-center flex-col bg-bg pt-6 pb-12 pl-4 h-max w-full md:py-14 md:pl-20 lg:pl-32 2xl:items-center 2xl:pl-0">
         <div className='flex flex-col 2xl:w-[1200px]'>
           <p className="text-xl font-extrabold md:text-2xl">Best Offers</p>
           <div className="flex flex-wrap gap-4 mt-2">
