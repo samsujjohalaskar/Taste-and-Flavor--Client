@@ -14,18 +14,27 @@ import { VscClose, VscThreeBars } from "react-icons/vsc";
 function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [sidebarSearchTerm, setSidebarSearchTerm] = useState("");
   const [showLogin, setShowLogin] = useState(false);
   const [showSideBar, setShowSideBar] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showKey, setShowKey] = useState(false);
+  const [sidebarShowKey, setSidebarShowKey] = useState(false);
   const [filteredCities, setFilteredCities] = useState([]);
+  const [sidebarFilteredCities, setSidebarFilteredCities] = useState([]);
 
   const [user] = useAuthState(auth);
   const cityRef = useRef();
+  const sidebarCityRef = useRef();
 
   const toggleDropdown = () => {
     setFilteredCities(filteredCities.length ? [] : cities);
     setShowKey(!showKey)
+  };
+
+  const sidebarToggleDropdown = () => {
+    setSidebarFilteredCities(sidebarFilteredCities.length ? [] : cities);
+    setSidebarShowKey(!sidebarShowKey);
   };
 
   const links = [
@@ -39,6 +48,11 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
     setFilteredCities(filtered);
   };
 
+  const handleSidebarCitySearch = (searchTerm) => {
+    const filtered = cities.filter(city => city.cityName.toLowerCase().includes(searchTerm.toLowerCase()));
+    setSidebarFilteredCities(filtered);
+  };
+
   const handleCitySelect = (selectedCity) => {
     setSearchTerm("");
     setFilteredCities([]);
@@ -46,6 +60,16 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
     localStorage.setItem("localCity", selectedCity);
     onCityChangeRedirect(selectedCity);
     setShowKey(false);
+  };
+
+  const handleSidebarCitySelect = (selectedCity) => {
+    setSidebarSearchTerm("");
+    setSidebarFilteredCities([]);
+    onSelectCity(selectedCity);
+    localStorage.setItem("localCity", selectedCity);
+    onCityChangeRedirect(selectedCity);
+    setSidebarShowKey(false);
+    setShowSideBar(false);
   };
 
   const Toast = Swal.mixin({
@@ -100,6 +124,20 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [cityRef]);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (sidebarCityRef.current && !sidebarCityRef.current.contains(event.target)) {
+        setSidebarShowKey(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [sidebarCityRef]);
 
   return (
     <>
@@ -190,29 +228,29 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
               </span>
               <input
                 type="text"
-                placeholder={showKey ? "Search City.." : capitalizeWords(city) ? capitalizeWords(city) : "Search City.."}
-                value={searchTerm}
+                placeholder={sidebarShowKey ? "Search City.." : capitalizeWords(city) ? capitalizeWords(city) : "Search City.."}
+                value={sidebarSearchTerm}
                 onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                  handleCitySearch(e.target.value);
+                  setSidebarSearchTerm(e.target.value);
+                  handleSidebarCitySearch(e.target.value);
                 }}
-                onFocus={() => searchTerm === '' && setFilteredCities(cities)}
-                onClick={() => setShowKey(true)}
+                onFocus={() => sidebarSearchTerm === '' && setSidebarFilteredCities(cities)}
+                onClick={() => setSidebarShowKey(true)}
                 className="h-7 text-text outline-none text-sm ml-3 w-28 bg-gray-200"
               />
-              {showKey && filteredCities && (
-                <ul className="absolute w-48 bg-white list-none p-0 m-0 z-10 max-h-48 overflow-y-scroll top-54 shadow-cities" ref={cityRef}>
-                  {filteredCities.map((city) => (
-                    <li key={city.cityName} onClick={() => handleCitySelect(city.cityName)} className="px-4 py-2 text-text cursor-pointer hover:bg-gray-200">
+              {sidebarShowKey && sidebarFilteredCities && (
+                <ul className="absolute w-48 bg-white list-none p-0 m-0 z-10 max-h-48 overflow-y-scroll top-54 shadow-cities" ref={sidebarCityRef}>
+                  {sidebarFilteredCities.map((city) => (
+                    <li key={city.cityName} onClick={() => handleSidebarCitySelect(city.cityName)} className="px-4 py-2 text-text cursor-pointer hover:bg-gray-200">
                       {city.cityName}
                     </li>
                   ))}
                 </ul>
               )}
-              {!showKey ? (
-                <FaCaretDown onClick={() => toggleDropdown()} className="text-text" />
+              {!sidebarShowKey ? (
+                <FaCaretDown onClick={() => sidebarToggleDropdown()} className="text-text" />
               ) : (
-                <FaCaretUp onClick={() => toggleDropdown()} className=" text-text" />
+                <FaCaretUp onClick={() => sidebarToggleDropdown()} className=" text-text" />
               )}
             </div>
             <div className="absolute bottom-4">
