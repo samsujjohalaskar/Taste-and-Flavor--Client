@@ -147,6 +147,36 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
           <div>
             <img className="h-[60px] w-64" src={logo} alt="Taste&Flavor" />
           </div>
+          <div className="locations absolute bg-white h-8 w-28 top-14 rounded-b-full px-4 md:hidden">
+            <div className="flex items-center rounded-full px-1">
+              <input
+                type="text"
+                placeholder={sidebarShowKey ? "Search" : capitalizeWords(city) ? capitalizeWords(city) : "Search"}
+                value={sidebarSearchTerm}
+                onChange={(e) => {
+                  setSidebarSearchTerm(e.target.value);
+                  handleSidebarCitySearch(e.target.value);
+                }}
+                onFocus={() => sidebarSearchTerm === '' && setSidebarFilteredCities(cities)}
+                onClick={() => setSidebarShowKey(true)}
+                className="h-7 text-text outline-none text-sm w-full rounded-xl"
+              />
+              {sidebarShowKey && sidebarFilteredCities && (
+                <ul className="absolute w-48 bg-white list-none p-0 m-0 z-10 max-h-48 overflow-y-scroll top-8 shadow-cities" ref={sidebarCityRef}>
+                  {sidebarFilteredCities.map((city) => (
+                    <li key={city.cityName} onClick={() => handleSidebarCitySelect(city.cityName)} className="px-4 py-2 text-text cursor-pointer hover:bg-gray-200">
+                      {city.cityName}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {!sidebarShowKey ? (
+                <FaCaretDown onClick={() => sidebarToggleDropdown()} className="text-text" />
+              ) : (
+                <FaCaretUp onClick={() => sidebarToggleDropdown()} className=" text-text" />
+              )}
+            </div>
+          </div>
           <div className="hidden items-center border-[0.5px] border-border rounded md:flex">
             <span>
               <CiLocationOn className="text-xl text-text" />
@@ -221,37 +251,6 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
                   </li>
                 )}
               </ul>
-            </div>
-            <div className="mt-5 flex items-center border-[0.5px] border-border rounded">
-              <span>
-                <CiLocationOn className="text-xl text-text" />
-              </span>
-              <input
-                type="text"
-                placeholder={sidebarShowKey ? "Search City.." : capitalizeWords(city) ? capitalizeWords(city) : "Search City.."}
-                value={sidebarSearchTerm}
-                onChange={(e) => {
-                  setSidebarSearchTerm(e.target.value);
-                  handleSidebarCitySearch(e.target.value);
-                }}
-                onFocus={() => sidebarSearchTerm === '' && setSidebarFilteredCities(cities)}
-                onClick={() => setSidebarShowKey(true)}
-                className="h-7 text-text outline-none text-sm ml-3 w-28 bg-gray-200"
-              />
-              {sidebarShowKey && sidebarFilteredCities && (
-                <ul className="absolute w-48 bg-white list-none p-0 m-0 z-10 max-h-48 overflow-y-scroll top-54 shadow-cities" ref={sidebarCityRef}>
-                  {sidebarFilteredCities.map((city) => (
-                    <li key={city.cityName} onClick={() => handleSidebarCitySelect(city.cityName)} className="px-4 py-2 text-text cursor-pointer hover:bg-gray-200">
-                      {city.cityName}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {!sidebarShowKey ? (
-                <FaCaretDown onClick={() => sidebarToggleDropdown()} className="text-text" />
-              ) : (
-                <FaCaretUp onClick={() => sidebarToggleDropdown()} className=" text-text" />
-              )}
             </div>
             <div className="absolute bottom-4">
               <button onClick={handleLoginButtonClick} className="w-40 bg-theme py-2 px-6 text-white font-extrabold rounded hover:bg-hover">

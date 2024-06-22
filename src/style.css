@@ -56,10 +56,34 @@
     border-bottom: 2px solid #FF5757;
 }
 
-.footer a{
+.footer a {
     color: #5c5757;
 }
 
 .footer a:hover {
     color: #FF5757;
-  }
+}
+
+.locations::before {
+    content: '';
+    position: absolute;
+    height: 60px;
+    width: 60px;
+    background-color: transparent;
+    border-radius: 50%;
+    margin-left: -66px;
+    top: 4px;
+    box-shadow: 13px -21px 1px -16px #fff;
+}
+
+.locations::after {
+    content: '';
+    position: absolute;
+    height: 60px;
+    width: 60px;
+    background-color: transparent;
+    border-radius: 50%;
+    margin-left: 86px;
+    top: 4px;
+    box-shadow: -13px -21px 1px -16px #fff;
+}
