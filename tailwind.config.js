@@ -10,6 +10,9 @@ module.exports = {
         border: "#bcbcbc",
         bg: "#f3f3f3",
         discount: "#54BD8A",
+        pagination: "#4CAF50",
+        filter: "#a0a0a0",
+        filterFloat: "rgba(4, 4, 4, 0.5)",
       },
       boxShadow: {
         cities: "0 4px 8px rgba(0, 0, 0, 0.1)",

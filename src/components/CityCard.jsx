@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Buffer } from 'buffer';
 import { useNavigate } from 'react-router-dom';
-import "../css/bookATable.css";
 import { getAverageRating, getRatingColor } from '../someBlogsFunctions';
 
 export default function CityCard({ restaurant }) {
@@ -27,24 +26,25 @@ export default function CityCard({ restaurant }) {
 
     return (
         <>
-            <div className="city-card-restaurant" title={restaurant.name} onClick={handleRestaurantClick}>
-                <div className="city-card-image">
+            <div className="rounded cursor-pointer bg-white" title={restaurant.name} onClick={handleRestaurantClick}>
+                <div className="rounded-t h-[170px] w-[270px]">
                     {averageRating != 0.0 && (
-                        <div className="city-card-rating" style={{ background: getRatingColor(averageRating) }}>
-                            <p className="city-rating">{averageRating}</p>
+                        <div className="flex justify-center items-center absolute mt-[15px] ml-[215px] h-6 w-10 rounded-sm text-white font-extrabold text-sm" style={{ background: getRatingColor(averageRating) }}>
+                            {averageRating}
                         </div>
                     )}
                     {firstImage && (
                         <img
+                            className='rounded-t h-[170px] w-[270px]'
                             src={`data:${firstImage.contentType};base64,${Buffer.from(firstImage.data).toString('base64')}`}
                             alt={restaurant.name}
                         />
                     )}
                 </div>
-                <div className="city-card-description">
-                    <div className="city-card-name">{restaurant.name}</div>
-                    <div className="city-card-address">{`${restaurant.location}, ${restaurant.area}`.slice(0, 50)}</div>
-                    <div className="city-card-extras">
+                <div className="max-w-[250px] p-[10px]">
+                    <div className="pb-2 text-base font-bold">{restaurant.name}</div>
+                    <div className="text-xs pb-2 text-text">{`${restaurant.location}, ${restaurant.area}`.slice(0, 50)}</div>
+                    <div className="text-xs pb-2 text-text">
                         ₹{restaurant.averageCostForTwo ? restaurant.averageCostForTwo : "1099"} for 2(approx) | {restaurant.cuisine.join(', ')}
                     </div>
                 </div>

@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
-import "../css/bookATable.css";
 import Footer from '../components/Footer';
 import CityCard from '../components/CityCard';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { FaMinus, FaPlus } from "react-icons/fa";
 import { GoChevronDown, GoChevronUp } from "react-icons/go";
-import { IoClose } from "react-icons/io5";
 import { cuisineOptions } from '../filterParameters';
 import { typesOptions } from '../filterParameters';
 import { featureOptions } from '../filterParameters';
 import { BASE_URL } from '../utils/services';
 import Loading from '../components/Loading';
+import NotACard from '../components/NotACard';
+import FilterSection from '../components/FilterSection';
 
 const BookTable = () => {
 
@@ -24,7 +23,7 @@ const BookTable = () => {
   const [selectedFeatures, setSelectedFeatures] = useState(amenities ? [convertToCamelCase(amenities),] : []);
 
   const [showCuisineFilters, setShowCuisineFilters] = useState(true);
-  const [showTypeFilters, setShowTypeFilters] = useState(true);
+  const [showTypeFilters, setShowTypeFilters] = useState(false);
   const [showFeatureFilters, setShowFeatureFilters] = useState(true);
 
   const [showMoreCuisine, setShowMoreCuisine] = useState(false);
@@ -291,181 +290,58 @@ const BookTable = () => {
         }}
       />
       {showLoading && <Loading />}
-      <div className="city-restaurant">
-        <div className="city-filters">
-          {!showCuisineFilters &&
-            <div className="city-cuisine-filters">
-              Cuisines
-              <span className='city-cuisine-filters-span' onClick={() => setShowCuisineFilters(true)}><FaPlus /></span>
-            </div>
-          }
-          {showCuisineFilters &&
-            <div className="city-cuisine-filters">
-              Cuisines
-              <span className='city-cuisine-filters-span' onClick={() => setShowCuisineFilters(false)}><FaMinus /></span>
-              <div className="city-checkboxes">
-                {cuisineOptions.slice(0, 7).map((cuisine) => (
-                  <>
-                    <input type="checkbox" id={cuisine.value} name={cuisine.value} onChange={handleCuisineChange} checked={selectedCuisines.includes(cuisine.label)} value={cuisine.label} disabled={cuisineInParams === cuisine.label} />
-                    <label htmlFor={cuisine.value}>{cuisine.label}</label><br />
-                  </>
-                ))}
-                {!showMoreCuisine && (
-                  <p className='city-show-more' onClick={() => setShowMoreCuisine(true)}>
-                    Show more..
-                  </p>
-                )}
-                {showMoreCuisine &&
-                  <div className='book-table-filter-modal'>
-                    <div className='book-table-filter-modal-contents'>
-                      <div className='book-table-filter-modal-header'>
-                        <h3>Filter by Cuisines</h3>
-                        <p onClick={() => setShowMoreCuisine(false)}>
-                          <span className='book-table-filter-close' title='Close'><IoClose /></span>
-                        </p>
-                      </div>
-                      <div className='book-table-filter-modal-content'>
-                        {cuisineOptions.map((cuisine) => (
-                          <div key={cuisine.value} title={`${cuisine.label} Cuisines`} className='book-table-filter-modal-actual-content'>
-                            <input type="checkbox" id={cuisine.value} name={cuisine.value} onChange={handleCuisineChange} checked={selectedCuisines.includes(cuisine.label)} value={cuisine.label} disabled={cuisineInParams === cuisine.label} />
-                            <label htmlFor={cuisine.value}>{cuisine.label}</label>
-                          </div>
-                        ))}
-                      </div>
-                      <div onClick={() => handleClearClick("cuisines")} title='Clear' className='book-table-filter-modal-footer'>
-                        Clear
-                      </div>
-                    </div>
-                  </div>
-                }
-              </div>
-            </div>
-          }
+      <div className="flex justify-center bg-bg p-4">
+        <div className="hidden w-[200px] my-2 mr-2 xl:block">
 
-          {!showTypeFilters &&
-            <div className="city-type-filters">
-              Types
-              <span className='city-type-filters-span' onClick={() => setShowTypeFilters(true)}><FaPlus /></span>
-            </div>
-          }
-          {showTypeFilters &&
-            <div className="city-type-filters">
-              Types
-              <span className='city-type-filters-span' onClick={() => setShowTypeFilters(false)}><FaMinus /></span>
-              <div className="city-checkboxes">
-                {typesOptions.slice(0, 7).map((types) => (
-                  <>
-                    <input type="checkbox" id={types.value} name={types.value} onChange={handleTypeChange} checked={selectedTypes.includes(types.label)} value={types.label} disabled={typeInParams === types.label} />
-                    <label htmlFor={types.value}>
-                      {
-                        types.label === 'Qsr' ? 'QSR' :
-                          types.label === 'Girf Buffet Deals' ? 'GIRF Buffet Deals' :
-                            types.label === 'Girf Flat 50' ? 'GIRF Flat 50' : types.label
-                      }
-                    </label><br />
-                  </>
-                ))}
-                {!showMoreTypes && (
-                  <p className='city-show-more' onClick={() => setShowMoreTypes(true)}>
-                    Show more..
-                  </p>
-                )}
-                {showMoreTypes &&
-                  <div className='book-table-filter-modal'>
-                    <div className='book-table-filter-modal-contents'>
-                      <div className='book-table-filter-modal-header'>
-                        <h3>Filter by Types</h3>
-                        <p onClick={() => setShowMoreTypes(false)}>
-                          <span className='book-table-filter-close' title='Close'><IoClose /></span>
-                        </p>
-                      </div>
-                      <div className='book-table-filter-modal-content'>
-                        {typesOptions.map((types) => (
-                          <div key={types.value} title={`${types.label === 'Qsr' ? 'QSR' :
-                            types.label === 'Girf Buffet Deals' ? 'GIRF Buffet Deals' :
-                              types.label === 'Girf Flat 50' ? 'GIRF Flat 50' : types.label
-                            } Restaurants`}
-                            className='book-table-filter-modal-actual-content'>
-                            <input type="checkbox" id={types.value} name={types.value} onChange={handleTypeChange} checked={selectedTypes.includes(types.label)} value={types.label} disabled={typeInParams === types.label} />
-                            <label htmlFor={types.value}>
-                              {
-                                types.label === 'Qsr' ? 'QSR' :
-                                  types.label === 'Girf Buffet Deals' ? 'GIRF Buffet Deals' :
-                                    types.label === 'Girf Flat 50' ? 'GIRF Flat 50' : types.label
-                              }
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                      <div onClick={() => handleClearClick("types")} title='Clear' className='book-table-filter-modal-footer'>
-                        Clear
-                      </div>
-                    </div>
-                  </div>
-                }
-              </div>
-            </div>
-          }
+          <FilterSection
+            title="Cuisines"
+            showFilters={showCuisineFilters}
+            setShowFilters={setShowCuisineFilters}
+            options={cuisineOptions}
+            selectedOptions={selectedCuisines}
+            optionInParams={cuisineInParams}
+            handleOptionChange={handleCuisineChange}
+            showMoreOptions={showMoreCuisine}
+            setShowMoreOptions={setShowMoreCuisine}
+            handleClearClick={handleClearClick}
+          />
 
-          {!showFeatureFilters &&
-            <div className="city-feature-filters">
-              Features
-              <span className='city-feature-filters-span' onClick={() => setShowFeatureFilters(true)}><FaPlus /></span>
-            </div>
-          }
-          {showFeatureFilters &&
-            <div className="city-feature-filters">
-              Features
-              <span className='city-feature-filters-span' onClick={() => setShowFeatureFilters(false)}><FaMinus /></span>
-              <div className="city-checkboxes">
-                {featureOptions.slice(0, 7).map((feature) => (
-                  <>
-                    <input type="checkbox" id={feature.value} name={feature.value} onChange={handleFeatureChange} checked={selectedFeatures.includes(feature.value)} value={feature.value} disabled={featureInParams === feature.value} />
-                    <label htmlFor={feature.value}>{feature.label}</label><br />
-                  </>
-                ))}
-                {!showMoreFeature && (
-                  <p className='city-show-more' onClick={() => setShowMoreFeature(true)}>
-                    Show more..
-                  </p>
-                )}
-                {showMoreFeature &&
-                  <div className='book-table-filter-modal'>
-                    <div className='book-table-filter-modal-contents'>
-                      <div className='book-table-filter-modal-header'>
-                        <h3>Filter by Features</h3>
-                        <p onClick={() => setShowMoreFeature(false)}>
-                          <span className='book-table-filter-close' title='Close'><IoClose /></span>
-                        </p>
-                      </div>
-                      <div className='book-table-filter-modal-content'>
-                        {featureOptions.map((feature) => (
-                          <div key={feature.value} title={`${feature.label} Feature`} className='book-table-filter-modal-actual-content'>
-                            <input type="checkbox" id={feature.value} name={feature.value} onChange={handleFeatureChange} checked={selectedFeatures.includes(feature.value)} value={feature.value} disabled={featureInParams === feature.value} />
-                            <label htmlFor={feature.value}>{feature.label}</label>
-                          </div>
-                        ))}
-                      </div>
-                      <div onClick={() => handleClearClick("features")} title='Clear' className='book-table-filter-modal-footer'>
-                        Clear
-                      </div>
-                    </div>
-                  </div>
-                }
-              </div>
-            </div>
-          }
+          <FilterSection
+            title="Features"
+            showFilters={showFeatureFilters}
+            setShowFilters={setShowFeatureFilters}
+            options={featureOptions}
+            selectedOptions={selectedFeatures}
+            optionInParams={featureInParams}
+            handleOptionChange={handleFeatureChange}
+            showMoreOptions={showMoreFeature}
+            setShowMoreOptions={setShowMoreFeature}
+            handleClearClick={handleClearClick}
+          />
+
+          <FilterSection
+            title="Types"
+            showFilters={showTypeFilters}
+            setShowFilters={setShowTypeFilters}
+            options={typesOptions}
+            selectedOptions={selectedTypes}
+            optionInParams={typeInParams}
+            handleOptionChange={handleTypeChange}
+            showMoreOptions={showMoreTypes}
+            setShowMoreOptions={setShowMoreTypes}
+            handleClearClick={handleClearClick}
+          />
 
         </div>
-        <div className="city-restaurant-content">
-          <div className="resMainUrls">
-            <Link className='url' to={"/"}> Taste&Flavor {'>'} </Link>
-            <Link className='url' to={`/${city}-restaurants`}> {capitalizedCity} {'>'} </Link>
+        <div className="m-4">
+          <div className="text-sm text-text pb-2">
+            <Link className='text-sm' to={"/"}> Taste&Flavor {'>'} </Link>
+            <Link className='text-sm' to={`/${city}-restaurants`}> {capitalizedCity} {'>'} </Link>
             {area &&
-              <Link className='url' to={`/${city}-restaurants/${area}`}> {formatString(area)} {'>'} </Link>
+              <Link className='text-sm' to={`/${city}-restaurants/${area}`}> {formatString(area)} {'>'} </Link>
             }
             {location &&
-              <Link className='url' to={`/${city}-restaurants/${area}/${location}`}> {formatString(location)} {'>'} </Link>
+              <Link className='text-sm' to={`/${city}-restaurants/${area}/${location}`}> {formatString(location)} {'>'} </Link>
             }
             {
               amenities ? kebabToTitleCase(amenities) + " Feature" :
@@ -488,8 +364,8 @@ const BookTable = () => {
                 : " "
             }
           </div>
-          <div className="city-restaurants-heading-sort">
-            <div className="city-restaurants-heading">
+          <div className="flex justify-between items-center flex-wrap my-2 gap-2 max-w-[870px]">
+            <div className="text-2xl font-semibold">
               Best {amenities ? kebabToTitleCase(amenities) : ' '}
               {cuisine ? ` ${formatString(cuisine)}` : ' '}
               {
@@ -509,37 +385,39 @@ const BookTable = () => {
               }
               {' '}Restaurants Near Me in{' '}
               {location ? `${formatString(location)}, ${formatString(area)}` : area ? formatString(area) : capitalizedCity}
-              <span className="city-restaurants-length"> ({filterRestaurants().length}) </span>
+              <span className="ml-1 align-text-bottom text-xs text-text font-thin"> ({filterRestaurants().length}) </span>
             </div>
-            <span className='city-sort-by'>Sort by</span>
-            <div className="city-restaurants-sort">
-              <div className="city-restaurants-sort-element" onClick={() => setShowSort(!showSort)}>
-                <span>{sortBy === 'popularity' ? 'Popularity' : sortBy === 'rating' ? 'Rating' : sortBy === 'lowToHigh' ? 'Price: Low to High' : 'Price: High to Low'}</span>
-                <span className="city-restaurants-updown">{showSort ? <GoChevronUp /> : <GoChevronDown />}</span>
-              </div>
-              {showSort &&
-                <div className="city-restaurants-sort-elements">
-                  {sortOptions.map(option => (
-                    <div
-                      key={option.value}
-                      className="city-sort-elements"
-                      onClick={() => { setSortBy(option.value); setShowSort(false); }}
-                    >
-                      {option.label}
-                    </div>
-                  ))}
+            <div className='flex items-center'>
+              <span className='text-text'>Sort by</span>
+              <div>
+                <div className="w-[150px] bg-white ml-2 py-2 px-3 text-sm font-thin rounded text-text cursor-pointer" onClick={() => setShowSort(!showSort)}>
+                  <span>{sortBy === 'popularity' ? 'Popularity' : sortBy === 'rating' ? 'Rating' : sortBy === 'lowToHigh' ? 'Price: Low to High' : 'Price: High to Low'}</span>
+                  <span className="text-xl float-right">{showSort ? <GoChevronUp /> : <GoChevronDown />}</span>
                 </div>
-              }
+                {showSort &&
+                  <div className="absolute w-44 bg-white ml-[10px] font-thin text-sm text-text z-10 shadow-offers border-[1px] border-border">
+                    {sortOptions.map(option => (
+                      <div
+                        key={option.value}
+                        className="py-[10px] pl-[14px] border-b-[1px] border-border cursor-pointer last:border-b-[0px]"
+                        onClick={() => { setSortBy(option.value); setShowSort(false); }}
+                      >
+                        {option.label}
+                      </div>
+                    ))}
+                  </div>
+                }
+              </div>
             </div>
           </div>
-          <div className="city-restaurants">
+          <div className="flex justify-center flex-wrap gap-5 max-w-[870px] md:justify-start">
             {showNoRestaurant ? (
               showLoading ? (
-                [...Array(recordsPerPage)].map((_, index) => (
-                  <div key={index} className='city-non-restaurant'></div>
+                [...Array(6)].map((_, index) => (
+                  <NotACard key={index} />
                 ))
               ) : (
-                <h1 className='city-no-restaurant'>No Food Found!</h1>
+                <h1 className='text-2xl text-theme text-center m-4'>No Food Found!</h1>
               )
             ) : (
               records.map((restaurant) => (
@@ -548,19 +426,19 @@ const BookTable = () => {
             )}
           </div>
           {records.length < filterRestaurants().length ?
-            (<div className='pagination-container'>
-              <li className='pagination-item'>
-                <a href={`#page${currentPage}`} onClick={prevPage}>Prev</a>
+            (<div className='flex justify-center w-max mt-7'>
+              <li className='px-2 py-1 list-none'>
+                <a href={`#page${currentPage}`} onClick={prevPage} className='block text-black px-2 py-1 no-underline'>Prev</a>
               </li>
               {
                 numbers.map((n, i) => (
-                  <li key={i} className={`pagination-item ${currentPage === n ? 'active' : ''}`}>
-                    <a href={`#page${currentPage}`} onClick={() => changeCurrentPage(n)} >{n}</a>
+                  <li key={i} className={`px-2 py-1 list-none ${currentPage === n ? 'bg-pagination text-white' : 'text-black'}`}>
+                    <a href={`#page${currentPage}`} onClick={() => changeCurrentPage(n)} className='block px-2 py-1 no-underline'>{n}</a>
                   </li>
                 ))
               }
-              <li className='pagination-item'>
-                <a href={`#page${currentPage}`} onClick={nextPage}>Next</a>
+              <li className='px-2 py-1 list-none'>
+                <a href={`#page${currentPage}`} onClick={nextPage} className='block text-black px-2 py-1 no-underline'>Next</a>
               </li>
             </div>)
             : ""
