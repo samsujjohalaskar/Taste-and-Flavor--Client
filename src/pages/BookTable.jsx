@@ -390,7 +390,7 @@ const BookTable = () => {
             <div className='flex items-center'>
               <span className='text-text'>Sort by</span>
               <div>
-                <div className="w-[150px] bg-white ml-2 py-2 px-3 text-sm font-thin rounded text-text cursor-pointer" onClick={() => setShowSort(!showSort)}>
+                <div className="w-[160px] bg-white ml-2 py-2 px-3 text-sm font-thin rounded text-text cursor-pointer" onClick={() => setShowSort(!showSort)}>
                   <span>{sortBy === 'popularity' ? 'Popularity' : sortBy === 'rating' ? 'Rating' : sortBy === 'lowToHigh' ? 'Price: Low to High' : 'Price: High to Low'}</span>
                   <span className="text-xl float-right">{showSort ? <GoChevronUp /> : <GoChevronDown />}</span>
                 </div>
