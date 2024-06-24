@@ -4,11 +4,10 @@ import '../css/signin.css';
 import "../css/blog.css";
 import { BASE_URL } from '../utils/services';
 import Loading from '../components/Loading';
-import logo from "../assets/logo.png"
 import BlogFeaturedCard from '../componentsBlog/BlogFeaturedCard';
 import BlogFeaturedSuggCard from '../componentsBlog/BlogFeaturedSuggCard';
 import BlogNavbar from '../componentsBlog/BlogNavbar';
-import { Link } from 'react-router-dom';
+import FooterBottom from '../components/FooterBottom';
 
 const Blog = () => {
 
@@ -131,18 +130,7 @@ const Blog = () => {
 
       {isLoading && <Loading />}
 
-      <div className="footerBottom flex">
-        <div className="mainColor flex-item logo">
-          <img src={logo} alt="" />
-        </div>
-        <div className="flex-item">
-          <p>Every Bite Speaks Taste, Flavorful Journey</p>
-        </div>
-        <div className="flex-item">Write to us at: <strong><Link className='write-us' to="https://mail.google.com/mail/?view=cm&fs=1&to=samsujjohalaskar@gmail.com">samsujjohalaskar@gmail.com</Link></strong></div>
-        <div className="flex-item">
-          <p>© 2023 - Taste&Flavor All Rights Reserved</p>
-        </div>
-      </div>
+      <FooterBottom />
     </>
   )
 }

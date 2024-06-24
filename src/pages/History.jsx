@@ -4,8 +4,7 @@ import { auth } from '../firebase';
 import Navbar from '../components/Navbar';
 import "../css/history.css";
 import { useCity } from '../CityContext';
-import logo from "../assets/logo.png"
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/services';
 import Loading from '../components/Loading';
 import Profile from '../componentsHistory/Profile';
@@ -15,6 +14,7 @@ import Blogs from '../componentsHistory/Blogs';
 import Likes from '../componentsHistory/Likes';
 import Comments from '../componentsHistory/Comments';
 import { getStatusBorderColor } from '../someBlogsFunctions';
+import FooterBottom from '../components/FooterBottom';
 
 const History = () => {
 
@@ -165,18 +165,7 @@ const History = () => {
                     </div>
                 </div>
             </div>
-            <div className="footerBottom flex">
-                <div className="mainColor flex-item logo">
-                    <img src={logo} alt="" />
-                </div>
-                <div className="flex-item">
-                    <p>Every Bite Speaks Taste, Flavorful Journey</p>
-                </div>
-                <div className="flex-item">Write to us at: <strong><Link className='write-us' to="https://mail.google.com/mail/?view=cm&fs=1&to=samsujjohalaskar@gmail.com">samsujjohalaskar@gmail.com</Link></strong></div>
-                <div className="flex-item">
-                    <p>© 2023 - Taste&Flavor All Rights Reserved</p>
-                </div>
-            </div>
+            <FooterBottom />
         </>
     )
 }

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import "../css/blog.css";
-import logo from "../assets/logo.png";
 import { BASE_URL } from '../utils/services';
 import BlogNavbar from '../componentsBlog/BlogNavbar';
 import BlogDetailsSimilarCard from '../componentsBlog/BlogDetailsSimilarCard';
 import Loading from '../components/Loading';
 import CategoryCard from '../componentsBlog/CategoryCard';
+import FooterBottom from '../components/FooterBottom';
 
 const CategoryDetails = () => {
 
@@ -93,7 +93,7 @@ const CategoryDetails = () => {
                 <div className="blog-featured-posts">
                     {randomBlog && randomBlog.length !== 0 ? (randomBlog.map(blog => (
                         <CategoryCard key={blog._id} blog={blog} />
-                    ))):(
+                    ))) : (
                         [...Array(2)].map((_, index) => (
                             <div key={index} className="category-non-details-card"></div>
                         ))
@@ -119,19 +119,7 @@ const CategoryDetails = () => {
 
             {isLoading && <Loading />}
 
-            <div className="footerBottom flex">
-                <div className="mainColor flex-item logo">
-                    <img src={logo} alt="" />
-                </div>
-                <div className="flex-item">
-                    <p>Every Bite Speaks Taste, Flavorful Journey</p>
-                </div>
-                <div className="flex-item">Write to us at: <strong><Link className='write-us' to="https://mail.google.com/mail/?view=cm&fs=1&to=samsujjohalaskar@gmail.com">samsujjohalaskar@gmail.com</Link></strong></div>
-                <div className="flex-item">
-                    <p>© 2023 - Taste&Flavor All Rights Reserved</p>
-                </div>
-            </div>
-
+            <FooterBottom />
         </>
     )
 }

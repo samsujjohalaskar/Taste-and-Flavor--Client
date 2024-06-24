@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import "../css/blog.css";
 import { BASE_URL } from '../utils/services';
-import logo from "../assets/logo.png";
 import Loading from '../components/Loading';
 import BlogDetailsSimilarCard from '../componentsBlog/BlogDetailsSimilarCard';
 import BlogNavbar from '../componentsBlog/BlogNavbar';
 import BlogBigCard from '../componentsBlog/BlogBigCard';
+import FooterBottom from '../components/FooterBottom';
 
 const BlogDetails = () => {
 
@@ -74,7 +74,7 @@ const BlogDetails = () => {
     const handleCommentPosted = (newComment) => {
         // Check if the comment already exists in the comments list
         const existingCommentIndex = blog.comments.findIndex(comment => comment._id === newComment.comment._id);
-        
+
         if (existingCommentIndex !== -1) {
             setBlog(prevBlog => ({
                 ...prevBlog,
@@ -126,19 +126,7 @@ const BlogDetails = () => {
 
             {isLoading && <Loading />}
 
-            <div className="footerBottom flex">
-                <div className="mainColor flex-item logo">
-                    <img src={logo} alt="" />
-                </div>
-                <div className="flex-item">
-                    <p>Every Bite Speaks Taste, Flavorful Journey</p>
-                </div>
-                <div className="flex-item">Write to us at: <strong><Link className='write-us' to="https://mail.google.com/mail/?view=cm&fs=1&to=samsujjohalaskar@gmail.com">samsujjohalaskar@gmail.com</Link></strong></div>
-                <div className="flex-item">
-                    <p>© 2023 - Taste&Flavor All Rights Reserved</p>
-                </div>
-            </div>
-
+            <FooterBottom />
         </>
     )
 }
