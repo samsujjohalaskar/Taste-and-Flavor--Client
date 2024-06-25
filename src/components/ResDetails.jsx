@@ -31,7 +31,14 @@ const ResDetails = ({ userDetails, restaurant, user, ratingD, commentD }) => {
 
     if (!restaurant) {
         return (
-            <div className='res-non-restaurant'></div>
+            <div className='flex flex-col gap-4 animate-pulse'>
+                {[480, 20, 20, 20].map((height, index) => (
+                    <div
+                        key={index}
+                        className={`bg-border cursor-not-allowed min-w-[370px] md:min-w-[810px] h-[${height}px] rounded`}
+                    ></div>
+                ))}
+            </div>
         )
     }
 
