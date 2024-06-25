@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import "../css/bookings.css";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +7,7 @@ import { FaExpandArrowsAlt } from 'react-icons/fa';
 import { ImShrink } from "react-icons/im";
 import Loading from './Loading';
 import Swal from 'sweetalert2';
+import { FaMinus, FaPlus } from 'react-icons/fa6';
 
 const Bookings = ({ user, userDetails, restaurant, handleLogin, showBooking, handleShowBooking }) => {
     const [selectedMeal, setSelectedMeal] = useState('lunch'); // Set 'lunch' as the default meal
@@ -266,38 +266,38 @@ const Bookings = ({ user, userDetails, restaurant, handleLogin, showBooking, han
     return (
         <>
             <form method='POST' onSubmit={handleBooking}>
-                <div className="booking-header">
-                    <span className='drag-booking' title='Drag' onClick={handleShowBooking}>
-                        {showBooking && (<FaExpandArrowsAlt />)}
-                        {!showBooking && (<ImShrink />)}
+                <div className="sticky flex justify-center items-center top-0 z-10 text-white bg-black rounded-t font-extrabold py-3 text-base">
+                    <span className='absolute left-2 text-xl cursor-pointer xl:hidden' onClick={handleShowBooking}>
+                        {showBooking && (<FaExpandArrowsAlt title='Expand' />)}
+                        {!showBooking && (<ImShrink title='Shrink' />)}
                     </span>
                     Book a Table or Deal
                 </div>
                 {loading && <Loading />}
                 {date ? (
-                    <div className="booking-date-time">
+                    <div className="sticky top-10 text-[15px] font-bold p-[10px] bg-bg">
                         {formattedDate} {time ? `| ${time}` : ''} {guests ? `| ${guests} Guest/s` : ''}
                     </div>
                 ) : ''}
-                <div className='booking-label'>Select Date</div>
-                <div className="booking-calendar">
+                <div className='m-4'>Select Date</div>
+                <div className="p-1">
                     <Calendar onChange={handleDateSelection} value={date} minDate={minDate} maxDate={maxDate} />
                 </div>
                 {date && !time ? (
-                    <div className="time-slot">
-                        <div className='booking-label'>Choose a Time Slot:</div>
-                        <div className="booking-lunch-dinner">
-                            <div onClick={() => handleMealClick('lunch')} className={selectedMeal === 'lunch' ? 'selected-meal' : ''}>Lunch</div>
-                            <div onClick={() => handleMealClick('dinner')} className={selectedMeal === 'dinner' ? 'selected-meal' : ''}>Dinner</div>
+                    <div>
+                        <div className='m-4'>Choose a Time Slot:</div>
+                        <div className="m-4 flex justify-around items-center text-sm shadow-lunchDinner p-3 pb-0">
+                            <div onClick={() => handleMealClick('lunch')} className={`border-b-2 border-white cursor-pointer pb-2 ${selectedMeal === 'lunch' ? 'border-b-reviews text-reviews' : ''}`}>Lunch</div>
+                            <div onClick={() => handleMealClick('dinner')} className={`border-b-2 border-white cursor-pointer pb-2 ${selectedMeal === 'dinner' ? 'border-b-reviews text-reviews' : ''}`}>Dinner</div>
                         </div>
                         {selectedMeal === 'lunch' && (
-                            <div className="booking-lunch">
+                            <div className="flex justify-center flex-wrap gap-2">
                                 {lunchSlots.length === 0 ? (
-                                    <div className='slot-not-available'>not available</div>
+                                    <div className='flex justify-center my-10 text-base'>not available</div>
                                 ) : (
                                     availableSlots.map((l) => (
                                         <div
-                                            className={`lunch ${bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? 'disabled-slots' : ''}`}
+                                            className={`flex justify-center items-center text-xs bg-border p-2 w-20 ${bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? 'opacity-50 cursor-not-allowed text-orange-950' : 'cursor-pointer'}`}
                                             onClick={bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? null : () => setTime(l)}
                                             title={bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? 'Reserved' : 'Select'}
                                             key={l}
@@ -309,13 +309,13 @@ const Bookings = ({ user, userDetails, restaurant, handleLogin, showBooking, han
                             </div>
                         )}
                         {selectedMeal === 'dinner' && (
-                            <div className="booking-dinner">
+                            <div className="flex justify-center flex-wrap gap-2">
                                 {dinnerSlots.length === 0 ? (
-                                    <div className='slot-not-available'>not available</div>
+                                    <div className='flex justify-center my-10 text-base'>not available</div>
                                 ) : (
                                     availableSlots.map((l) => (
                                         <div
-                                            className={`dinner ${bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? 'disabled-slots' : ''}`}
+                                            className={`flex justify-center items-center text-xs bg-border p-2 w-20 ${bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? 'opacity-50 cursor-not-allowed text-orange-950' : 'cursor-pointer'}`}
                                             onClick={bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? null : () => setTime(l)}
                                             title={bookedSlots && Array.isArray(bookedSlots) && bookedSlots.includes(l) ? 'Reserved' : 'Select'}
                                             key={l}
@@ -329,51 +329,58 @@ const Bookings = ({ user, userDetails, restaurant, handleLogin, showBooking, han
 
                     </div>
                 ) : (
-                    <div className="time-slot">
-                        <div className='booking-label chosen'>
+                    <div>
+                        <div className='flex justify-between m-4 mb-0'>
                             Time
                             {time ? (
-                                <span onClick={handleTimeReselection} title='Edit'>{time}</span>
+                                <span className='bg-reviews text-white px-2 text-sm cursor-pointer' onClick={handleTimeReselection} title='Edit'>{time}</span>
                             ) : ""}
                         </div>
-                        <div className='booking-small'>Choose Your Preferable Slot</div>
+                        <div className='mt-1 ml-4 text-xs'>Choose Your Preferable Slot</div>
                     </div>
                 )}
                 {date && time && (
-                    <div className="time-slot">
-                        <div className='booking-label chosen'>
+                    <div>
+                        <div className='m-4 mb-0'>
                             Select Guest/s
                         </div>
-                        <div className='booking-small'>Choose the number of guests going</div>
-                        <div className='booking-guests-datas'>
-                            <div className='booking-guests-data'>
-                                <span className='booking-guests-title'>Guests:</span>
+                        <div className='mt-1 ml-4 text-xs'>Choose the number of guests going</div>
+                        <div className='flex justify-around items-center rounded bg-bg m-4'>
+                            <div className='text-sm font-extrabold'>
+                                Guests:
                             </div>
-                            <div className='booking-guests-data'>
-                                <span className="booking-guests-minus" onClick={handleGuestsDecrement}>-</span>
-                                <span className="booking-guests-value">{guests}</span>
-                                <span className="booking-guests-plus" onClick={handleGuestsIncrement}>+</span>
+                            <div className='flex items-center gap-3 p-2'>
+                                <FaMinus className="flex justify-center items-center border-2 border-reviews cursor-pointer rounded-full h-5 w-5 text-reviews" onClick={handleGuestsDecrement} />
+                                <span className="font-bold text-xl">{guests}</span>
+                                <FaPlus className="flex justify-center items-center border-2 border-reviews cursor-pointer rounded-full h-5 w-5 text-reviews" onClick={handleGuestsIncrement} />
                             </div>
                         </div>
                     </div>
                 )}
-                <div className="booking-data">
-                    <div className='booking-label'>Enter Guest Details</div>
-                    <input className={`datas ${user ? "hover-not-allowed" : " "} `} type="text" placeholder={`${guestName ? guestName : "Guest Name"}`} value={guestName} readOnly disabled={user} />
-                    <input className='datas' type="text" placeholder='Mobile No.' value={mobileNumber} onChange={(e) => {
-                        const input = e.target.value;
-                        const formattedInput = input.replace(/\D/g, '');
-                        const trimmedInput = formattedInput.slice(0, 10);
-                        setMobileNumber(trimmedInput);
-                    }} required />
-                    <input className='datas' type="text" placeholder='Special Request (Optional)' value={specialRequest} onChange={(e) => setSpecialRequest(e.target.value)} />
+                <div className="flex flex-col gap-5 m-4">
+                    <div>Enter Guest Details:</div>
+                    <input className={`p-3 border-none rounded bg-bg text-sm outline-none ${user ? "hover-not-allowed" : " "} `} type="text" placeholder={`${guestName ? guestName : "Guest Name"}`} value={guestName} readOnly disabled={user} />
+                    <input
+                        className='p-3 border-none rounded bg-bg text-sm outline-none'
+                        type="text"
+                        placeholder='Mobile No.'
+                        value={mobileNumber}
+                        required
+                        onChange={(e) => {
+                            const input = e.target.value;
+                            const formattedInput = input.replace(/\D/g, '');
+                            const trimmedInput = formattedInput.slice(0, 10);
+                            setMobileNumber(trimmedInput);
+                        }}
+                    />
+                    <input className='p-3 border-none rounded bg-bg text-sm outline-none' type="text" placeholder='Special Request (Optional)' value={specialRequest} onChange={(e) => setSpecialRequest(e.target.value)} />
                     {!user ? (
-                        <input className='datas email-input' type="text" placeholder='Email ID (Optional)' />
-                    ) : (<div className='booking-email'>*your registered email will be shared.</div>)}
+                        <input className='p-3 border-none rounded bg-bg text-sm outline-none mb-4' type="text" placeholder='Email ID (Optional)' />
+                    ) : (<div className='text-center text-xs mb-2'>*your registered email id will be shared.</div>)}
                 </div>
                 {guests ? (
-                    <div className="booking-button">
-                        <button type="submit">{loading ? "Booking..." : "Book"}</button>
+                    <div className="sticky bottom-0 text-center w-full bg-white p-2 mt-1 shadow-booking">
+                        <button className={`h-9 w-full bg-theme border-none text-white font-extrabold cursor-pointer rounded hover:opacity-80 ${loading ? "cursor-not-allowed" : ""}`} type="submit">{loading ? "Booking..." : "Book"}</button>
                     </div>
                 ) : ""}
             </form>

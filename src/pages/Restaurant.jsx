@@ -3,7 +3,6 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import ResDetails from '../components/ResDetails';
 import Footer from '../components/Footer';
-import '../css/restaurant.css';
 import Bookings from '../components/Bookings';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
@@ -22,7 +21,7 @@ const Restaurant = () => {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
 
-    const [showBooking, setShowBooking] = useState(false);
+    const [showBooking, setShowBooking] = useState(true);
 
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -116,11 +115,11 @@ const Restaurant = () => {
                 }}
             />
             {!restaurant && <Loading />}
-            <div className="resMain">
-                <div className="resMainOne">
+            <div className="flex justify-center h-max bg-bg px-4 py-8 xl:gap-6">
+                <div className="sm:max-w-[810px]">
                     <ResDetails user={user} userDetails={userDetails} restaurant={restaurant} ratingD={ratingD} commentD={commentD} />
                 </div>
-                <div className={`resMainTwo ${showBooking ? "decrease-height" : ""}`}>
+                <div className={`absolute h-[480px] w-[315px] z-10 bg-white rounded shadow-booking overflow-x-hidden overflow-y-auto top-[520px] right-4 transition-all duration-500 sm:fixed sm:top-[580px] md:top-[700px] xl:relative xl:top-8 xl:right-0 ${showBooking ? "decrease-height xl:h-[480px] xl:w-[315px]" : ""}`}>
                     {restaurant ? (
                         <Bookings
                             user={user}

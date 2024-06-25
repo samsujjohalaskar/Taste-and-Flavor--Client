@@ -87,3 +87,107 @@
     top: 4px;
     box-shadow: -13px -21px 1px -16px #fff;
 }
+
+.star-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: #8d8b8b;
+}
+
+.bar {
+    height: 3px;
+    margin-right: 5px;
+}
+
+.star-bar:nth-child(5) .bar {
+    background-color: #e74c3c;
+}
+
+.star-bar:nth-child(4) .bar {
+    background-color: #e67e22;
+}
+
+.star-bar:nth-child(3) .bar {
+    background-color: #f39c12;
+}
+
+.star-bar:nth-child(2) .bar {
+    background-color: #b3ca42;
+}
+
+.star-bar:nth-child(1) .bar {
+    background-color: #79b63a;
+}
+
+.thumbs-wrapper {
+    position: absolute !important;
+    bottom: 1px !important;
+}
+
+.control-dots {
+    display: none !important;
+}
+
+.slide img {
+    border-radius: 5px 5px 0px 0px !important;
+}
+
+.carousel-item {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-top: 56.25%;
+    overflow: hidden;
+}
+
+.carousel-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.thumb .carousel-image {
+    position: relative;
+}
+
+.carousel .thumb {
+    width: 80px;
+    height: 50px;
+}
+
+.thumbs-wrapper .thumbs {
+    max-width: 300px;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.thumbs-wrapper .thumbs::-webkit-scrollbar {
+    display: none;
+}
+
+.decrease-height {
+    height: 48px;
+    width: 250px;
+}
+
+.react-calendar {
+    line-height: 0.2em !important;
+    border-radius: 5px;
+    border: none !important;
+    box-shadow: 0 0 14px 0 rgba(0, 0, 0, .16);
+}
+
+.react-calendar__navigation {
+    height: 30px !important;
+    margin-bottom: 0.5em !important;
+}
+
+.react-calendar__tile--active {
+    background: #2b98f7 !important;
+}

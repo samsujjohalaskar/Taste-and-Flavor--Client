@@ -31,13 +31,13 @@
     margin-top: 40px;
 }
 
-.resMainImages>div {
+/* .resMainImages>div {
     background-color: #f3f3f3 !important;
 }
 
 .resMainImages>div>div {
     border-radius: 5px 5px 0px 0px !important;
-}
+} */
 
 .resMainDetails {
     padding: 12px;
@@ -90,7 +90,7 @@
     background-color: #fff;
 }
 
-.resMainSchemas {
+/* .resMainSchemas {
     padding: 15px 30px 10px 30px;
     border-right: 1px solid #f3f3f3;
     text-align: center;
@@ -100,16 +100,16 @@
 
 .resMainSchemas h1 {
     font-size: 16px;
-}
+} */
 
 .resMainSchemas:last-child {
     border: none;
 }
 
-.resMainSchema .resMainSchemas:hover {
+/* .resMainSchema .resMainSchemas:hover {
     color: #71cf32;
     border-bottom: 5px solid #71cf32;
-}
+} */
 
 .resMainMenu, .resMainAbout, .resMainReviews, .resMainHelp {
     margin-top: 12px;
@@ -157,7 +157,7 @@
     font-size: 15px;
 }
 
-.resFeatures {
+/* .resFeatures {
     display: flex;
     flex-wrap: wrap;
     padding: 0px 55px 5px 55px;
@@ -203,7 +203,7 @@
 .help-info p {
     font-size: 17px;
     font-weight: 100;
-}
+} */
 
 .resMainTwo {
     height: 480px;
@@ -219,7 +219,7 @@
     overflow-y: auto;
 }
 
-.overview-image-modal {
+/* .overview-image-modal {
     display: flex;
     position: fixed;
     top: 0;
@@ -230,9 +230,9 @@
     justify-content: center;
     align-items: center;
     z-index: 999;
-}
+} */
 
-.overview-image-modal-content {
+/* .overview-image-modal-content {
     text-align: left;
     border-radius: 3px;
 }
@@ -250,7 +250,7 @@
     font-size: 40px;
     cursor: pointer;
     color: #fff;
-}
+} */
 
 /* Mobile Responsiveness */
 
@@ -269,10 +269,6 @@
         box-shadow: 0 0 28px -1px rgba(0, 0, 0, .15);
         overflow-x: hidden;
         overflow-y: auto;
-    }
-
-    .decrease-height {
-        height: 40px;
     }
 }
 

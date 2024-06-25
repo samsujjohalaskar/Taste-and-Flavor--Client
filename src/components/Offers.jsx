@@ -15,7 +15,7 @@ function Offers() {
             {[offers30, offers25, offers20, offers15].map((offer, index) => (
               <div key={index} className="h-20 rounded shadow-offers md:h-[156px]">
                 <Link to="#">
-                  <img className='w-16 md:w-[122px]' src={offer} alt={offer.toString} />
+                  <img className='w-16 md:w-[122px]' src={offer} />
                 </Link>
               </div>
             ))}

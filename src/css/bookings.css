@@ -22,22 +22,6 @@
     font-size: 14px;
 }
 
-.react-calendar {
-    line-height: 0.2em !important;
-    border-radius: 5px;
-    border: none !important;
-    box-shadow: 0 0 14px 0 rgba(0, 0, 0, .16);
-}
-
-.react-calendar__navigation {
-    height: 30px !important;
-    margin-bottom: 0.5em !important;
-}
-
-.react-calendar__tile--active {
-    background: #2b98f7 !important;
-}
-
 .booking-date-time {
     position: sticky;
     top: 42px;
