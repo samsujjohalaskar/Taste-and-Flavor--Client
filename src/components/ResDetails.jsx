@@ -35,7 +35,7 @@ const ResDetails = ({ userDetails, restaurant, user, ratingD, commentD }) => {
                 {[480, 20, 20, 20].map((height, index) => (
                     <div
                         key={index}
-                        className={`bg-border cursor-not-allowed min-w-[370px] md:min-w-[810px] h-[${height}px] rounded`}
+                        className={`bg-slate-500 cursor-not-allowed min-w-[370px] md:min-w-[810px] h-[${height}px] rounded`}
                     ></div>
                 ))}
             </div>

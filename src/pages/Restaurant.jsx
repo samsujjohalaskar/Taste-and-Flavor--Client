@@ -119,7 +119,7 @@ const Restaurant = () => {
                 <div className="sm:max-w-[810px]">
                     <ResDetails user={user} userDetails={userDetails} restaurant={restaurant} ratingD={ratingD} commentD={commentD} />
                 </div>
-                <div className={`absolute h-[480px] w-[315px] z-10 bg-white rounded shadow-booking overflow-x-hidden overflow-y-auto top-[520px] right-4 transition-all duration-500 sm:fixed sm:top-[580px] md:top-[700px] xl:relative xl:top-8 xl:right-0 ${showBooking ? "decrease-height xl:h-[480px] xl:w-[315px]" : ""}`}>
+                <div className={`absolute h-[480px] w-[315px] bg-white rounded shadow-booking overflow-x-hidden overflow-y-auto top-[520px] right-4 transition-all duration-500 sm:fixed sm:top-[580px] md:top-[700px] xl:relative xl:top-8 xl:right-0 ${showBooking ? "decrease-height xl:h-[480px] xl:w-[315px]" : ""}`}>
                     {restaurant ? (
                         <Bookings
                             user={user}

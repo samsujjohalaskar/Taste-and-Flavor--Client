@@ -266,7 +266,7 @@ const Bookings = ({ user, userDetails, restaurant, handleLogin, showBooking, han
     return (
         <>
             <form method='POST' onSubmit={handleBooking}>
-                <div className="sticky flex justify-center items-center top-0 z-10 text-white bg-black rounded-t font-extrabold py-3 text-base">
+                <div className="sticky flex justify-center items-center top-0 text-white bg-black rounded-t font-extrabold py-3 text-base">
                     <span className='absolute left-2 text-xl cursor-pointer xl:hidden' onClick={handleShowBooking}>
                         {showBooking && (<FaExpandArrowsAlt title='Expand' />)}
                         {!showBooking && (<ImShrink title='Shrink' />)}

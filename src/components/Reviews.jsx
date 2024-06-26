@@ -215,7 +215,7 @@ const Reviews = ({ user, userDetails, restaurant, onReviewsData, ratingD, commen
             </div>
             {showRate && (
                 <form action="POST">
-                    <div className="flex flex-col justify-center items-center fixed top-0 left-0 w-full h-full bg-filterFloat">
+                    <div className="flex flex-col justify-center items-center z-10 fixed top-0 left-0 w-full h-full bg-filterFloat">
                         <div className='flex flex-col max-w-[376px] bg-white shadow-review rounded'>
                             <div className="flex flex-col items-center bg-bg rounded-t py-7">
                                 <div className="flex mb-1 gap-1">

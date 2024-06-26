@@ -18,7 +18,6 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
     const [user] = useAuthState(auth);
     const navigate = useNavigate();
     const [userDetails, setUserDetails] = useState("");
-    const [showUserDetails, setShowUserDetails] = useState(false);
     const [showAddBlog, setShowAddBlog] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
     const [showSignUp, setShowSignUp] = useState(false);
@@ -161,7 +160,6 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
     });
 
     const handleLoginButtonClick = () => {
-        setShowUserDetails(false);
         if (user) {
             navigate('/history');
         } else {
@@ -171,80 +169,83 @@ const BlogNavbar = ({ actualCategories, currentCategory }) => {
 
     return (
         <>
-            <div className="blog-navbar">
-                <div className="blog-navbar-div-one">
-                    <Link className="blog-navbar-div-one-logo" to="/">
-                        <img src={logo} alt="Taste&Flavor" title="Home" />
-                    </Link>
-                </div>
-                <div className="blog-navbar-div-two">
-                    <div className="blog-navbar-div-two-write" onClick={() => user ? setShowAddBlog(true) : setShowLogin(true)}>
+            <div className="flex justify-around w-full">
+                <Link to="/">
+                    <img className="h-[60px] cursor-pointer" src={logo} alt="Taste&Flavor" />
+                </Link>
+                <div className="flex justify-center items-center gap-14 text-text">
+                    <div className="hidden justify-center items-center gap-2 text-xl cursor-pointer text-text hover:text-theme md:flex" onClick={() => user ? setShowAddBlog(true) : setShowLogin(true)}>
                         <TfiPencilAlt />
-                        <p className="blog-navbar-div-two-letter">Write</p>
+                        <p className="text-sm">Write</p>
                     </div>
-                    <div className="blog-navbar-div-two-profile" onClick={() => setShowUserDetails(!showUserDetails)}>
+                    <div className="h-9 w-9 rounded-full cursor-pointer" onClick={handleLoginButtonClick} title={`${user ? "Dashboard" : "Signin"}`}>
                         {(userDetails && userDetails.image && userDetails.image.data) ? (
-                            <img className="blog-navbar-div-two-profile"
+                            <img className="h-9 w-9 rounded-full cursor-pointer"
                                 src={`data:${userDetails.image.contentType};base64,${Buffer.from(userDetails.image.data).toString('base64')}`}
                                 alt={`${userDetails.fullName}`}
                             />
                         ) : (
-                            <CgProfile />
+                            <CgProfile className='text-4xl text-text' />
                         )
                         }
                     </div>
                 </div>
             </div>
 
-            {showUserDetails && (
-                <div className="blog-show-user-details">
-                    <div className="blog-user-state" onClick={handleLoginButtonClick}>{user ? "Dashboard" : "Signin"}</div>
+            <div className="flex justify-center border-t-[1px] border-bg p-2">
+                <div className='flex max-w-[950px] overflow-auto no-scrollbar'>
+                    {actualCategories && actualCategories.length !== 0 ? (actualCategories.map((cat, index) => (
+                        <p key={index} title={`See More ${cat} Blogs`}
+                            className={`text-sm min-w-max text-text px-2 border-r-2 border-bg cursor-pointer last:border-none hover:text-theme ${cat === currentCategory ? "text-theme" : ""}`}
+                            onClick={() => {
+                                const cleanedCategory = cat.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
+                                const url = `/blog/category-based-blogs/${cleanedCategory}`;
+
+                                navigate(url);
+                            }}
+                        >
+                            {cat}
+                        </p>
+                    ))) : (
+                        [...Array(6)].map((_, index) => (
+                            <p key={index} className='bg-slate-500 animate-pulse cursor-not-allowed w-28 rounded-full h-3 my-1 mx-2'></p>
+                        ))
+                    )}
                 </div>
-            )}
-
-            <div className="blog-navbar-categories">
-                {actualCategories && actualCategories.length !== 0 ? (actualCategories.map((cat, index) => (
-                    <p key={index} title={`See More ${cat} Blogs`} className={cat === currentCategory ? "blog-navbar-category blog-navbar-active-category" : "blog-navbar-category"}
-                        onClick={() => {
-                            const cleanedCategory = cat.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
-                            const url = `/blog/category-based-blogs/${cleanedCategory}`;
-
-                            navigate(url);
-                        }}
-                    >
-                        {cat}
-                    </p>
-                ))) : (
-                    [...Array(6)].map((_, index) => (
-                        <p key={index} className='blog-navbar-non-category'></p>
-                    ))
-                )}
+            </div>
+            <div className="flex justify-center items-center rounded-full md:hidden">
+                <div className="locations absolute bg-white h-8 w-28 top-[93px] rounded-b-full px-4">
+                    <div className="flex justify-center items-center gap-2 pt-1 text-xl cursor-pointer text-text hover:text-theme" onClick={() => user ? setShowAddBlog(true) : setShowLogin(true)}>
+                        <TfiPencilAlt />
+                        <p className="text-sm">Write</p>
+                    </div>
+                </div>
             </div>
 
             {showAddBlog && (
-                <div className="overlay show-overlay signup-model-overlay">
-                    <div className="modal blog-card-model">
-                        <form className="blog-card-form" onSubmit={handleSubmit}>
+                <div className="fixed flex flex-col justify-center items-center z-10 top-0 left-0 w-full h-full bg-filterFloat">
+                    <div className="bg-white p-14 shadow-filterFloat">
+                        <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
 
-                            <select id="category" name="category" value={formData.category} onChange={handleChange} required>
+                            <select className='w-80 p-3 text-base border-none outline-none bg-bg' id="category" name="category" value={formData.category} onChange={handleChange} required>
                                 <option value="">Select a category</option>
                                 {categories.map((category, index) => (
                                     <option key={index} value={category}>{category}</option>
                                 ))}
                             </select>
 
-                            <input type="text" id="title" name="title" placeholder="Blog Title" value={formData.title} onChange={handleChange} required />
+                            <input className='w-80 p-3 text-base border-none outline-none bg-bg' type="text" id="title" name="title" placeholder="Blog Title" value={formData.title} onChange={handleChange} required />
 
-                            <textarea id="content" name="content" placeholder="Write Content.." rows={10} value={formData.content} onChange={handleChange} required />
+                            <textarea className='w-80 p-3 text-base border-none outline-none bg-bg' id="content" name="content" placeholder="Write Content.." rows={10} value={formData.content} onChange={handleChange} required />
 
-                            <input type="file" id="image" name="image" onChange={handleImageChange} accept="image/*" />
+                            <input className='w-80 my-4' type="file" id="image" name="image" onChange={handleImageChange} accept="image/*" />
 
-                            <button className='subBlog button blog-form-button' type="submit" disabled={isLoading}>
+                            <button className={`w-80 p-3 text-xl font-extrabold border-none bg-theme text-white hover:opacity-80 ${isLoading ? 'cursor-not-allowed' : 'cursor-pointer'}`} type="submit" disabled={isLoading}>
                                 {isLoading ? 'Posting...' : 'Post Blog'}
                             </button>
                         </form>
                     </div>
-                    <div className='signup-close-icon' onClick={() => setShowAddBlog(false)}><IoMdClose /></div>
+                    <div className='flex justify-center items-center cursor-pointer mt-4 h-9 w-9 rounded-full bg-border text-xl' onClick={() => setShowAddBlog(false)}><IoMdClose /></div>
                 </div>
             )}
 
