@@ -362,14 +362,14 @@
     margin-top: 10px;
 }
 
-.blog-details-all-user-comments {
+/* .blog-details-all-user-comments {
     padding: 20px 0 10px 0;
     border-bottom: 1px solid #e7e5e5;
 }
 
 .blog-details-all-user-comments:last-child {
     border: none;
-}
+} */
 
 .blog-details-commented-by-user {
     display: flex;

@@ -9,7 +9,6 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import { BASE_URL } from '../utils/services';
 import Loading from '../components/Loading';
-import { IoMdClose } from 'react-icons/io';
 import CommentCard from './CommentCard';
 import { formatDate } from '../someBlogsFunctions';
 
@@ -199,102 +198,110 @@ const BlogBigCard = ({ blog, onCommentPosted }) => {
 
     if (blog && blog.length === 0) {
         return (
-            <div className='blog-non-details-post'></div>
+            <div className='flex flex-col gap-4 animate-pulse'>
+                {[480, 20, 20, 20].map((height, index) => (
+                    <div
+                        key={index}
+                        className={`bg-slate-500 cursor-not-allowed min-w-[370px] md:min-w-[810px] h-[${height}px] rounded`}
+                    ></div>
+                ))}
+            </div>
         )
     }
 
     return (
         <>
-            <div className="blog-details-post">
-                <div className="blog-details-post-image">
-                    <div className="blog-details-category-like-comment">
-                        <div className="blog-details-like-div">
-                            {!showLike ? (
-                                <FaRegHeart onClick={handleLike} title="Like" className="blog-details-like" />
-                            ) : (
-                                <FaHeart onClick={handleLike} title="Unlike" className="blog-details-liked" />
-                            )
-                            }
-                            <span className="blog-details-like-count"> {likesCount}</span>
-                        </div>
-                        <div className="blog-details-comment-div">
-                            <ScrollLink to="comment-section" className="blog-details-comment" smooth={true} duration={500}>
-                                <FaRegComment title="Comments" />
-                            </ScrollLink>
-                            <span className="blog-details-comment-count"> {commentsCount}</span>
-                        </div>
+            <div className="flex flex-col gap-4 w-full">
+                <p className="text-2xl font-bold md:text-3xl">{blog ? blog.title : ""}</p>
+                <div className="flex flex-row gap-4 pl-3 py-1 border-t-[1px] border-b-[1px] border-bg">
+                    <div className="flex justify-center items-center gap-2 text-xl">
+                        {!showLike ? (
+                            <FaRegHeart className="cursor-pointer" onClick={handleLike} title="Like" />
+                        ) : (
+                            <FaHeart className="text-theme cursor-pointer" onClick={handleLike} title="Unlike" />
+                        )
+                        }
+                        <span className="text-base"> {likesCount}</span>
                     </div>
+                    <div className="flex justify-center items-center gap-2">
+                        <ScrollLink className="text-xl cursor-pointer" to="comment-section" smooth={true} duration={500}>
+                            <FaRegComment title="Comments" />
+                        </ScrollLink>
+                        <span className="text-base"> {commentsCount}</span>
+                    </div>
+                </div>
+                <div className="w-full mt-1">
                     {(blog && blog.image && blog.image.data) && (
-                        <img className="blog-details-post-image"
+                        <img className="w-full"
                             src={`data:${blog.image.contentType};base64,${Buffer.from(blog.image.data).toString('base64')}`}
                             alt={`${blog.title}`}
                         />
                     )}
                 </div>
-                <div className="blog-details-post-info">
-                    <p className="blog-details-post-title">{blog ? blog.title : ""}</p>
-                    <div className="blog-details-user-details">
-                        <span className="blog-details-user-image">
-                            {(blog && blog.postedBy && blog.postedBy.image) ? (
-                                <img className="blog-details-user-image"
-                                    src={`data:${blog.postedBy.image.contentType};base64,${Buffer.from(blog.postedBy.image.data).toString('base64')}`}
-                                    alt={blog.postedBy.fullName} />
-                            ) : (
-                                <FaUserCircle className="blog-details-non-user-image" />
-                            )}
-                        </span>
-                        <span className="blog-details-post-date">{blog && blog.postedBy && blog.postedBy.fullName} Posted on {formatDate(blog ? blog.date : "")}</span>
-                    </div>
-                    <p className="blog-details-post-content">{blog ? blog.content : ""}</p>
+                <div className="w-max flex items-center gap-2">
+                    <span className="h-9 w-9 rounded-full bg-bg">
+                        {(blog && blog.postedBy && blog.postedBy.image) ? (
+                            <img className="h-9 w-9 rounded-full"
+                                src={`data:${blog.postedBy.image.contentType};base64,${Buffer.from(blog.postedBy.image.data).toString('base64')}`}
+                                alt={blog.postedBy.fullName} />
+                        ) : (
+                            <FaUserCircle className="h-full w-full text-border" />
+                        )}
+                    </span>
+                    <span className="text-text text-sm font-thin">{blog && blog.postedBy && blog.postedBy.fullName} Posted on {formatDate(blog ? blog.date : "")}</span>
+                </div>
+                <div className="leading-6 text-base px-2">
+                    {blog ? blog.content : ""}
                 </div>
             </div>
-            <Element name="comment-section" className="blog-details-post blog-details-comments">
-                <span className="blog-details-count-container">
-                    <span className="blog-details-comments-counts" onClick={() => setShowComments(!showComments)}>{commentsCount}</span>
-                </span>
-                <span className="blog-details-comments-replies">replies</span>
-                <span className="blog-details-comments-border"></span>
+            <Element name="comment-section" className="flex flex-col justify-center items-center gap-2 w-full">
+                <div className='w-full flex justify-center before:h-[1px] before:w-1/3 before:bg-bg before:mt-7 after:h-[1px] after:w-1/3 after:bg-bg after:mt-7'>
+                    <span className="h-14 w-14 mx-4 flex justify-center items-center rounded-full text-white bg-black text-2xl cursor-pointer" onClick={() => setShowComments(!showComments)}>
+                        {commentsCount}
+                    </span>
+                </div>
+                <span className="uppercase text-xs">replies</span>
             </Element>
-            <form className="blog-details-post blog-details-comments-input-container" onSubmit={handlePostComment}>
-                <p className="blog-details-comment-heading">Leave a Reply</p>
-                <p className="blog-details-comment-sub-heading">
+            <form className="w-full flex flex-col gap-4" onSubmit={handlePostComment}>
+                <p className="text-xl font-semibold">Leave a Reply</p>
+                <p className="text-sm font-light">
                     Want to join the discussion?
                     <br />
                     Feel free to contribute!
                 </p>
-                <textarea className="blog-details-comment-input" value={comment} onChange={handleCommentChange} placeholder="Write your comment here..." name="comment" id="comment" cols="30" rows="8" required></textarea>
-                <button className="blog-details-comment-button button" type="submit">Post Comment</button>
+                <textarea className="bg-bg border-2 border-border rounded p-2 outline-none w-full" value={comment} onChange={handleCommentChange} placeholder="Write your comment here..." name="comment" id="comment" cols="30" rows="8" required></textarea>
+                <button className="h-9 max-w-40 bg-theme border-none text-white font-extrabold cursor-pointer rounded hover:opacity-80" type="submit">Post Comment</button>
             </form>
 
             {showComments && (
-                <div className="overlay signup-model-overlay">
-                    <div className="modal blog-details-comment-model">
+                <div className="fixed flex flex-col justify-center items-center h-full w-full top-0 left-0 bg-filterFloat z-10">
+                    <div className="bg-white p-5 w-[350px] max-h-[550px] overflow-y-auto shadow-review text-left">
                         {user && userDetails && (
-                            <form className="blog-comment-model-input" onSubmit={handlePostComment}>
-                                <div className="blog-details-commented-by-user">
-                                    <div className="blog-details-commented-by-user-image">
+                            <form className="p-2 shadow-review my-4" onSubmit={handlePostComment}>
+                                <div className="flex items-center gap-2">
+                                    <div className="h-9 w-9 rounded-full">
                                         {(userDetails && userDetails.image) ? (
-                                            <img className="blog-details-commented-by-user-image"
+                                            <img className="h-9 w-9 rounded-full"
                                                 src={`data:${userDetails.image.contentType};base64,${Buffer.from(userDetails.image.data).toString('base64')}`}
                                                 alt={userDetails.fullName} />
                                         ) : (
-                                            <FaUserCircle className="blog-details-commented-by-non-user-image" />
+                                            <FaUserCircle className="h-9 w-9 rounded-full" />
                                         )}
                                     </div>
-                                    <div className="blog-details-commented-by-user-name-date">
-                                        <div className="blog-details-commented-by-user-name">
+                                    <div className="text-sm">
+                                        <div>
                                             {userDetails && userDetails.fullName}
                                             {userDetails && blog && userDetails._id === blog.postedBy._id && (
-                                                <span className="blog-comments-author">AUTHOR</span>
+                                                <span className="ml-1 bg-reviews text-white text-xs rounded px-2">AUTHOR</span>
                                             )}
                                         </div>
                                     </div>
                                 </div>
-                                <textarea className="blog-comment-model-input-area" placeholder="What are your thoughts?" value={comment} onChange={handleCommentChange} name="comment" id="comment" required></textarea><br />
-                                <button className="blog-comment-model-input-button" type="submit">Respond</button>
+                                <textarea className="w-full h-24 outline-none border-none mt-2" placeholder="What are your thoughts?" value={comment} onChange={handleCommentChange} name="comment" id="comment" required></textarea><br />
+                                <button className="bg-reviews text-white border-2 border-reviews rounded-full px-2 py-1 cursor-pointer mt-2 hover:opacity-80" type="submit">Respond</button>
                             </form>
                         )}
-                        <p className="blog-comments-all-count">Responces ({commentsCount})</p>
+                        <p className="text-lg font-bold">Responces ({commentsCount})</p>
                         {blog && blog.comments
                             .sort((a, b) => new Date(b.date) - new Date(a.date))
                             .map(comment => (
@@ -302,7 +309,7 @@ const BlogBigCard = ({ blog, onCommentPosted }) => {
                             ))
                         }
                     </div>
-                    <div className='signup-close-icon' onClick={() => setShowComments(false)}><IoMdClose /></div>
+                    <div className='flex justify-center items-center mt-3 bg-border h-10 w-10 rounded-full text-white text-3xl cursor-pointer' onClick={() => setShowComments(false)}>×</div>
                 </div>
             )}
 

@@ -7,28 +7,28 @@ const CommentCard = ({ comment, blogOwner }) => {
 
     return (
         <>
-            <div className="blog-details-all-user-comments">
-                <div className="blog-details-commented-by-user">
-                    <div className="blog-details-commented-by-user-image">
+            <div className="py-3 border-b-[1px] border-bg last:border-b-0">
+                <div className="flex items-center gap-2">
+                    <div className="h-9 w-9 rounded-full">
                         {(comment && comment.commentedBy.image) ? (
-                            <img className="blog-details-commented-by-user-image"
+                            <img className="h-9 w-9 rounded-full"
                                 src={`data:${comment.commentedBy.image.contentType};base64,${Buffer.from(comment.commentedBy.image.data).toString('base64')}`}
                                 alt={comment.commentedBy.fullName} />
                         ) : (
-                            <FaUserCircle className="blog-details-commented-by-non-user-image" />
+                            <FaUserCircle className="h-9 w-9 rounded-full text-border" />
                         )}
                     </div>
-                    <div className="blog-details-commented-by-user-name-date">
-                        <div className="blog-details-commented-by-user-name">
+                    <div className="text-sm">
+                        <div>
                             {comment.commentedBy.fullName}
                             {blogOwner && comment && blogOwner === comment.commentedBy._id && (
-                                <span className="blog-comments-author">AUTHOR</span>
+                                <span className="ml-1 bg-reviews text-white text-xs rounded px-2">AUTHOR</span>
                             )}
                         </div>
-                        <div className="blog-details-commented-by-user-date">{countTillDate(comment.date)}</div>
+                        <div className="text-border">{countTillDate(comment.date)}</div>
                     </div>
                 </div>
-                <div className="blog-details-comment-by-user">{comment.comment}</div>
+                <div className="mt-2">{comment.comment}</div>
             </div>
         </>
     )

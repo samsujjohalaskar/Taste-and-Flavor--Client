@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import "../css/blog.css";
 import { BASE_URL } from '../utils/services';
 import Loading from '../components/Loading';
-import BlogDetailsSimilarCard from '../componentsBlog/BlogDetailsSimilarCard';
+import BlogFeaturedSuggCard from '../componentsBlog/BlogFeaturedSuggCard';
 import BlogNavbar from '../componentsBlog/BlogNavbar';
 import BlogBigCard from '../componentsBlog/BlogBigCard';
 import FooterBottom from '../components/FooterBottom';
@@ -100,26 +99,26 @@ const BlogDetails = () => {
     return (
         <>
             <BlogNavbar actualCategories={randomCategories} currentCategory={blog.category} />
-            <div className="blog-details-container">
-                <div className="blog-featured-posts">
+            <div className="flex justify-center flex-wrap border-b-[1px] border-t-[1px] border-bg">
+                <div className="flex flex-col border-b-[1px] border-bg max-w-[980px] gap-6 px-6 py-9 md:px-12 2xl:border-r-[1px] xl:border-b-0">
                     <BlogBigCard blog={blog} onCommentPosted={handleCommentPosted} />
                 </div>
-                <div className="blog-featured-suggestions">
-                    <p className="blog-featured-sugg-heading">Similar Blog Discoveries</p>
+                <div className="p-6 lg:p-12">
+                    <p className="text-lg font-normal uppercase tracking-[1px]">Similar Blog Discoveries</p>
                     {similarBlog.length === 1 &&
-                        <p className="blog-featured-no-similar-posts">
+                        <p className="text-xs italic mt-2">
                             No Similar Posts Available..
                         </p>
                     }
                     {similarBlog.length === 0 &&
                         [...Array(3)].map((_, index) => (
-                            <div key={index} className="blog-featured-non-sugg-posts"></div>
+                            <div key={index} className="bg-slate-500 animate-pulse cursor-not-allowed w-full rounded-full h-6 my-3"></div>
                         ))
                     }
                     {shuffledSimilarBlogs
                         .filter(blog => blog.title !== currentTitle)
                         .map(blog => (
-                            <BlogDetailsSimilarCard key={blog._id} blog={blog} />
+                            <BlogFeaturedSuggCard key={blog._id} blog={blog} />
                         ))}
                 </div>
             </div>
