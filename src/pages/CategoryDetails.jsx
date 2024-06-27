@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import "../css/blog.css";
 import { BASE_URL } from '../utils/services';
 import BlogNavbar from '../componentsBlog/BlogNavbar';
-import BlogDetailsSimilarCard from '../componentsBlog/BlogDetailsSimilarCard';
+import BlogFeaturedSuggCard from '../componentsBlog/BlogFeaturedSuggCard';
 import Loading from '../components/Loading';
 import CategoryCard from '../componentsBlog/CategoryCard';
 import FooterBottom from '../components/FooterBottom';
@@ -14,7 +13,6 @@ const CategoryDetails = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [blog, setBlog] = useState([]);
     const [randomBlog, setRandomBlog] = useState([]);
-    const [similarBlog, setSimilarBlog] = useState([]);
 
     const categoriesActual = [
         "Food", "Restaurant Reviews", "Family Dinner", "Friends Dayout", "Chef Spotlight", "Healthy Eating",
@@ -89,30 +87,32 @@ const CategoryDetails = () => {
     return (
         <>
             <BlogNavbar actualCategories={randomCategories} currentCategory={blogCat} />
-            <div className="blog-details-container">
-                <div className="blog-featured-posts">
+            <div className="flex justify-center flex-wrap border-b-[1px] border-t-[1px] border-bg">
+                <div className="flex flex-col border-b-[1px] border-bg max-w-[980px] gap-6 px-6 py-9 md:px-12 2xl:border-r-[1px] xl:border-b-0">
                     {randomBlog && randomBlog.length !== 0 ? (randomBlog.map(blog => (
                         <CategoryCard key={blog._id} blog={blog} />
                     ))) : (
-                        [...Array(2)].map((_, index) => (
-                            <div key={index} className="category-non-details-card"></div>
+                        [...Array(3)].map((_, index) => (
+                            <div key={index} className='flex flex-col gap-4 animate-pulse'>
+                                <div className="bg-slate-500 cursor-not-allowed min-w-[370px] md:min-w-[810px] h-32 rounded" ></div>
+                            </div>
                         ))
                     )}
                 </div>
-                <div className="blog-featured-suggestions">
-                    <p className="blog-featured-sugg-heading">Top Picks</p>
+                <div className="p-6 lg:p-12">
+                    <p className="text-lg font-normal uppercase tracking-[1px]">Top Picks</p>
                     {topPicksBlogs.length === 0 && !isLoading &&
-                        <p className="blog-featured-no-similar-posts">
+                        <p className="text-xs italic mt-2">
                             No Posts Available..
                         </p>
                     }
                     {topPicksBlogs.length === 0 && isLoading &&
                         [...Array(3)].map((_, index) => (
-                            <div key={index} className="blog-featured-non-sugg-posts"></div>
+                            <div key={index} className="bg-slate-500 animate-pulse cursor-not-allowed w-full rounded-full h-6 my-3"></div>
                         ))
                     }
                     {topPicksBlogs.map(blog => (
-                        <BlogDetailsSimilarCard key={blog._id} blog={blog} />
+                        <BlogFeaturedSuggCard key={blog._id} blog={blog} />
                     ))}
                 </div>
             </div>

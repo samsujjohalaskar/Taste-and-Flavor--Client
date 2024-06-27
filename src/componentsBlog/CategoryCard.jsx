@@ -9,24 +9,24 @@ const CategoryCard = ({ blog }) => {
 
     return (
         <>
-            <div className="category-details-card">
-                <div className="category-details-card-info">
-                    <div className="category-details-card-user-date">
-                        <div className="category-details-card-user-image">
+            <div className="flex items-center flex-wrap max-w-full gap-4 border-b-[1px] border-bg pb-3 last:border-b-0 md:flex-row md:gap-10">
+                <div className="flex flex-col gap-2 max-w-[500px]">
+                    <div className="flex items-center gap-2">
+                        <div className="h-7 w-7 rounded-full">
                             {(blog && blog.postedBy && blog.postedBy.image && blog.postedBy.image.data) ? (
-                                <img className="category-details-card-user-image"
+                                <img className="h-7 w-7 rounded-full"
                                     src={`data:${blog.postedBy.image.contentType};base64,${Buffer.from(blog.postedBy.image.data).toString('base64')}`}
                                     alt={`${blog.postedBy.fullName}`}
                                 />
                             ) : (
-                                <FaUserCircle className="category-details-card-user-image" />
+                                <FaUserCircle className="h-7 w-7 rounded-full text-border" />
                             )
                             }
                         </div>
-                        <div className="category-details-card-user-name">{blog && blog.postedBy && blog.postedBy.fullName} · </div>
-                        <div className="category-details-card-blog-date">{blog && simpleDate(blog.date)}</div>
+                        <div>{blog && blog.postedBy && blog.postedBy.fullName} · </div>
+                        <div className="text-text">{blog && simpleDate(blog.date)}</div>
                     </div>
-                    <div className="category-details-card-title-content"
+                    <div className="flex flex-col gap-2 cursor-pointer"
                         onClick={() => {
                             const cleanedTitle = blog.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
                             const url = `/blog/individual-blogs/${blog._id}/${cleanedTitle}`;
@@ -34,16 +34,18 @@ const CategoryCard = ({ blog }) => {
                             navigate(url);
                         }}
                     >
-                        <p className="category-details-card-blog-title">{blog ? blog.title : ""}</p>
-                        <p className="category-details-card-blog-content">{trimContent(blog ? blog.content : "", 180)}</p>
+                        <p className="text-xl font-bold leading-6">{blog ? blog.title : ""}</p>
+                        <p className="text-base text-text leading-5">{trimContent(blog ? blog.content : "", 180)}</p>
                     </div>
-                    <div className="category-details-card-like-comments">
-                        <div className="blog-card-like"><FaRegHeart /> <span className="category-details-card-like-comment-count">{blog && blog.likes && blog.likes.length}</span></div>
-                        <div className="blog-card-comment"><FaRegComment /> <span className="category-details-card-like-comment-count">{blog && blog.comments && blog.comments.length} </span></div>
-                        <div className="category-details-read"><span><FaRegEye /></span>{calculateTimeToRead(blog ? blog.content : "")} min read</div>
+                    <div className="hidden items-center gap-10 text-gray-500 md:flex">
+                        <div className="flex items-center gap-2">
+                            <div className='flex items-center gap-1'><FaRegHeart /> <span className="category-details-card-like-comment-count">{blog && blog.likes && blog.likes.length}</span></div>
+                            <div className='flex items-center gap-1'><FaRegComment /> <span className="category-details-card-like-comment-count">{blog && blog.comments && blog.comments.length} </span></div>
+                        </div>
+                        <div className="flex items-center gap-2"><span><FaRegEye /></span>{calculateTimeToRead(blog ? blog.content : "")} min read</div>
                     </div>
                 </div>
-                <div className="category-details-card-image"
+                <div className="cursor-pointer w-full max-h-32 object-cover md:max-w-32"
                     onClick={() => {
                         const cleanedTitle = blog.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-').toLowerCase();
                         const url = `/blog/individual-blogs/${blog._id}/${cleanedTitle}`;
@@ -52,11 +54,18 @@ const CategoryCard = ({ blog }) => {
                     }}
                 >
                     {blog && blog.image && blog.image.data && (
-                        <img className="category-details-card-image"
+                        <img className="cursor-pointer w-full max-h-32 object-cover md:max-w-32"
                             src={`data:${blog.image.contentType};base64,${Buffer.from(blog.image.data).toString('base64')}`}
                             alt={`${blog.title}`}
                         />
                     )}
+                </div>
+                <div className="flex items-center gap-10 text-gray-500 md:hidden">
+                    <div className="flex items-center gap-2">
+                        <div className='flex items-center gap-1'><FaRegHeart /> <span className="category-details-card-like-comment-count">{blog && blog.likes && blog.likes.length}</span></div>
+                        <div className='flex items-center gap-1'><FaRegComment /> <span className="category-details-card-like-comment-count">{blog && blog.comments && blog.comments.length} </span></div>
+                    </div>
+                    <div className="flex items-center gap-2"><span><FaRegEye /></span>{calculateTimeToRead(blog ? blog.content : "")} min read</div>
                 </div>
             </div>
         </>
