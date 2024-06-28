@@ -8,9 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import { IoMdRefresh } from 'react-icons/io';
 import { getStatusBorderColor } from '../someBlogsFunctions';
 
-const Bookings = ({ bookings, bookingStatus, onFetchUser }) => {
+const Bookings = ({ bookings, onFetchUser }) => {
     const [sortedBookings, setSortedBookings] = useState([]);
     const [showLoading, setShowLoading] = useState(false);
+    const [primaryBookingStatus, setPrimaryBookingStatus] = useState("All"); 
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -75,15 +76,33 @@ const Bookings = ({ bookings, bookingStatus, onFetchUser }) => {
         navigate(url);
     }
 
-    if (bookings && bookings.length > 0) {
-        return (
-            <>
-                <div className='history-every-header-div'>
-                    <p>{bookingStatus} Bookings ({bookings.length})</p>
-                    <p className='history-every-header-refresh' onClick={onFetchUser} title='Refresh'><IoMdRefresh /></p>
-                </div>
-                {showLoading && <Loading />}
-                {sortedBookings.reverse().map((booking, index) => (
+    const handlePrimaryStatusChange = (status) => {
+        setPrimaryBookingStatus(status);
+    };
+
+    const filteredBookings = primaryBookingStatus === "All" ? sortedBookings : sortedBookings.filter(booking => booking.status === primaryBookingStatus);
+
+    return (
+        <>
+            <div className='history-every-header-div'>
+                <p>
+                    {primaryBookingStatus} Bookings ({filteredBookings.length})
+                    <span>
+                        <select className='px-2 py-1 ml-2 rounded' name="status" id="status" onChange={(e) => handlePrimaryStatusChange(e.target.value)}>
+                            <option value="All">All</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Confirmed">Confirmed</option>
+                            <option value="Cancelled">Cancelled</option>
+                            <option value="Fulfilled">Fulfilled</option>
+                            <option value="Unattended">Unattended</option>
+                        </select>
+                    </span>
+                </p>
+                <p className='history-every-header-refresh' onClick={onFetchUser} title='Refresh'><IoMdRefresh /></p>
+            </div>
+            {showLoading && <Loading />}
+            {filteredBookings.length > 0 ? (
+                filteredBookings.reverse().map((booking, index) => (
                     <div key={index} className='history-bookings-container'>
                         <div className="history-bookings-details" style={{ borderLeft: `3px solid ${getStatusBorderColor(booking.status)}` }}>
                             <div>
@@ -130,13 +149,12 @@ const Bookings = ({ bookings, bookingStatus, onFetchUser }) => {
                         )}
 
                     </div>
-                ))}
-            </>
-        )
-    } else
-        return (
-            <div className='history-bookings-not-found'>No {bookingStatus !== "All" ? bookingStatus : ""} Bookings Found.</div>
-        )
+                ))
+            ) : (
+                <div className='history-bookings-not-found'>No {primaryBookingStatus !== "All" ? primaryBookingStatus : ""} Bookings Found.</div>
+            )}
+        </>
+    )
 }
 
-export default Bookings
+export default Bookings;
