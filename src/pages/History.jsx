@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import Navbar from '../components/Navbar';
@@ -84,6 +84,19 @@ const History = () => {
         setSelectedOption(option);
     };
 
+    const optionRefs = useRef([]);
+
+    const handleOptionClickWithScroll = (option, index) => {
+        handleOptionClick(option);
+        if (optionRefs.current[index]) {
+            optionRefs.current[index].scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center',
+            });
+        }
+    };
+
     return (
         <>
             <Navbar
@@ -97,16 +110,20 @@ const History = () => {
             {showLoading && <Loading />}
             <div className="max-w-full h-max bg-bg p-7">
                 <div className='text-3xl'>Dashboard</div>
-                <div className="flex flex-wrap p-7 bg-white rounded-xl mt-5">
-                    <div className="history-dashboard-options">
-                        <div className={`${selectedOption === 'Profile' ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => handleOptionClick('Profile')}>My Profile</div>
-                        <div className={`${selectedOption === 'Bookings' ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => handleOptionClick('Bookings')}>Bookings</div>
-                        <div className={`${selectedOption === 'Reviews' ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => handleOptionClick('Reviews')}>Reviews</div>
-                        <div className={`${selectedOption === 'Blogs' ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => handleOptionClick('Blogs')}>Blogs</div>
-                        <div className={`${selectedOption === 'Likes' ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => handleOptionClick('Likes')}>Likes</div>
-                        <div className={`${selectedOption === 'Comments' ? "history-dashboard-option-active history-dashboard-option" : "history-dashboard-option"}`} onClick={() => handleOptionClick('Comments')}>Comments</div>
+                <div className="flex flex-col flex-wrap p-7 bg-white rounded-xl mt-5">
+                    <div className="flex gap-8 max-w-full overflow-auto no-scrollbar mb-3 border-b-[1px] border-bg">
+                        {['Profile', 'Bookings', 'Reviews', 'Blogs', 'Likes', 'Comments'].map((option, index) => (
+                            <div
+                                key={option}
+                                ref={el => (optionRefs.current[index] = el)}
+                                className={`py-2 border-b-2 text-lg cursor-pointer ${selectedOption === option ? "border-theme text-theme" : "border-transparent"}`}
+                                onClick={() => handleOptionClickWithScroll(option, index)}
+                            >
+                                {option}
+                            </div>
+                        ))}
                     </div>
-                    <div className="history-dashboard-content">
+                    <div className="flex flex-col gap-6 max-w-full mt-3">
                         {selectedOption === 'Profile' &&
                             <Profile userDetails={userDetails} onFetchUser={() => setFetchUser(true)} />
                         }

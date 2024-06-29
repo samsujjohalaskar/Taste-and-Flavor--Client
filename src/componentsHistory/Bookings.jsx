@@ -84,7 +84,7 @@ const Bookings = ({ bookings, onFetchUser }) => {
 
     return (
         <>
-            <div className='history-every-header-div'>
+            <div className='history-every-header-div text-xl'>
                 <p>
                     {primaryBookingStatus} Bookings ({filteredBookings.length})
                     <span>

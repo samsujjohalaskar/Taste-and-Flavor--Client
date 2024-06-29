@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { RiImageAddLine } from "react-icons/ri";
-import { RxCross2 } from "react-icons/rx";
 import { BASE_URL } from '../utils/services';
 import Swal from 'sweetalert2';
 import { useAuthState } from 'react-firebase-hooks/auth';
@@ -125,97 +124,83 @@ const Profile = ({ userDetails, onFetchUser }) => {
         onFetchUser();
     };
 
+    const userInfo = [
+        {
+            section: 'Personal Information', items: [
+                { label: 'First Name', value: firstName },
+                { label: 'Middle Name', value: middleName ? middleName : "---" },
+                { label: 'Last Name', value: lastName ? lastName : "---" },
+                { label: 'Email Address', value: user ? user.email : "---" },
+                { label: 'Phone', value: userDetails && userDetails.phoneNumber !== undefined ? "+91 " + userDetails.phoneNumber : "---" },
+            ]
+        },
+        {
+            section: 'Statistics', items: [
+                { label: 'Reservations', value: userDetails ? userDetails.bookings.length === 0 ? "--" : userDetails.bookings.length : "--" },
+                { label: 'Reviews', value: userDetails ? userDetails.reviews.length === 0 ? "--" : userDetails.reviews.length : "--" },
+                { label: 'Blogs', value: userDetails ? userDetails.blogs.length === 0 ? "--" : userDetails.blogs.length : "--" },
+                { label: 'Likes', value: userDetails ? userDetails.likes.length === 0 ? "--" : userDetails.likes.length : "--" },
+                { label: 'Comments', value: userDetails ? userDetails.comments.length === 0 ? "--" : userDetails.comments.length : "--" }
+            ]
+        }
+    ];
+
+    const renderSection = (section) => (
+        <div className='flex flex-col gap-4 p-5 border-[1px] border-bg rounded-xl' key={section.section}>
+            <div className='text-lg'>{section.section}</div>
+            <div className="flex justify-evenly flex-wrap gap-8">
+                {section.items.map((item, index) => (
+                    <div className='flex flex-col items-center gap-3' key={index}>
+                        <p className="text-sm text-text">{item.label}</p>
+                        <p className="text-lg">{item.value}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+
     return (
         <>
-            <div className='history-every-header-div'>
+            <div className='flex justify-between items-center text-xl max-w-full'>
                 <p>My Profile</p>
-                <p className='history-every-header-refresh' onClick={handleRefreshUser} title='Refresh'><IoMdRefresh /></p>
+                <p className='text-3xl cursor-pointer text-text' onClick={handleRefreshUser} title='Refresh'><IoMdRefresh /></p>
             </div>
             {showLoading && <Loading />}
-            <div className='history-profile-container'>
+            <div className='flex justify-between items-center flex-wrap gap-6 border-[1px] border-bg rounded-xl p-5'>
                 {user ? (
-                    <div className='history-profile-image-plus-info'>
-                        <div className="profile-image">
+                    <div className='flex justify-center items-center gap-4'>
+                        <div className="flex justify-center items-center h-24 w-24 rounded-full bg-bg">
                             {userDetails && userDetails.image && userDetails.image !== undefined ? (
-                                <img className="profile-image"
+                                <img className="h-24 w-24 rounded-full bg-bg"
                                     src={`data:${userDetails.image.contentType};base64,${Buffer.from(userDetails.image.data).toString('base64')}`}
                                     alt={`${userDetails.fullName}`}
                                 />
                             ) : (
-                                <RiImageAddLine className="profile-image-icon" onClick={() => setShowImageInput(true)} title='Add Photo' />
+                                <RiImageAddLine className="cursor-pointer" onClick={() => setShowImageInput(true)} title='Add Photo' />
                             )
                             }
                         </div>
                         {showImageInput && (
-                            <div className='overlay'>
-                                <div className="profile-image-input">
-                                    <div>
-                                        <label>Upload Profile Image:</label><br /><br />
-                                        <input type="file" name="images" accept="image/*" onChange={handleImageChange} />
-                                    </div>
-                                    <RxCross2 className="profile-image-cross" onClick={() => setShowImageInput(false)} />
+                            <div className='flex flex-col justify-center items-center fixed top-0 left-0 w-full h-full bg-filterFloat z-10'>
+                                <div className="flex flex-col gap-3 h-max w-max bg-white p-8">
+                                    <p>Upload Profile Image:</p>
+                                    <input type="file" name="images" accept="image/*" onChange={handleImageChange} />
                                 </div>
+                                <div className='flex justify-center items-center mt-3 bg-border h-10 w-10 rounded-full text-white text-3xl cursor-pointer' onClick={() => setShowImageInput(false)}>×</div>
                             </div>
                         )}
-                        <div className="profile-information">
-                            <div className='history-dashboard-subheading'>{fullName}</div>
-                            <div className='history-dashboard-email'>{user ? user.email : ""}</div>
+                        <div className="flex flex-col gap-1">
+                            <div className='text-lg'>{fullName}</div>
+                            <div className='text-sm text-gray-500'>{user ? user.email : ""}</div>
                         </div>
                     </div>
                 ) : ""}
-                <div className="history-profile-logout-button" onClick={handleLoginButtonClick}>
-                    <p className="history-information-heading">Logout </p>
-                    <IoMdLogOut className='history-profile-logout-icon' />
+                <div className="flex items-center border-[1px] border-bg px-2 py-1 rounded-xl gap-2 cursor-pointer text-text hover:text-theme hover:border-theme" onClick={handleLoginButtonClick}>
+                    <p>Logout </p>
+                    <IoMdLogOut />
                 </div>
             </div>
-            <div className='history-profile-info-container'>
-                <div className='history-dashboard-subheading'>Personal Information</div>
-                <div className="history-profile-information">
-                    <div className='history-profile-information-col-1'>
-                        <p className="history-information-heading">First Name</p>
-                        <p className="history-information-subheading">{firstName}</p>
-
-                        <p className="history-information-heading">Email Address</p>
-                        <p className="history-information-subheading">{user ? user.email : "---"}</p>
-                    </div>
-                    <div className='history-profile-information-col-2'>
-                        <p className="history-information-heading">Middle Name</p>
-                        <p className="history-information-subheading">{middleName ? middleName : "---"}</p>
-
-                        <p className="history-information-heading">Phone</p>
-                        <p className="history-information-subheading">{userDetails && userDetails.phoneNumber !== undefined ? "+91 " + userDetails.phoneNumber : "---"}</p>
-                    </div>
-                    <div className='history-profile-information-col-3'>
-                        <p className="history-information-heading">Last Name</p>
-                        <p className="history-information-subheading">{lastName ? lastName : "---"}</p>
-                    </div>
-                </div>
-            </div>
-            <div className='history-profile-info-container'>
-                <div className='history-dashboard-subheading'>Statistics</div>
-                <div className="history-profile-statistics">
-                    <div>
-                        <p className="history-information-heading">Reservations</p>
-                        <p className="history-information-subheading">{userDetails ? userDetails.bookings.length === 0 ? "--" : userDetails.bookings.length : "--"}</p>
-                    </div>
-                    <div>
-                        <p className="history-information-heading">Reviews</p>
-                        <p className="history-information-subheading">{userDetails ? userDetails.reviews.length === 0 ? "--" : userDetails.reviews.length : "--"}</p>
-                    </div>
-                    <div>
-                        <p className="history-information-heading">Blogs</p>
-                        <p className="history-information-subheading">{userDetails ? userDetails.blogs.length === 0 ? "--" : userDetails.blogs.length : "--"}</p>
-                    </div>
-                    <div>
-                        <p className="history-information-heading">Likes</p>
-                        <p className="history-information-subheading">{userDetails ? userDetails.likes.length === 0 ? "--" : userDetails.likes.length : "--"}</p>
-                    </div>
-                    <div>
-                        <p className="history-information-heading">Comments</p>
-                        <p className="history-information-subheading">{userDetails ? userDetails.comments.length === 0 ? "--" : userDetails.comments.length : "--"}</p>
-                    </div>
-                </div>
-            </div>
+            {userInfo.map(section => renderSection(section))}
         </>
     )
 }

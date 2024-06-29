@@ -35,7 +35,7 @@ const Blogs = ({ data, heading, onFetchUser, userName }) => {
     if (data && sortedData.length > 0) {
         return (
             <>
-                <div className='history-every-header-div'>
+                <div className='history-every-header-div text-xl'>
                     {heading === "Reviews" ? (
                         <p>All {heading} ({sortedData.length})</p>
                     ) : (
