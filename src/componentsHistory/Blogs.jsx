@@ -35,13 +35,13 @@ const Blogs = ({ data, heading, onFetchUser, userName }) => {
     if (data && sortedData.length > 0) {
         return (
             <>
-                <div className='history-every-header-div text-xl'>
+                <div className='flex justify-between text-xl'>
                     {heading === "Reviews" ? (
                         <p>All {heading} ({sortedData.length})</p>
                     ) : (
                         <p>My {heading} ({sortedData.length})</p>
                     )}
-                    <p className='history-every-header-refresh' onClick={onFetchUser} title='Refresh'><IoMdRefresh /></p>
+                    <p className='text-3xl cursor-pointer text-text' onClick={onFetchUser} title='Refresh'><IoMdRefresh /></p>
                 </div>
                 {sortedData.map((blog, index) => {
                     const blogData = heading === "Blogs" || heading === "Reviews" ? blog : blog.blog;
@@ -75,7 +75,7 @@ const Blogs = ({ data, heading, onFetchUser, userName }) => {
                         (heading !== "Reviews" && { label: 'Reach (%)', value: calculateReach(blogData.date, blogLikes.length, blogComments.length, wordCount(blogContent)) }),
                         (heading === "Blogs" && { label: 'Reactions', value: blogLikes.length > 0 ? blogLikes.length : '---' }),
                         ((heading === "Blogs" || heading === "Likes") && { label: 'Total Comments', value: blogComments.length > 0 ? blogComments.length : '---' }),
-                        
+
                         ((heading === "Blogs" || heading === "Reviews") && {
                             label: 'Posted on',
                             value: new Date(blogData.date || blog.createdAt).toLocaleDateString('en-US', {
@@ -95,9 +95,9 @@ const Blogs = ({ data, heading, onFetchUser, userName }) => {
                     ];
 
                     return (
-                        <div key={index} className='history-bookings-container'>
+                        <div key={index} className='flex justify-around items-center flex-wrap border-[1px] border-bg rounded-xl p-5 pl-0 gap-8'>
                             <div
-                                className="history-bookings-details"
+                                className="flex flex-wrap justify-evenly items-center flex-grow gap-4"
                                 style={
                                     heading === "Reviews"
                                         ? { borderLeft: `3px solid ${getStarColor(blog.rating)}` }
@@ -105,9 +105,9 @@ const Blogs = ({ data, heading, onFetchUser, userName }) => {
                                 }
                             >
                                 {itemsToDisplay.map((item, idx) => item && item.value !== "" && (
-                                    <div key={idx}>
-                                        <p className="history-information-heading">{item.label}</p>
-                                        <p className="history-bookings-subheading">
+                                    <div className='flex justify-center items-center flex-col gap-2' key={idx}>
+                                        <p className="text-sm text-gray-500">{item.label}</p>
+                                        <p className="text-base capitalize">
                                             {item.maxLength && item.value.length > item.maxLength ? `${item.value.slice(0, item.maxLength)}...` : item.value}
                                         </p>
                                     </div>
@@ -116,16 +116,16 @@ const Blogs = ({ data, heading, onFetchUser, userName }) => {
                             {
                                 heading === "Reviews" ? (
                                     blog.restaurant.city && blog.restaurant.area && blog.restaurant.name && blog.restaurant && (
-                                        <div className="history-profile-logout-button" title='Edit Response' onClick={() => handleEditClick(blog.restaurant.city, blog.restaurant.area, blog.restaurant.name, blog.rating, blog.restaurant._id, blog.comment)}>
-                                            <p className="history-information-heading">Edit </p>
-                                            <CiEdit className='history-profile-logout-icon' />
+                                        <div className="flex items-center border-[1px] border-bg px-2 py-1 rounded-xl gap-2 cursor-pointer text-text hover:text-theme hover:border-theme" title='Edit Response' onClick={() => handleEditClick(blog.restaurant.city, blog.restaurant.area, blog.restaurant.name, blog.rating, blog.restaurant._id, blog.comment)}>
+                                            <p>Edit </p>
+                                            <CiEdit />
                                         </div>
                                     )
                                 ) : (
                                     blogData.title && blogData._id && (
-                                        <div className="history-profile-logout-button" title='See Details' onClick={() => handleVisitClick(blogData.title, blogData._id)}>
-                                            <p className="history-information-heading">{heading === "Blogs" ? "Visit" : "Revisit"} </p>
-                                            <PiArrowCircleUpRight className='history-profile-logout-icon' />
+                                        <div className="flex items-center border-[1px] border-bg px-2 py-1 rounded-xl gap-2 cursor-pointer text-text hover:text-theme hover:border-theme" title='See Details' onClick={() => handleVisitClick(blogData.title, blogData._id)}>
+                                            <p>{heading === "Blogs" ? "Visit" : "Revisit"} </p>
+                                            <PiArrowCircleUpRight />
                                         </div>
                                     )
                                 )
@@ -137,7 +137,7 @@ const Blogs = ({ data, heading, onFetchUser, userName }) => {
         );
     } else {
         return (
-            <div className='history-bookings-not-found'>No Data Found.</div>
+            <div className='text-center mt-3'>No Data Found.</div>
         );
     }
 }

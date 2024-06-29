@@ -11,11 +11,11 @@ import { getStatusBorderColor } from '../someBlogsFunctions';
 const Bookings = ({ bookings, onFetchUser }) => {
     const [sortedBookings, setSortedBookings] = useState([]);
     const [showLoading, setShowLoading] = useState(false);
-    const [primaryBookingStatus, setPrimaryBookingStatus] = useState("All"); 
+    const [primaryBookingStatus, setPrimaryBookingStatus] = useState("All");
     const navigate = useNavigate();
 
     useEffect(() => {
-        const sorted = [...bookings].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        const sorted = [...bookings].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setSortedBookings(sorted);
     }, [bookings]);
 
@@ -82,9 +82,25 @@ const Bookings = ({ bookings, onFetchUser }) => {
 
     const filteredBookings = primaryBookingStatus === "All" ? sortedBookings : sortedBookings.filter(booking => booking.status === primaryBookingStatus);
 
+    const bookingDetails = (booking) => [
+        { label: "Reserved Date/Time", value: `${booking.bookingDate} at ${booking.entryTime}` },
+        { label: "Restaurant", value: `${booking.restaurant.name.length > 20 ? booking.restaurant.name.slice(0, 17) + "..." : booking.restaurant.name}, ${booking.restaurant.city}` },
+        { label: "People", value: booking.numberOfPeople },
+        { label: "Request", value: booking.specialRequest.length === 0 ? "---" : (booking.specialRequest.length > 20 ? booking.specialRequest.slice(0, 17) + "..." : booking.specialRequest) },
+        { label: "Status", value: booking.status },
+        {
+            label: "Secured on",
+            value: new Date(booking.createdAt).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+            })
+        }
+    ];
+
     return (
         <>
-            <div className='history-every-header-div text-xl'>
+            <div className='flex justify-between text-xl'>
                 <p>
                     {primaryBookingStatus} Bookings ({filteredBookings.length})
                     <span>
@@ -98,60 +114,36 @@ const Bookings = ({ bookings, onFetchUser }) => {
                         </select>
                     </span>
                 </p>
-                <p className='history-every-header-refresh' onClick={onFetchUser} title='Refresh'><IoMdRefresh /></p>
+                <p className='text-3xl cursor-pointer text-text' onClick={onFetchUser} title='Refresh'><IoMdRefresh /></p>
             </div>
             {showLoading && <Loading />}
             {filteredBookings.length > 0 ? (
-                filteredBookings.reverse().map((booking, index) => (
-                    <div key={index} className='history-bookings-container'>
-                        <div className="history-bookings-details" style={{ borderLeft: `3px solid ${getStatusBorderColor(booking.status)}` }}>
-                            <div>
-                                <p className="history-information-heading">Reserved Date/Time</p>
-                                <p className="history-bookings-subheading">{booking.bookingDate} at {booking.entryTime}</p>
-                            </div>
-                            <div title={`${booking.restaurant.name}`}>
-                                <p className="history-information-heading">Restaurant</p>
-                                <p className="history-bookings-subheading">{booking.restaurant.name.length > 20 ? booking.restaurant.name.slice(0, 17) + "..." : booking.restaurant.name},{booking.restaurant.city}</p>
-                            </div>
-                            <div>
-                                <p className="history-information-heading">People</p>
-                                <p className="history-bookings-subheading">{booking.numberOfPeople}</p>
-                            </div>
-                            <div title={`${booking.specialRequest}`}>
-                                <p className="history-information-heading">Request</p>
-                                <p className="history-bookings-subheading">{booking.specialRequest.length === 0 ? "---" : (booking.specialRequest.length > 20 ? booking.specialRequest.slice(0, 17) + "..." : booking.specialRequest)}</p>
-                            </div>
-                            <div>
-                                <p className="history-information-heading">Status</p>
-                                <p className="history-bookings-subheading">{booking.status}</p>
-                            </div>
-                            <div>
-                                <p className="history-information-heading">Secured on</p>
-                                <p className="history-bookings-subheading">
-                                    {new Date(booking.createdAt).toLocaleDateString('en-US', {
-                                        month: 'short',
-                                        day: 'numeric',
-                                        year: 'numeric',
-                                    })}
-                                </p>
-                            </div>
+                filteredBookings.map((booking, index) => (
+                    <div key={index} className='flex justify-around items-center flex-wrap border-[1px] border-bg rounded-xl p-5 pl-0 gap-8'>
+                        <div className="flex flex-wrap justify-evenly items-center flex-grow gap-4" style={{ borderLeft: `3px solid ${getStatusBorderColor(booking.status)}` }}>
+                            {bookingDetails(booking).map((detail, idx) => (
+                                <div className='flex justify-center items-center flex-col gap-2' key={idx}>
+                                    <p className="text-sm text-gray-500">{detail.label}</p>
+                                    <p className="text-base capitalize">{detail.value}</p>
+                                </div>
+                            ))}
                         </div>
                         {booking.status === 'Pending' || booking.status === 'Confirmed' ? (
-                            <div className="history-profile-logout-button" onClick={() => handleCancelBooking(booking._id)} title='Cancel Reservation'>
-                                <p className="history-information-heading">Cancel </p>
-                                <MdOutlineCancel className='history-profile-logout-icon' />
+                            <div className="flex items-center border-[1px] border-bg px-2 py-1 rounded-xl gap-2 cursor-pointer text-text hover:text-theme hover:border-theme" onClick={() => handleCancelBooking(booking._id)} title='Cancel Reservation'>
+                                <p>Cancel </p>
+                                <MdOutlineCancel />
                             </div>
                         ) : (
-                            <div className="history-profile-logout-button" onClick={() => handleReplan(booking.restaurant.name, booking.restaurant.city, booking.restaurant.area, booking.restaurant._id)} title='Revisit Restaurant'>
-                                <p className="history-information-heading">Replan </p>
-                                <BiSolidPlaneTakeOff className='history-profile-logout-icon' />
+                            <div className="flex items-center border-[1px] border-bg px-2 py-1 rounded-xl gap-2 cursor-pointer text-text hover:text-theme hover:border-theme" onClick={() => handleReplan(booking.restaurant.name, booking.restaurant.city, booking.restaurant.area, booking.restaurant._id)} title='Revisit Restaurant'>
+                                <p>Replan </p>
+                                <BiSolidPlaneTakeOff />
                             </div>
                         )}
 
                     </div>
                 ))
             ) : (
-                <div className='history-bookings-not-found'>No {primaryBookingStatus !== "All" ? primaryBookingStatus : ""} Bookings Found.</div>
+                <div className='text-center mt-3'>No {primaryBookingStatus !== "All" ? primaryBookingStatus : ""} Bookings Found.</div>
             )}
         </>
     )
