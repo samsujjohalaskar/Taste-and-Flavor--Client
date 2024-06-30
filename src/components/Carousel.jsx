@@ -56,7 +56,7 @@ export default function Carousel({ city, restaurants }) {
                     {restaurants && restaurants.length !== 0 ? (
                         <Slider {...settings}>
                             {restaurants.map((restaurant, index) => (
-                                <Card restaurant={restaurant} />
+                                <Card key={index} restaurant={restaurant} />
                             ))}
                         </Slider>
                     ) : (

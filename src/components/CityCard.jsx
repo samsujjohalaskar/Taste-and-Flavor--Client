@@ -26,22 +26,22 @@ export default function CityCard({ restaurant }) {
 
     return (
         <>
-            <div className="rounded cursor-pointer bg-white" title={restaurant.name} onClick={handleRestaurantClick}>
-                <div className="rounded-t h-[170px] w-[270px]">
+            <div className="w-full rounded cursor-pointer bg-white sm:w-[270px]" title={restaurant.name} onClick={handleRestaurantClick}>
+                <div className="rounded-t h-[170px] w-full sm:w-[270px]">
                     {averageRating != 0.0 && (
-                        <div className="flex justify-center items-center absolute mt-[15px] ml-[215px] h-6 w-10 rounded-sm text-white font-extrabold text-sm" style={{ background: getRatingColor(averageRating) }}>
+                        <div className="flex justify-center items-center absolute mt-[15px] ml-[15px] h-6 w-10 rounded-sm text-white font-extrabold text-sm" style={{ background: getRatingColor(averageRating) }}>
                             {averageRating}
                         </div>
                     )}
                     {firstImage && (
                         <img
-                            className='rounded-t h-[170px] w-[270px]'
+                            className='rounded-t h-[170px] w-full sm:w-[270px]'
                             src={`data:${firstImage.contentType};base64,${Buffer.from(firstImage.data).toString('base64')}`}
                             alt={restaurant.name}
                         />
                     )}
                 </div>
-                <div className="max-w-[250px] p-[10px]">
+                <div className="max-w-full p-[10px]">
                     <div className="pb-2 text-base font-bold">{restaurant.name}</div>
                     <div className="text-xs pb-2 text-text">{`${restaurant.location}, ${restaurant.area}`.slice(0, 50)}</div>
                     <div className="text-xs pb-2 text-text">

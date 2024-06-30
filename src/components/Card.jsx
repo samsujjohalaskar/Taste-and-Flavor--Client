@@ -4,7 +4,7 @@ import { MdDiscount } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { getRatingColor, getAverageRating } from '../someBlogsFunctions';
 
-export default function Card({ key, restaurant }) {
+export default function Card({ restaurant }) {
 
     const navigate = useNavigate();
     const [averageRating, setAverageRating] = useState(0);

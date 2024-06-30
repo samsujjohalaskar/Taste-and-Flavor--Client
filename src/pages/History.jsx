@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import Navbar from '../components/Navbar';
-import "../css/history.css";
 import { useCity } from '../CityContext';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/services';
