@@ -56,7 +56,7 @@ const Blog = () => {
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
 
-  const records = blogs.slice(firstIndex, lastIndex);
+  const records = blogs.reverse().slice(firstIndex, lastIndex);
   const nPage = Math.ceil(blogs.length / recordsPerPage);
   const numbers = [...Array(nPage + 1).keys()].slice(1);
 
