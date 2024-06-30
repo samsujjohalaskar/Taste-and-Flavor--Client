@@ -74,7 +74,7 @@ export default function Carousel({ city, restaurants }) {
                         ))
                     ) : (
                         Array.from({ length: 5 }).map((_, index) => (
-                            <NotACard key={index} />
+                            <NotACard key={index} width={"w-[270px]"} />
                         ))
                     )}
                 </div>

@@ -10,6 +10,9 @@ import { FaCaretDown, FaCaretUp } from "react-icons/fa6";
 import Signup from "./Signup";
 import Swal from 'sweetalert2';
 import { VscClose, VscThreeBars } from "react-icons/vsc";
+import { BASE_URL } from "../utils/services";
+import { CgProfile } from "react-icons/cg";
+import { Buffer } from 'buffer';
 
 function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
 
@@ -19,6 +22,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
   const [showSideBar, setShowSideBar] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showKey, setShowKey] = useState(false);
+  const [userImage, setUserImage] = useState(null);
   const [sidebarShowKey, setSidebarShowKey] = useState(false);
   const [filteredCities, setFilteredCities] = useState([]);
   const [sidebarFilteredCities, setSidebarFilteredCities] = useState([]);
@@ -139,6 +143,26 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
     };
   }, [sidebarCityRef]);
 
+  const fetchUserImage = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}/user-image?userEmail=${user.email}`);
+      if (res.status === 200) {
+        const data = await res.json();
+        setUserImage(data);
+      } else {
+        setUserImage(null);
+      }
+    } catch (error) {
+      console.error("Error fetching image", error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchUserImage();
+    }
+  }, [user]);
+
   return (
     <>
       <nav className="">
@@ -217,11 +241,13 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
                   </li>
                 );
               })}
-              {user && (
-                <li className={active === "History" ? "text-theme" : ""} key="History">
+              <li className={active === "History" ? "text-theme" : ""} key="History">
+                {user ? (
                   <Link to="/history">Profile</Link>
-                </li>
-              )}
+                ) : (
+                  <span className="cursor-pointer" onClick={() => setShowLogin(true)}>Profile</span>
+                )}
+              </li>
             </ul>
           </div>
           <div className="hidden md:flex">
@@ -234,9 +260,26 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
         {/* sidebar component */}
 
         <div className={`fixed h-dvh w-48 bg-gray-200 ${showSideBar ? "left-0 top-0" : "left-[-200px] top-0"} z-20 transition-all duration-500 md:hidden`}>
+          <VscClose size={30} className="cursor-pointer float-right" onClick={() => setShowSideBar(false)} />
           <div className="p-4">
-            <VscClose size={25} className="cursor-pointer float-right" onClick={() => setShowSideBar(false)} />
-            <div className="mt-10">
+            {user && (
+              <div className="flex flex-col justify-center items-center mt-4">
+                <div className="h-16 w-16 rounded-full">
+                  {(userImage && userImage.image && userImage.image.data) ? (
+                    <img className="h-16 w-16 rounded-full"
+                      src={`data:${userImage.image.contentType};base64,${Buffer.from(userImage.image.data).toString('base64')}`}
+                      alt="Image"
+                    />
+                  ) : (
+                    <CgProfile className='text-4xl text-text' />
+                  )
+                  }
+                </div>
+                <p className="mt-2 text-lg">{user.displayName ? user.displayName : ""}</p>
+                <p className="text-sm text-gray-500">{user.email ? user.email : ""}</p>
+              </div>
+            )}
+            <div className="mt-8">
               <ul className="flex flex-col gap-4 text-text">
                 {links.map(({ name, link }) => {
                   return (
@@ -245,11 +288,13 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
                     </li>
                   );
                 })}
-                {user && (
-                  <li className={active === "History" ? "text-theme" : ""} key="History">
+                <li className={active === "History" ? "text-theme" : ""} key="History">
+                  {user ? (
                     <Link to="/history">Profile</Link>
-                  </li>
-                )}
+                  ) : (
+                    <span className="cursor-pointer" onClick={() => setShowLogin(true)}>Profile</span>
+                  )}
+                </li>
               </ul>
             </div>
             <div className="absolute bottom-4">
