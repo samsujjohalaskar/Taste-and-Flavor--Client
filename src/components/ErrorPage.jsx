@@ -1,18 +1,17 @@
 import React from 'react';
-import "../css/errorPage.css";
 import { Link } from 'react-router-dom';
 
 const ErrorPage = () => {
   return (
     <>
-      <div className ="d-flex align-items-center justify-content-center vh-100">
+      <div className ="flex justify-center items-center h-dvh">
             <div className ="text-center">
-                <h1 className ="display-1 fw-bold">404</h1>
-                <p className ="fs-3"> <span className ="text-danger">Opps!</span> Page not found.</p>
-                <p className ="lead">
+                <h1 className ="text-9xl font-bold">404</h1>
+                <p className ="text-3xl"> <span className ="text-theme">Opps!</span> Page not found.</p>
+                <p className ="text-2xl mb-6">
                     The page you’re looking for doesn’t exist.
                   </p>
-                <Link to="/" className ="btn btn-primary">Go Home</Link>
+                <Link to="/" className ="bg-theme text-white font-bold p-3 rounded hover:opacity-80">Go Home</Link>
             </div>
         </div>
     </>

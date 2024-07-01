@@ -1,11 +1,10 @@
 import React from 'react';
 import Loader from 'react-loader-spinner';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import "../css/loading.css";
 
 const Loading = () => {
     return (
-        <div className="loading-div">
+        <div className="fixed flex justify-center items-center top-0 left-0 w-full h-full bg-filterFloat z-50">
             <Loader
                 type="Oval"
                 color="#FF5757"
