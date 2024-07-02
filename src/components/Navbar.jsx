@@ -259,22 +259,20 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
 
         {/* sidebar component */}
 
-        <div className={`fixed h-dvh w-48 bg-gray-200 ${showSideBar ? "left-0 top-0" : "left-[-200px] top-0"} z-20 transition-all duration-500 md:hidden`}>
-          <VscClose size={30} className="cursor-pointer float-right" onClick={() => setShowSideBar(false)} />
+        <div className={`fixed h-dvh w-56 bg-gray-200 ${showSideBar ? "left-0 top-0" : "left-[-200px] top-0"} z-20 transition-all duration-500 md:hidden`}>
+          <VscClose size={30} className="cursor-pointer float-right border-2 border-border" onClick={() => setShowSideBar(false)} />
           <div className="p-4">
             {user && (
-              <div className="flex flex-col justify-center items-center mt-4">
-                <div className="h-16 w-16 rounded-full">
-                  {(userImage && userImage.image && userImage.image.data) ? (
-                    <img className="h-16 w-16 rounded-full"
-                      src={`data:${userImage.image.contentType};base64,${Buffer.from(userImage.image.data).toString('base64')}`}
-                      alt="Image"
-                    />
-                  ) : (
-                    <CgProfile className='text-4xl text-text' />
-                  )
-                  }
-                </div>
+              <div className="flex flex-col mt-4">
+                {(userImage && userImage.image && userImage.image.data) ? (
+                  <img className="h-16 w-16 rounded-full"
+                    src={`data:${userImage.image.contentType};base64,${Buffer.from(userImage.image.data).toString('base64')}`}
+                    alt="Image"
+                  />
+                ) : (
+                  <CgProfile className='h-16 w-16 rounded-full text-gray-500' />
+                )
+                }
                 <p className="mt-2 text-lg">{user.displayName ? user.displayName : ""}</p>
                 <p className="text-sm text-gray-500">{user.email ? user.email : ""}</p>
               </div>
@@ -298,7 +296,7 @@ function Navbar({ city, onSelectCity, onCityChangeRedirect, active }) {
               </ul>
             </div>
             <div className="absolute bottom-4">
-              <button onClick={handleLoginButtonClick} className="w-40 bg-theme py-2 px-6 text-white font-extrabold rounded hover:bg-hover">
+              <button onClick={handleLoginButtonClick} className="w-[188px] bg-theme py-2 px-6 text-white font-extrabold rounded hover:bg-hover">
                 {user ? 'Logout' : 'Login'}
               </button>
             </div>
