@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import "../css/ownerLogin.css";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 import { BASE_URL } from '../utils/services';
 
@@ -56,23 +55,22 @@ const Login = () => {
   };
 
   return (
-    <>
-      <div className="form-container">
-        <h2>Restaurant Owner Login</h2>
-        <form id="signup-form" onSubmit={(e) => { handleLogin(e) }}>
-          <div className="form-group">
-            <input type="text" id="username" name="username" placeholder='Username' required value={owner.username} onChange={handleInputs} />
+    <div className="fixed flex flex-col justify-center items-center top-0 left-0 w-full h-full bg-filterFloat z-20">
+      <div className="flex flex-col justify-center items-center gap-6 bg-white p-12 shadow-review">
+        <p className='text-lg font-bold'>Restaurant Owner Login</p>
+        <form className='flex flex-col gap-4' id="signup-form" onSubmit={(e) => { handleLogin(e) }}>
+          <div>
+            <input className="w-[280px] p-4 bg-bg outline-none" type="text" id="username" name="username" placeholder='Username' required value={owner.username} onChange={handleInputs} />
           </div>
-          <div className="form-group">
-            <span className='password-hide' onClick={() => setSeePassword(!seePassword)}>{!seePassword ? (<LuEye />) : (<LuEyeOff />)}</span>
-            <input type={`${seePassword ? "" : "password"}`} id="password" name="password" placeholder='Password' required value={owner.password} onChange={handleInputs} />
+          <div className="flex items-center w-[280px] p-4 bg-bg">
+            <input className="flex-1 bg-bg outline-none mr-1" type={`${seePassword ? "" : "password"}`} id="password" name="password" placeholder='Password' required value={owner.password} onChange={handleInputs} />
+            <span className='w-max cursor-pointer text-gray-800' onClick={() => setSeePassword(!seePassword)}>{!seePassword ? (<LuEye />) : (<LuEyeOff />)}</span>
           </div>
-          <button type="submit" className="submit-btn button">{loading ? "Logging in..." : "Login"}</button>
+          <button className='w-[280px] p-3 bg-theme text-white font-bold text-xl hover:opacity-80' type="submit">{loading ? "Logging in..." : "Login"}</button>
         </form>
-        <br />
-        <p>New here? <Link to="/owner-registration">Register here</Link></p>
+        <p>New here? <Link className='text-reviews cursor-pointer' to="/owner-registration">Register here</Link></p>
       </div>
-    </>
+    </div>
   )
 }
 

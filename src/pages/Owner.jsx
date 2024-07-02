@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import "../css/ownerHome.css";
-import { FaUser } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { FaHouseUser } from "react-icons/fa";
 import { AiTwotoneEdit } from "react-icons/ai";
 import { BiSolidMessageSquareAdd } from "react-icons/bi";
-import { BsFillTelephoneInboundFill } from "react-icons/bs";
 import { Link, useNavigate } from 'react-router-dom';
 import LogoutButton from '../componentsOwner/LogoutButton';
 import Edit from '../componentsOwner/Edit';
@@ -88,47 +83,34 @@ const Owner = () => {
 
   if (userData && userData.restaurants) {
     return (
-      <>
-        <form method='GET' className="container">
-          <div className="items">
-            <div className="subItems">
-              <div className="icon"><FaHouseUser /></div>
-              <div className="content"><h3>{userData.username}</h3></div>
-            </div>
-            <div className="subItems">
-              <div className="icon"><MdEmail /></div>
-              <div className="content"><h3>{userData.email}</h3></div>
-            </div>
-            <div className="subItems">
-              <div className="icon"><FaUser /></div>
-              <div className="content"><h3>{userData.fullName}</h3></div>
-            </div>
-            <div className="subItems">
-              <div className="icon"><BsFillTelephoneInboundFill /></div>
-              <div className="content"><h3>{userData.phoneNumber}</h3></div>
-            </div>
-            <div className='subItems editIcon' title='Edit User Details' onClick={handleEditButton}>
-              <AiTwotoneEdit />
-            </div>
+      <div className='flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100'>
+        <form className="flex flex-col w-full max-w-3xl p-4 bg-white shadow-md rounded-lg" method='GET'>
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-2xl font-bold">My Informations</h1>
+            <AiTwotoneEdit className='cursor-pointer text-theme hover:opacity-80' size={25} title='Edit User Details' onClick={handleEditButton} />
+          </div>
+          <div className='flex flex-wrap gap-4 mb-6'>
+            <p className="w-full sm:w-1/2">Username: {userData.username}</p>
+            <p className="w-full sm:w-1/2">Email: {userData.email}</p>
+            <p className="w-full sm:w-1/2">Name: {userData.fullName}</p>
+            <p className="w-full sm:w-1/2">Mobile: {userData.phoneNumber}</p>
           </div>
         </form>
         {showEdit && <Edit data={userData} onClose={() => setShowEdit(false)} />}
-        <div className="resContainer">
-          <div className="resItems">
-            <div className="Heading">My Restaurants</div>
-            <div className="editIcon" title='Add Restaurant' onClick={handleAddButton}><BiSolidMessageSquareAdd /></div>
+        <div className="w-full max-w-3xl mt-6 bg-white shadow-md rounded-lg p-4">
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-2xl font-bold">My Restaurants</h1>
+            <BiSolidMessageSquareAdd className='cursor-pointer text-theme hover:opacity-80' size={25} title='Add Restaurant' onClick={handleAddButton} />
           </div>
           {userData.restaurants.map((item, index) => (
-            <div className='resItems1' key={index}>
-              <div className='subHeading'>{index + 1}. {item.name}, {item.location}, {item.city}</div>
-              <Link title='See Details' to={`/restaurant/${item._id}`}><details></details></Link>
+            <div className='flex justify-between items-center w-full mb-4' key={index}>
+              <div className='text-lg font-semibold'>{index + 1}. {item.name}, {item.location}, {item.city}</div>
+              <Link title='See Details' to={`/restaurant/${item._id}`} className='text-theme hover:underline'>Details</Link>
             </div>
           ))}
         </div>
-        <div className="logout-button-container" title='Log Out'>
-          <LogoutButton userData={userData} handleUserData={() => setUserData(null)} />
-        </div>
-      </>
+        <LogoutButton userData={userData} handleUserData={() => setUserData(null)} />
+      </div>
     )
   } else {
     return (

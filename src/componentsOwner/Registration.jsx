@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import "../css/ownerLogin.css";
 import { LuEye, LuEyeOff } from 'react-icons/lu';
 import { BASE_URL } from '../utils/services';
 
@@ -67,36 +66,35 @@ const Registration = () => {
   };
 
   return (
-    <>
-      <div class="form-container">
-        <h2>Restaurant Owner Registration</h2>
-        <form id="signup-form" method='POST' onSubmit={handleRegistration}>
-          <div class="form-group">
-            <input type="text" id="username" name="username" placeholder='Username' required value={owner.username} onChange={handleInputs} />
+    <div className="fixed flex flex-col justify-center items-center top-0 left-0 w-full h-full bg-filterFloat z-20">
+      <div className="flex flex-col justify-center items-center gap-6 bg-white p-12 shadow-review">
+        <p className='text-lg font-bold'>Restaurant Owner Registration</p>
+        <form className='flex flex-col gap-4' id="signup-form" method='POST' onSubmit={handleRegistration}>
+          <div>
+            <input className="w-[280px] p-4 bg-bg outline-none" type="text" id="username" name="username" placeholder='Username' required value={owner.username} onChange={handleInputs} />
           </div>
-          <div class="form-group">
-            <span className='password-hide' onClick={() => setSeePassword(!seePassword)}>{!seePassword ? (<LuEye />) : (<LuEyeOff />)}</span>
-            <input type={`${seePassword ? "" : "password"}`} id="password" name="password" placeholder='Password' required value={owner.password} onChange={handleInputs} />
+          <div className="flex items-center w-[280px] p-4 bg-bg">
+            <input className="flex-1 bg-bg outline-none mr-1" type={`${seePassword ? "" : "password"}`} id="password" name="password" placeholder='Password' required value={owner.password} onChange={handleInputs} />
+            <span className='w-max cursor-pointer text-gray-800' onClick={() => setSeePassword(!seePassword)}>{!seePassword ? (<LuEye />) : (<LuEyeOff />)}</span>
           </div>
-          <div class="form-group">
-            <span className='password-hide' onClick={() => setSeeCPassword(!seeCPassword)}>{!seeCPassword ? (<LuEye />) : (<LuEyeOff />)}</span>
-            <input type={`${seeCPassword ? "" : "password"}`} id="cPassword" name="cPassword" placeholder='Confirm Password' required value={owner.cPassword} onChange={handleInputs} />
+          <div className="flex items-center w-[280px] p-4 bg-bg">
+            <input className="flex-1 bg-bg outline-none mr-1" type={`${seeCPassword ? "" : "password"}`} id="cPassword" name="cPassword" placeholder='Confirm Password' required value={owner.cPassword} onChange={handleInputs} />
+            <span className='w-max cursor-pointer text-gray-800' onClick={() => setSeeCPassword(!seeCPassword)}>{!seeCPassword ? (<LuEye />) : (<LuEyeOff />)}</span>
           </div>
-          <div class="form-group">
-            <input type="email" id="email" name="email" placeholder='Email' required value={owner.email} onChange={handleInputs} />
+          <div>
+            <input className="w-[280px] p-4 bg-bg outline-none" type="email" id="email" name="email" placeholder='Email' required value={owner.email} onChange={handleInputs} />
           </div>
-          <div class="form-group">
-            <input type="text" id="fullName" name="fullName" placeholder='Full Name' required value={owner.fullName} onChange={handleInputs} />
+          <div>
+            <input className="w-[280px] p-4 bg-bg outline-none" type="text" id="fullName" name="fullName" placeholder='Full Name' required value={owner.fullName} onChange={handleInputs} />
           </div>
-          <div class="form-group">
-            <input type="tel" id="phoneNumber" name="phoneNumber" placeholder='Mobile' required value={owner.phoneNumber} onChange={handleInputs} />
+          <div>
+            <input className="w-[280px] p-4 bg-bg outline-none" type="tel" id="phoneNumber" name="phoneNumber" placeholder='Mobile' required value={owner.phoneNumber} onChange={handleInputs} />
           </div>
-          <button type="submit" class="submit-btn button" disabled>{loading ? "Registering..." : "Disabled"}</button>
+          <button className='w-[280px] p-3 bg-theme text-white font-bold text-xl hover:opacity-80' type="submit" disabled>{loading ? "Registering..." : "Disabled"}</button>
         </form>
-        <br />
-        <p>Already registered? <Link to="/owner-login">Login here</Link></p>
+        <p>Already registered? <Link className='text-reviews cursor-pointer' to="/owner-login">Login here</Link></p>
       </div>
-    </>
+    </div>
   )
 }
 

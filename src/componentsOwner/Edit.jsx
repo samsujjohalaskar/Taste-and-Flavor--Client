@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import '../css/signin.css';
 import { BASE_URL } from '../utils/services';
 
 export default function Edit({ onClose, data, }) {
@@ -58,30 +57,18 @@ export default function Edit({ onClose, data, }) {
   };
 
   return (
-    <div className="overlay show-overlay">
-      <div className="modal">
-        <h2>Edit User Details</h2>
-        <form onSubmit={(e) => handleEdit(e)}>
-          <div className="form-group">
-            <label>Username:</label>
-            <input type="text" name="username" value={formData.username} onChange={handleChange} required />
-          </div>
-          <div className="form-group">
-            <label>Email:</label>
-            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
-          </div>
-          <div className="form-group">
-            <label>Full Name:</label>
-            <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
-          </div>
-          <div className="form-group">
-            <label>Contact:</label>
-            <input type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} required />
-          </div>
-          <button className='subLogin button' type="submit">{loading ? "Saving..." : "Save"}</button>
-          <span><button className='close button' onClick={onClose}>Close</button></span>
+    <div className="fixed flex flex-col justify-center items-center top-0 left-0 w-full h-full bg-filterFloat z-20">
+      <div className="flex flex-col justify-center items-center gap-6 bg-white p-12 shadow-review">
+        <p className='text-lg font-bold'>Edit User Details</p>
+        <form className='flex flex-col items-center gap-4' onSubmit={(e) => handleEdit(e)}>
+          <input className="w-[280px] p-4 bg-bg outline-none" type="text" name="username" value={formData.username} onChange={handleChange} required />
+          <input className="w-[280px] p-4 bg-bg outline-none" type="email" name="email" value={formData.email} onChange={handleChange} required />
+          <input className="w-[280px] p-4 bg-bg outline-none" type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
+          <input className="w-[280px] p-4 bg-bg outline-none" type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} required />
+          <button className='w-[280px] p-3 bg-theme text-white font-bold text-xl hover:opacity-80' type="submit">{loading ? "Saving..." : "Save"}</button>
         </form>
       </div>
+      <div className='flex justify-center items-center mt-3 bg-border h-10 w-10 rounded-full text-white text-3xl cursor-pointer' onClick={onClose}>×</div>
     </div>
   );
 }
