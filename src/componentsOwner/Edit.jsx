@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BASE_URL } from '../utils/services';
+import Loading from "../components/Loading";
 
 export default function Edit({ onClose, data, }) {
 
@@ -29,6 +30,7 @@ export default function Edit({ onClose, data, }) {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({
           username, email, fullName, phoneNumber,
         }),
@@ -69,6 +71,7 @@ export default function Edit({ onClose, data, }) {
         </form>
       </div>
       <div className='flex justify-center items-center mt-3 bg-border h-10 w-10 rounded-full text-white text-3xl cursor-pointer' onClick={onClose}>×</div>
+      {loading && <Loading />}
     </div>
   );
 }

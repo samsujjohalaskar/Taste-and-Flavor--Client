@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import PageLoading from '../componentsOwner/PageLoading';
+import PageLoading from './PageLoading';
 import { MdArrowBack, MdDelete } from "react-icons/md";
 import { AiFillHome, AiTwotoneEdit } from "react-icons/ai";
 import { Buffer } from 'buffer';
-import { IoFilterSharp } from 'react-icons/io5';
 import { BASE_URL } from '../utils/services';
 import { getStatusBorderColor } from '../someBlogsFunctions';
+import Loading from '../components/Loading';
 
 const RestaurentDetails = () => {
     const navigate = useNavigate();
@@ -15,17 +15,8 @@ const RestaurentDetails = () => {
     const [error, setError] = useState(null);
 
     const [bookingDetails, setBookingDetails] = useState([]);
-    const [showFilterOptions, setShowFilterOptions] = useState(false);
     const [filter, setFilter] = useState('Pending');
-
-    const handleFilter = () => {
-        setShowFilterOptions(!showFilterOptions);
-    };
-
-    const handleFilterOptionClick = (option) => {
-        setFilter(option);
-        setShowFilterOptions(false);
-    };
+    const [loading, setLoading] = useState(false);
 
     let pendingCount = 0;
     let confirmedCount = 0;
@@ -124,6 +115,12 @@ const RestaurentDetails = () => {
     }, [restaurantId]);
 
     const handleDelete = async () => {
+        const userConfirmed = window.confirm(`Are you sure you want to Delete this restaurant?`);
+
+        if (!userConfirmed) {
+            return; // Exit the function if the user does not confirm
+        }
+        setLoading(true);
         try {
             const res = await fetch(`${BASE_URL}/delete-restaurant/${restaurantId}`, {
                 method: 'DELETE',
@@ -146,10 +143,19 @@ const RestaurentDetails = () => {
         } catch (error) {
             console.error(error);
             setError('Failed to delete restaurant.');
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleUpdateBooking = async (bookingId, newStatus) => {
+
+        const userConfirmed = window.confirm(`Are you sure you want to change the booking status to ${newStatus}?`);
+
+        if (!userConfirmed) {
+            return; // Exit the function if the user does not confirm
+        }
+        setLoading(true);
         try {
             const res = await fetch(`${BASE_URL}/reservations/${bookingId}`, {
                 method: 'PATCH',
@@ -170,16 +176,26 @@ const RestaurentDetails = () => {
             }
         } catch (error) {
             console.error(`Error ${newStatus} booking:`, error);
+        } finally {
+            setLoading(false);
         }
     };
 
+    const statuses = [
+        { name: 'Fulfilled', value: fulfilledCount },
+        { name: 'Pending', value: pendingCount },
+        { name: 'Confirmed', value: confirmedCount },
+        { name: 'Cancelled', value: cancelledCount },
+        { name: 'Unattended', value: unattendedCount }
+    ];
 
     if (!restaurant) {
         return <><PageLoading link={"/owner-home"} /></>;
     }
-    console.log(restaurant);
+
     return (
         <div className='flex flex-col justify-center items-center p-4 bg-gray-100'>
+            {loading && <Loading />}
             <div className="flex justify-start items-center w-full mb-4 max-w-6xl">
                 <div>
                     {error && (
@@ -279,41 +295,14 @@ const RestaurentDetails = () => {
                 <div className="w-full max-w-3xl p-4 bg-white h-max shadow-md rounded-lg">
                     <div className="flex justify-between items-center mb-4">
                         <h1 className="text-2xl font-bold">Reservations Details</h1>
-                        <div>
-                            <IoFilterSharp className="cursor-pointer text-reviews" title="Filter" size={25} onClick={handleFilter} />
-                            {showFilterOptions && (
-                                <div className="absolute bg-white shadow-review ml-[-80px]">
-                                    <div className="cursor-pointer hover:bg-gray-200 py-1 px-2" onClick={() => handleFilterOptionClick('All')}>All</div>
-                                    <div className="cursor-pointer hover:bg-gray-200 py-1 px-2" onClick={() => handleFilterOptionClick('Pending')}>Pending</div>
-                                    <div className="cursor-pointer hover:bg-gray-200 py-1 px-2" onClick={() => handleFilterOptionClick('Confirmed')}>Confirmed</div>
-                                    <div className="cursor-pointer hover:bg-gray-200 py-1 px-2" onClick={() => handleFilterOptionClick('Cancelled')}>Cancelled</div>
-                                    <div className="cursor-pointer hover:bg-gray-200 py-1 px-2" onClick={() => handleFilterOptionClick('Unattended')}>Unattended</div>
-                                    <div className="cursor-pointer hover:bg-gray-200 py-1 px-2" onClick={() => handleFilterOptionClick('Fulfilled')}>Fulfilled</div>
-                                </div>
-                            )}
-                        </div>
                     </div>
                     <div className="flex flex-wrap justify-center items-center gap-2 mb-4 border-2 border-gray-100 rounded-lg">
-                        <div className="flex items-center p-2">
-                            <span className="w-4 h-4 mr-2" style={{ backgroundColor: getStatusBorderColor('Fulfilled') }}></span>
-                            Fulfilled: {fulfilledCount}
-                        </div>
-                        <div className="flex items-center p-2">
-                            <span className="w-4 h-4 mr-2" style={{ backgroundColor: getStatusBorderColor('Pending') }}></span>
-                            Pending: {pendingCount}
-                        </div>
-                        <div className="flex items-center p-2">
-                            <span className="w-4 h-4 mr-2" style={{ backgroundColor: getStatusBorderColor('Confirmed') }}></span>
-                            Confirmed: {confirmedCount}
-                        </div>
-                        <div className="flex items-center p-2">
-                            <span className="w-4 h-4 mr-2" style={{ backgroundColor: getStatusBorderColor('Cancelled') }}></span>
-                            Cancelled: {cancelledCount}
-                        </div>
-                        <div className="flex items-center p-2">
-                            <span className="w-4 h-4 mr-2" style={{ backgroundColor: getStatusBorderColor('Unattended') }}></span>
-                            Unattended: {unattendedCount}
-                        </div>
+                        {statuses.map((status) => (
+                            <div className="flex items-center p-2 cursor-pointer" onClick={() => setFilter(status.name)} key={status.name}>
+                                <span className="w-4 h-4 mr-2" style={{ backgroundColor: getStatusBorderColor(status.name) }}></span>
+                                {status.name}: {status.value}
+                            </div>
+                        ))}
                     </div>
                     <div className="w-full">
                         {filteredReservations.length === 0 ? (
@@ -321,7 +310,7 @@ const RestaurentDetails = () => {
                         ) : (
                             filteredReservations.reverse().map((booking) => (
                                 <div key={booking._id} className="mb-6 p-4 border-l-2 last:mb-0" style={{ borderColor: getStatusBorderColor(booking.status) }}>
-                                    <div className="flex flex-wrap gap-6">
+                                    <div className="flex justify-center flex-wrap gap-6">
                                         <div className="flex flex-col items-center">
                                             <p className="font-semibold">Customer</p>
                                             <p>{booking.bookedBy.fullName}</p>
@@ -338,9 +327,9 @@ const RestaurentDetails = () => {
                                             <p className="font-semibold">Party Size</p>
                                             <p>{booking.numberOfPeople}</p>
                                         </div>
-                                        <div className="flex flex-col items-center">
+                                        <div className="flex flex-col items-center" title={`${booking.specialRequest || "N/A"}`}>
                                             <p className="font-semibold">Special Requests</p>
-                                            <p>{booking.specialRequest || 'N/A'}</p>
+                                            <p className='break-words truncate max-w-72'>{booking.specialRequest || 'N/A'}</p>
                                         </div>
                                         <div className="flex flex-col items-center">
                                             <p className="font-semibold">Secured on</p>
@@ -354,17 +343,17 @@ const RestaurentDetails = () => {
                                     <div className="mt-4">
                                         {booking.status === 'Pending' ? (
                                             <select className="p-2 border rounded cursor-pointer" onChange={(e) => handleUpdateBooking(booking._id, e.target.value)}>
-                                                <option value="Pending" selected>Pending</option>
+                                                <option value="Pending" selected disabled>Pending</option>
                                                 <option value="Confirmed">Confirmed</option>
                                             </select>
                                         ) : booking.status === 'Confirmed' ? (
                                             <select className="p-2 border rounded cursor-pointer" onChange={(e) => handleUpdateBooking(booking._id, e.target.value)}>
+                                                <option value="Confirmed" selected disabled>Confirmed</option>
                                                 <option value="Fulfilled">Fulfilled</option>
                                                 <option value="Unattended">Unattended</option>
-                                                <option value="Confirmed" selected>Confirmed</option>
                                             </select>
                                         ) : (
-                                            <button className="p-2 border rounded bg-gray-200 cursor-not-allowed" disabled>{booking.status}</button>
+                                            <button className="p-2 border rounded bg-gray-200 cursor-not-allowed opacity-50" disabled>{booking.status}</button>
                                         )}
                                     </div>
                                 </div>

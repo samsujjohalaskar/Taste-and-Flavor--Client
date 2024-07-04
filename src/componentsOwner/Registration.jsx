@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { LuEye, LuEyeOff } from 'react-icons/lu';
 import { BASE_URL } from '../utils/services';
+import Loading from '../components/Loading';
 
 const Registration = () => {
 
@@ -94,6 +95,7 @@ const Registration = () => {
         </form>
         <p>Already registered? <Link className='text-reviews cursor-pointer' to="/owner-login">Login here</Link></p>
       </div>
+      {loading && <Loading />}
     </div>
   )
 }

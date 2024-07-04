@@ -6,15 +6,18 @@ import LogoutButton from '../componentsOwner/LogoutButton';
 import Edit from '../componentsOwner/Edit';
 import PageLoading from '../componentsOwner/PageLoading';
 import { BASE_URL } from '../utils/services';
+import Loading from '../components/Loading';
 
 
 const Owner = () => {
 
   const navigate = useNavigate();
   const [showEdit, setShowEdit] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState(null);
 
   const callHomePage = async () => {
+    setLoading(true);
     try {
       const res = await fetch(`${BASE_URL}/owner-home`, {
         method: "GET",
@@ -43,6 +46,8 @@ const Owner = () => {
     } catch (error) {
       console.log(error);
       navigate("/owner-login");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -61,26 +66,6 @@ const Owner = () => {
     }
   };
 
-  const handleAddButton = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch(`${BASE_URL}/add-restaurant`, {
-        method: "GET",
-        credentials: "include",
-      });
-
-      if (res.status === 401) {
-        window.alert("Unauthorized User.")
-        navigate("/owner-login");
-      } else if (res.status === 200) {
-        window.alert("Please maintain the input format as instructed.");
-        navigate("/add-restaurant");
-      }
-    } catch (error) {
-
-    }
-  }
-
   if (userData && userData.restaurants) {
     return (
       <div className='bg-gray-100 min-h-screen'>
@@ -98,11 +83,11 @@ const Owner = () => {
                 <p className="w-full">Mobile: {userData.phoneNumber}</p>
               </div>
             </form>
-            {showEdit && <Edit data={userData} onClose={() => setShowEdit(false)} />}
+            {showEdit && <Edit data={userData} onClose={() => { setShowEdit(false); callHomePage() }} />}
             <div className="w-full max-w-3xl bg-white shadow-md rounded-lg p-4 h-max">
               <div className="flex justify-between items-center mb-4">
                 <h1 className="text-2xl font-bold">My Restaurants</h1>
-                <BiSolidMessageSquareAdd className='cursor-pointer text-reviews' size={25} title='Add Restaurant' onClick={handleAddButton} />
+                <BiSolidMessageSquareAdd className='cursor-pointer text-reviews' size={25} title='Add Restaurant' onClick={() => navigate("/add-restaurant")} />
               </div>
               {userData.restaurants.map((item, index) => (
                 <div className='flex justify-between items-center w-full mb-4' key={index}>
@@ -116,6 +101,7 @@ const Owner = () => {
             <LogoutButton userData={userData} handleUserData={() => setUserData(null)} />
           </div>
         </div>
+        {loading && <Loading />}
       </div>
     )
   } else {

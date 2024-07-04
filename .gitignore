@@ -1,5 +1,5 @@
 node_modules
 build
 src/componentsBlog/AddBlog.jsx
-src/componentsRestaurant/UpdateRestaurant.jsx
-src/css/addBlog.css
+src/componentsOwner/UpdateRestaurant.jsx
+src/css

@@ -3,6 +3,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link, useNavigate } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
 import { BASE_URL } from '../utils/services';
+import Loading from '../components/Loading';
 
 const initialState = {
   name: '', city: '', area: '', location: '', contactNumber: '',
@@ -184,6 +185,8 @@ const AddRestaurant = () => {
         <Link to={"/owner-home"} className="text-blue-500 mb-4 inline-flex items-center">
           <MdArrowBack size={20} className="mr-2" /> Back
         </Link>
+
+        {loading && <Loading />}
 
         <form onSubmit={handleFormSubmit}>
           <div className="mb-6">
