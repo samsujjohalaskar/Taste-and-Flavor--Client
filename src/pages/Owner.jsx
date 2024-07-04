@@ -83,33 +83,39 @@ const Owner = () => {
 
   if (userData && userData.restaurants) {
     return (
-      <div className='flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100'>
-        <form className="flex flex-col w-full max-w-3xl p-4 bg-white shadow-md rounded-lg" method='GET'>
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">My Informations</h1>
-            <AiTwotoneEdit className='cursor-pointer text-theme hover:opacity-80' size={25} title='Edit User Details' onClick={handleEditButton} />
-          </div>
-          <div className='flex flex-wrap gap-4 mb-6'>
-            <p className="w-full sm:w-1/2">Username: {userData.username}</p>
-            <p className="w-full sm:w-1/2">Email: {userData.email}</p>
-            <p className="w-full sm:w-1/2">Name: {userData.fullName}</p>
-            <p className="w-full sm:w-1/2">Mobile: {userData.phoneNumber}</p>
-          </div>
-        </form>
-        {showEdit && <Edit data={userData} onClose={() => setShowEdit(false)} />}
-        <div className="w-full max-w-3xl mt-6 bg-white shadow-md rounded-lg p-4">
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold">My Restaurants</h1>
-            <BiSolidMessageSquareAdd className='cursor-pointer text-theme hover:opacity-80' size={25} title='Add Restaurant' onClick={handleAddButton} />
-          </div>
-          {userData.restaurants.map((item, index) => (
-            <div className='flex justify-between items-center w-full mb-4' key={index}>
-              <div className='text-lg font-semibold'>{index + 1}. {item.name}, {item.location}, {item.city}</div>
-              <Link title='See Details' to={`/restaurant/${item._id}`} className='text-theme hover:underline'>Details</Link>
+      <div className='bg-gray-100 min-h-screen'>
+        <div className='flex flex-col justify-center items-center p-4'>
+          <div className='flex flex-row flex-wrap justify-center gap-4 w-full'>
+            <form className="flex flex-col w-full max-w-sm p-4 h-max bg-white shadow-md rounded-lg" method='GET'>
+              <div className="flex justify-between items-center mb-4">
+                <h1 className="text-2xl font-bold">My Informations</h1>
+                <AiTwotoneEdit className='cursor-pointer text-reviews' size={25} title='Edit User Details' onClick={handleEditButton} />
+              </div>
+              <div className='flex flex-wrap gap-4'>
+                <p className="w-full">Username: {userData.username}</p>
+                <p className="w-full">Email: {userData.email}</p>
+                <p className="w-full">Name: {userData.fullName}</p>
+                <p className="w-full">Mobile: {userData.phoneNumber}</p>
+              </div>
+            </form>
+            {showEdit && <Edit data={userData} onClose={() => setShowEdit(false)} />}
+            <div className="w-full max-w-3xl bg-white shadow-md rounded-lg p-4 h-max">
+              <div className="flex justify-between items-center mb-4">
+                <h1 className="text-2xl font-bold">My Restaurants</h1>
+                <BiSolidMessageSquareAdd className='cursor-pointer text-reviews' size={25} title='Add Restaurant' onClick={handleAddButton} />
+              </div>
+              {userData.restaurants.map((item, index) => (
+                <div className='flex justify-between items-center w-full mb-4' key={index}>
+                  <div className='text-lg font-semibold'>{index + 1}. {item.name}, {item.location}, {item.city}</div>
+                  <Link title='See Details' to={`/restaurant/${item._id}`} className='text-reviews hover:underline'>Details</Link>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+          <div className='flex justify-center w-full mt-4'>
+            <LogoutButton userData={userData} handleUserData={() => setUserData(null)} />
+          </div>
         </div>
-        <LogoutButton userData={userData} handleUserData={() => setUserData(null)} />
       </div>
     )
   } else {

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import "../css/addRestaurant.css";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Buffer } from 'buffer';
