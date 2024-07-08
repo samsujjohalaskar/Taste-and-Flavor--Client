@@ -73,7 +73,7 @@ const Owner = () => {
           <div className='flex flex-row flex-wrap justify-center gap-4 w-full'>
             <form className="flex flex-col w-full max-w-sm p-4 h-max bg-white shadow-md rounded-lg" method='GET'>
               <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-bold">My Informations</h1>
+                <p className="text-2xl font-bold">My Informations</p>
                 <AiTwotoneEdit className='cursor-pointer text-reviews' size={25} title='Edit User Details' onClick={handleEditButton} />
               </div>
               <div className='flex flex-wrap gap-4'>
@@ -86,7 +86,7 @@ const Owner = () => {
             {showEdit && <Edit data={userData} onClose={() => { setShowEdit(false); callHomePage() }} />}
             <div className="w-full max-w-3xl bg-white shadow-md rounded-lg p-4 h-max">
               <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-bold">My Restaurants</h1>
+                <p className="text-2xl font-bold">My Restaurants</p>
                 <BiSolidMessageSquareAdd className='cursor-pointer text-reviews' size={25} title='Add Restaurant' onClick={() => navigate("/add-restaurant")} />
               </div>
               {userData.restaurants.map((item, index) => (

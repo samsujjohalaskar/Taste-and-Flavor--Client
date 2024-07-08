@@ -215,7 +215,7 @@ const RestaurentDetails = () => {
             <div className="flex justify-center flex-wrap gap-4 w-full max-w-7xl">
                 <div className="w-full max-w-sm p-4 bg-white shadow-md rounded-lg h-max">
                     <div className="flex justify-between items-center mb-4">
-                        <h1 className="text-2xl font-bold">Restaurant Details</h1>
+                        <p className="text-2xl font-bold">Restaurant Details</p>
                         <MdDelete className="cursor-pointer text-reviews" size={25} title="Delete Restaurant" onClick={handleDelete} />
                     </div>
                     <div className="mb-6">
@@ -294,7 +294,7 @@ const RestaurentDetails = () => {
                 </div>
                 <div className="w-full max-w-3xl p-4 bg-white h-max shadow-md rounded-lg">
                     <div className="flex justify-between items-center mb-4">
-                        <h1 className="text-2xl font-bold">Reservations Details</h1>
+                        <p className="text-2xl font-bold">Reservations Details</p>
                     </div>
                     <div className="flex flex-wrap justify-center items-center gap-2 mb-4 border-2 border-gray-100 rounded-lg">
                         {statuses.map((status) => (

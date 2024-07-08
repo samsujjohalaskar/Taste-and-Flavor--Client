@@ -13,6 +13,12 @@
     }
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Metropolis", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
 .slick-prev, .slick-next {
     width: 25px !important;
     height: 28px !important;
@@ -190,4 +196,57 @@
 
 .react-calendar__tile--active {
     background: #2b98f7 !important;
+}
+
+.ce-block__content {
+    max-width: 100%;
+}
+
+#editorjs .ce-block__content {
+    max-width: 650px;
+}
+
+#editorjs .codex-editor__redactor {
+    padding-bottom: 300px !important;
+}
+
+.codex-editor__redactor {
+    padding-bottom: 0px !important;
+}
+
+#editor a {
+    color: #3595ff;
+    text-decoration: none;
+}
+
+#editor a:hover {
+    text-decoration: underline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold !important;
+}
+
+h1 {
+    font-size: 2em !important;
+}
+
+h2 {
+    font-size: 1.75em !important;
+}
+
+h3 {
+    font-size: 1.5em !important;
+}
+
+h4 {
+    font-size: 1.25em !important;
+}
+
+h5 {
+    font-size: 1em !important;
+}
+
+h6 {
+    font-size: 0.875em !important;
 }

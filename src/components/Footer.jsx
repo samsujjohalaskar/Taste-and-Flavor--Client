@@ -323,7 +323,7 @@ export default function Footer({ city }) {
       <div className="footer">
         <section className="flex justify-center flex-col pt-6 pb-12 pl-4 h-max w-full border-b-2 border-bg md:py-14 md:pl-20 lg:pl-32 2xl:items-center 2xl:pl-0">
           <div className='flex flex-col w-full xl:w-[1140px] 2xl:w-[1200px]'>
-            <h4 className="subHeading">Available in</h4>
+            <p className="subHeading">Available in</p>
             <ul className="flex list-none flex-row flex-wrap gap-2 sm:gap-0">
               {cities.map((c) => {
                 const cleanedCityName = c.cityName
@@ -346,7 +346,7 @@ export default function Footer({ city }) {
           <div className='flex flex-col flex-wrap w-full gap-2 md:flex-row sm:gap-0 xl:w-[1140px] 2xl:w-[1200px]'>
             {midSections.map((section, index) => (
               <div className="min-w-[20%] pt-3" key={index}>
-                <h4 className="subHeading">{section.title}</h4>
+                <p className="subHeading">{section.title}</p>
                 <ul className="flex list-none flex-col pt-2 gap-2 flex-wrap">
                   {section.items.map((item, index) => {
                     const cleanedItem = item
@@ -367,7 +367,7 @@ export default function Footer({ city }) {
             ))}
             {midSectionsCuisine.map((section, index) => (
               <div className="min-w-[20%] pt-3" key={index}>
-                <h4 className="subHeading">{section.title}</h4>
+                <p className="subHeading">{section.title}</p>
                 <ul className="flex list-none flex-col pt-2 gap-2 flex-wrap">
                   {section.items ? (
                     section.items.map((item, index) => {
@@ -392,7 +392,7 @@ export default function Footer({ city }) {
             ))}
             {midSectionsFeature.map((section, index) => (
               <div className="min-w-[20%] pt-3" key={index}>
-                <h4 className="subHeading">{section.title}</h4>
+                <p className="subHeading">{section.title}</p>
                 <ul className="flex list-none flex-col pt-2 gap-2 flex-wrap">
                   {section.items ? (
                     section.items.map((item, index) => {
@@ -418,7 +418,7 @@ export default function Footer({ city }) {
             ))}
             {midSectionsLocations.map((section, index) => (
               <div className="min-w-[20%] pt-3" key={index}>
-                <h4 className="subHeading">{section.title}</h4>
+                <p className="subHeading">{section.title}</p>
                 <ul className="flex list-none flex-col pt-2 gap-2 flex-wrap">
                   {section.items ? (
                     section.items.map((location, index) => {

@@ -12,6 +12,16 @@ import Loading from '../components/Loading';
 import CommentCard from './CommentCard';
 import { formatDate } from '../someBlogsFunctions';
 
+import EditorJS from '@editorjs/editorjs';
+import Header from '@editorjs/header';
+import List from '@editorjs/list';
+import SimpleImage from '@editorjs/simple-image';
+import Paragraph from '@editorjs/paragraph';
+import RawTool from '@editorjs/raw';
+import Table from '@editorjs/table';
+import Embed from '@editorjs/embed';
+import Checklist from '@editorjs/checklist'
+
 const BlogBigCard = ({ blog, onCommentPosted }) => {
 
     const [user] = useAuthState(auth);
@@ -141,6 +151,33 @@ const BlogBigCard = ({ blog, onCommentPosted }) => {
         setComment(e.target.value);
     };
 
+    useEffect(() => {
+        if (blog && blog.mainContent) {
+            const editor = new EditorJS({
+                holder: 'editor',
+                readOnly: true,
+                data: blog.mainContent,
+                tools: {
+                    heading: Header,
+                    list: List,
+                    table: Table,
+                    simpleImage: SimpleImage,
+                    paragraph: Paragraph,
+                    checklist: Checklist,
+                    raw: RawTool,
+                    embed: Embed,
+                },
+            });
+
+            return () => {
+                editor.isReady.then(() => {
+                    editor.destroy();
+                }).catch((e) => console.error('ERROR editor cleanup', e));
+            };
+        }
+    }, [blog]);
+
+
     const handlePostComment = async (e) => {
         e.preventDefault();
         if (user && userDetails) {
@@ -251,8 +288,9 @@ const BlogBigCard = ({ blog, onCommentPosted }) => {
                     <span className="text-text text-sm font-thin">{blog && blog.postedBy && blog.postedBy.fullName} Posted on {formatDate(blog ? blog.date : "")}</span>
                 </div>
                 <div className="leading-6 text-base px-2">
-                    {blog ? blog.content : ""}
+                    {blog && !blog.mainContent ? blog.content : ""}
                 </div>
+                <div id="editor" className="px-2"></div>
             </div>
             <Element name="comment-section" className="flex flex-col justify-center items-center gap-2 w-full">
                 <div className='w-full flex justify-center before:h-[1px] before:w-1/3 before:bg-bg before:mt-7 after:h-[1px] after:w-1/3 after:bg-bg after:mt-7'>

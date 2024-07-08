@@ -38,7 +38,7 @@ const Blog = () => {
   }, []);
 
   const randomCategories = categories.sort(() => 0.5 - Math.random()).slice(0, 6);
-  localStorage.setItem("categories", categories);
+  localStorage.setItem("categories", randomCategories);
 
   const featuredBlogs = blogs.sort((a, b) => {
     const commentsComparison = b.comments.length - a.comments.length;
@@ -85,7 +85,7 @@ const Blog = () => {
 
   return (
     <>
-      <BlogNavbar actualCategories={randomCategories} />
+      <BlogNavbar />
       <div className="flex justify-center flex-wrap gap-5 bg-bg py-9 px-5 md:py-6">
         {records && records.length !== 0 ? (
           groupedRecords.map((group, index) => (

@@ -303,7 +303,7 @@ const ResDetails = ({ userDetails, restaurant, user, ratingD, commentD }) => {
                     <div className="flex items-center m-3 gap-4">
                         <IoCallSharp size={35} className='text-reviews' />
                         <div>
-                            <h3 className='text-base font-semibold'>Call the restaurant</h3>
+                            <p className='text-base font-semibold'>Call the restaurant</p>
                             <p className='text-lg font-normal'>{restaurant.contactNumber}</p>
                         </div>
                     </div>

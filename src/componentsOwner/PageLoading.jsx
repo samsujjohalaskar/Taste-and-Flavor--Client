@@ -9,7 +9,7 @@ const PageLoading = ({ link }) => {
             <div className="flex justify-center items-center gap-8 pt-20">
                 <div className='flex gap-3 justify-center items-center'>
                     <FaSearch size={30} className='animate-ping' />
-                    <h3>Page Loading...</h3>
+                    <p>Page Loading...</p>
                 </div>
                 <Link to={link}><AiFillHome className='hover:text-theme' size={25} title='Back Home' /></Link>
             </div>

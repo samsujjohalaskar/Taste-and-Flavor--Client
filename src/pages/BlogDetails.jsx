@@ -56,19 +56,7 @@ const BlogDetails = () => {
 
     }, [blog, blog.category]);
 
-    const categories = localStorage.getItem("categories");
-    let randomCategories = [];
-    if (categories) {
-        const categoriesArray = categories.split(',');
-        randomCategories = categoriesArray.sort(() => 0.5 - Math.random()).slice(0, 6);
-    }
-
-    if (blog.category && !randomCategories.includes(blog.category)) {
-        randomCategories.push(blog.category);
-    }
-
     const shuffledSimilarBlogs = similarBlog.sort(() => Math.random() - 0.5).slice(0, 10);
-    const currentTitle = (blog && blog.title) ? blog.title : "";
 
     const handleCommentPosted = (newComment) => {
         // Check if the comment already exists in the comments list
@@ -98,7 +86,7 @@ const BlogDetails = () => {
 
     return (
         <>
-            <BlogNavbar actualCategories={randomCategories} currentCategory={blog.category} />
+            <BlogNavbar currentCategory={blog.category} />
             <div className="flex justify-center flex-wrap border-b-[1px] border-t-[1px] border-bg">
                 <div className="flex flex-col border-b-[1px] border-bg max-w-[980px] gap-6 px-6 py-9 md:px-12 2xl:border-r-[1px] xl:border-b-0">
                     <BlogBigCard blog={blog} onCommentPosted={handleCommentPosted} />
@@ -116,9 +104,9 @@ const BlogDetails = () => {
                         ))
                     }
                     {shuffledSimilarBlogs
-                        .filter(blog => blog.title !== currentTitle)
-                        .map(blog => (
-                            <BlogFeaturedSuggCard key={blog._id} blog={blog} />
+                        .filter(b => b._id !== blog._id)
+                        .map(b => (
+                            <BlogFeaturedSuggCard key={b._id} blog={b} />
                         ))}
                 </div>
             </div>

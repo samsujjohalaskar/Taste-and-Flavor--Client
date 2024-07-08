@@ -359,7 +359,7 @@ const Bookings = ({ user, userDetails, restaurant, handleLogin, showBooking, han
                 )}
                 <div className="flex flex-col gap-5 m-4">
                     <div>Enter Guest Details:</div>
-                    <input className={`p-3 border-none rounded bg-bg text-sm outline-none ${user ? "hover-not-allowed" : " "} `} type="text" placeholder={`${guestName ? guestName : "Guest Name"}`} value={guestName} readOnly disabled={user} />
+                    <input className={`p-3 border-none rounded bg-bg text-sm outline-none ${user ? "cursor-not-allowed" : " "} `} type="text" placeholder={`${guestName ? guestName : "Guest Name"}`} value={guestName} readOnly disabled={user} />
                     <input
                         className='p-3 border-none rounded bg-bg text-sm outline-none'
                         type="text"

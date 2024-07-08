@@ -43,7 +43,7 @@ export default function Card({ restaurant }) {
                     </div>
                     <div className="flex justify-between p-3 pb-0">
                         <div className="break-words">
-                            <h4 className="text-[16px] font-extrabold leading-tight truncate">{`${restaurant.name}`.slice(0, 22)}</h4>
+                            <p className="text-[16px] font-extrabold leading-tight truncate">{`${restaurant.name}`.slice(0, 22)}</p>
                             <p className="text-xs text-text">
                                 {`${restaurant.location}, ${restaurant.area}`.slice(0, 33)}
                             </p>

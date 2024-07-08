@@ -64,29 +64,21 @@ const CategoryDetails = () => {
         setRandomBlog(shuffledBlogs);
     }, [blog]);
 
-    const categories = localStorage.getItem("categories");
-    let randomCategories = [];
-    if (categories) {
-        const categoriesArray = categories.split(',');
-        randomCategories = categoriesArray.sort(() => 0.5 - Math.random()).slice(0, 6);
+    let topPicksBlogs = [];
+    if (blog.length > 1) {
+        topPicksBlogs = blog.sort((a, b) => {
+            const commentsComparison = b.comments.length - a.comments.length;
+            if (commentsComparison !== 0) {
+                return commentsComparison;
+            } else {
+                return b.likes.length - a.likes.length;
+            }
+        }).slice(0, 5);
     }
-
-    if (blogCat && !randomCategories.includes(blogCat)) {
-        randomCategories.push(blogCat);
-    }
-
-    const topPicksBlogs = blog.sort((a, b) => {
-        const commentsComparison = b.comments.length - a.comments.length;
-        if (commentsComparison !== 0) {
-            return commentsComparison;
-        } else {
-            return b.likes.length - a.likes.length;
-        }
-    }).slice(0, 5);
 
     return (
         <>
-            <BlogNavbar actualCategories={randomCategories} currentCategory={blogCat} />
+            <BlogNavbar currentCategory={blogCat} />
             <div className="flex justify-center flex-wrap border-b-[1px] border-t-[1px] border-bg">
                 <div className="flex flex-col border-b-[1px] border-bg max-w-[980px] gap-6 px-6 py-9 md:px-12 2xl:border-r-[1px] xl:border-b-0">
                     {randomBlog && randomBlog.length !== 0 ? (randomBlog.map(blog => (
@@ -101,7 +93,7 @@ const CategoryDetails = () => {
                 </div>
                 <div className="p-6 lg:p-12">
                     <p className="text-lg font-normal uppercase tracking-[1px]">Top Picks</p>
-                    {topPicksBlogs.length === 0 && !isLoading &&
+                    {topPicksBlogs.length < 2 && !isLoading &&
                         <p className="text-xs italic mt-2">
                             No Posts Available..
                         </p>
@@ -111,7 +103,7 @@ const CategoryDetails = () => {
                             <div key={index} className="bg-slate-500 animate-pulse cursor-not-allowed w-full rounded-full h-6 my-3"></div>
                         ))
                     }
-                    {topPicksBlogs.map(blog => (
+                    {topPicksBlogs.length > 1 && topPicksBlogs.map(blog => (
                         <BlogFeaturedSuggCard key={blog._id} blog={blog} />
                     ))}
                 </div>

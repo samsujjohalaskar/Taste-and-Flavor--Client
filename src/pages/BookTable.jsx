@@ -417,7 +417,7 @@ const BookTable = () => {
                   <NotACard key={index} />
                 ))
               ) : (
-                <h1 className='text-2xl text-theme text-center m-4'>No Food Found!</h1>
+                <p className='text-2xl text-theme text-center m-4'>No Food Found!</p>
               )
             ) : (
               records.map((restaurant) => (

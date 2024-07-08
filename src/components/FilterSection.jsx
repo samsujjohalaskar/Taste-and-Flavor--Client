@@ -51,7 +51,7 @@ const FilterSection = ({
                             <div className='fixed flex justify-center items-center z-10 top-0 left-0 w-full h-full bg-filterFloat'>
                                 <div className='flex flex-col text-left rounded bg-white h-max w-[500px]'>
                                     <div className='flex justify-between items-center bg-bg rounded-t text-base py-2 px-3'>
-                                        <h3>Filter by {title}</h3>
+                                        <p>Filter by {title}</p>
                                         <p onClick={() => setShowMoreOptions(false)}>
                                             <span className='cursor-pointer text-2xl hover:text-theme' title='Close'><IoClose /></span>
                                         </p>
