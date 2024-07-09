@@ -7,6 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
 import axios from 'axios';
 import BlogNavbar from './BlogNavbar';
+import FooterBottom from '../components/FooterBottom'
 
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
@@ -179,7 +180,18 @@ const AddBlog = () => {
             }
           });
         } else {
-          console.error('Failed to post blog:', response.statusText);
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Error!",
+            text: "Too large image files!!",
+            confirmButtonColor: "#006edc",
+            confirmButtonText: "OK",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate(currentPath);
+            }
+          });
         }
       } catch (error) {
         console.error('Error posting blog:', error);
@@ -215,7 +227,7 @@ const AddBlog = () => {
   return (
     <>
       <BlogNavbar isAddBlog={true} handleSubmit={handleSubmit} />
-      <div className='border-t-[1px] border-bg'>
+      <div className='border-y-[1px] border-bg'>
         <form className='max-w-4xl mx-auto py-10 px-4' >
           <div className="w-full">
             <div className="flex flex-col gap-4">
@@ -271,6 +283,7 @@ const AddBlog = () => {
           {isLoading && <Loading />}
         </form>
       </div>
+      <FooterBottom />
     </>
   );
 
