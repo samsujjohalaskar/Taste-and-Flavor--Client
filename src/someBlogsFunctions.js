@@ -1,29 +1,14 @@
-export function wordCount(str) {
-    str = str.trim();
-    if (str === "") {
-        return 0;
-    }
-    return str.split(/\s+/).length;
-}
-
-export function calculateReach(postDate, likesCount, commentsCount, totalWordCount) {
-    // Convert postDate string to Date object
+export function calculateReach(postDate, likesCount, commentsCount) {
     const postDateTime = new Date(postDate);
 
-    // Calculate days since posting
     const currentDate = new Date();
     const daysSincePosting = Math.ceil((currentDate - postDateTime) / (1000 * 60 * 60 * 24));
 
-    // Calculate engagement score
     const engagementScore = likesCount + commentsCount;
 
-    // Calculate reach score
-    const reachScore = engagementScore / totalWordCount;
+    const reachPercentage = engagementScore * (1 - Math.pow(Math.E, -daysSincePosting / 7)) * 10;
 
-    // Calculate reach percentage
-    const reachPercentage = reachScore * (1 - Math.pow(Math.E, -daysSincePosting / 7)) * 100;
-
-    return reachPercentage.toFixed(2) * 100; // Round to 2 decimal places
+    return reachPercentage.toFixed(2);
 }
 
 export function getBorderColor (reachPercentage) {

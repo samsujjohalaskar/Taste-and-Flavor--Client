@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PiArrowCircleUpRight } from "react-icons/pi";
 import { useNavigate } from 'react-router-dom';
-import { wordCount, calculateReach, getBorderColor, getStarColor } from '../someBlogsFunctions';
+import { calculateReach, getBorderColor, getStarColor } from '../someBlogsFunctions';
 import { IoMdRefresh } from 'react-icons/io';
 import { CiEdit } from 'react-icons/ci';
 
@@ -71,8 +71,7 @@ const Blogs = ({ data, heading, onFetchUser, userName }) => {
                         (heading !== "Reviews" && { label: 'Category', value: blogData.category, maxLength: 20 }),
                         ((heading === "Likes" || heading === "Comments") && { label: 'Author', value: blogData.postedBy?.fullName === userName ? `${userName} (self)` : blogData.postedBy?.fullName }),
                         (heading === "Likes" && { label: 'Likes', value: blogLikes.length > 0 ? blogLikes.length : "---" }),
-                        (heading === "Blogs" && { label: 'Word Count', value: wordCount(blogContent) }),
-                        (heading !== "Reviews" && { label: 'Reach (%)', value: calculateReach(blogData.date, blogLikes.length, blogComments.length, wordCount(blogContent)) }),
+                        (heading !== "Reviews" && { label: 'Reach (%)', value: calculateReach(blogData.date, blogLikes.length, blogComments.length) }),
                         (heading === "Blogs" && { label: 'Reactions', value: blogLikes.length > 0 ? blogLikes.length : '---' }),
                         ((heading === "Blogs" || heading === "Likes") && { label: 'Total Comments', value: blogComments.length > 0 ? blogComments.length : '---' }),
 
@@ -101,7 +100,7 @@ const Blogs = ({ data, heading, onFetchUser, userName }) => {
                                 style={
                                     heading === "Reviews"
                                         ? { borderLeft: `3px solid ${getStarColor(blog.rating)}` }
-                                        : { borderLeft: `3px solid ${getBorderColor(calculateReach(blogData.date, blogLikes.length, blogComments.length, wordCount(blogContent)))}` }
+                                        : { borderLeft: `3px solid ${getBorderColor(calculateReach(blogData.date, blogLikes.length, blogComments.length ))}` }
                                 }
                             >
                                 {itemsToDisplay.map((item, idx) => item && item.value !== "" && (

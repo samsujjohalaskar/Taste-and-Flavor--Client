@@ -288,7 +288,7 @@ const BlogBigCard = ({ blog, onCommentPosted }) => {
                     <span className="text-text text-sm font-thin">{blog && blog.postedBy && blog.postedBy.fullName} Posted on {formatDate(blog ? blog.date : "")}</span>
                 </div>
                 <div className="leading-6 text-base px-2">
-                    {blog && !blog.mainContent ? blog.content : ""}
+                    {blog && blog.mainContent.blocks.length === 0 ? blog.content : ""}
                 </div>
                 <div id="editor" className="px-2"></div>
             </div>
