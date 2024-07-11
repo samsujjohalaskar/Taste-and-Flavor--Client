@@ -1,12 +1,13 @@
-export function calculateReach(postDate, likesCount, commentsCount) {
+export function calculateReach(postDate, likesCount, commentsCount, content) {
     const postDateTime = new Date(postDate);
 
     const currentDate = new Date();
     const daysSincePosting = Math.ceil((currentDate - postDateTime) / (1000 * 60 * 60 * 24));
 
     const engagementScore = likesCount + commentsCount;
+    const readingTime = calculateTimeToRead(content ? content : "");
 
-    const reachPercentage = engagementScore * (1 - Math.pow(Math.E, -daysSincePosting / 7)) * 10;
+    const reachPercentage = engagementScore * (1 - Math.pow(Math.E, -daysSincePosting / 7)) * 10 * readingTime;
 
     return reachPercentage.toFixed(2);
 }
@@ -88,12 +89,40 @@ export function trimTitle (title, letterCount) {
     }
 };
 
+export function extractText(content) {
+    const textContent = content && content.blocks && content.blocks.map(block => {
+        switch (block.type) {
+            case 'paragraph':
+                return block.data.text;
+            case 'heading':
+                return block.data.text;
+            case 'list':
+                return block.data.items.join(' ');
+            case 'table':
+                return block.data.content.flat().join(' ');
+            case 'simpleImage':
+                return '';
+            default:
+                return '';
+        }
+    }).join(' ');
+
+    return textContent;
+}
+
+export function wordCount(content){
+    return extractText(content ? content : "").split(/\s+/).length;
+}
+
 export function calculateTimeToRead(content) {
     const wordsPerMinute = 238;
-    const words = content.split(/\s+/).length;
+    
+    const textContent = extractText(content ? content : "");
+
+    const words = textContent.split(/\s+/).length;
     const timeInMinutes = words / wordsPerMinute;
     return Math.ceil(timeInMinutes);
-};
+}
 
 export function countTillDate(commentDate) {
     const currentDate = new Date();

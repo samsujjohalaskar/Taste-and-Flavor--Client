@@ -42,7 +42,7 @@ const CategoryCard = ({ blog }) => {
                             <div className='flex items-center gap-1'><FaRegHeart /> <span className="category-details-card-like-comment-count">{blog && blog.likes && blog.likes.length}</span></div>
                             <div className='flex items-center gap-1'><FaRegComment /> <span className="category-details-card-like-comment-count">{blog && blog.comments && blog.comments.length} </span></div>
                         </div>
-                        <div className="flex items-center gap-2"><span><FaRegEye /></span>{calculateTimeToRead(blog ? blog.content : "")} min read</div>
+                        <div className="flex items-center gap-2"><span><FaRegEye /></span>{calculateTimeToRead(blog ? blog.mainContent : "")} min read</div>
                     </div>
                 </div>
                 <div className="cursor-pointer w-full max-h-32 object-cover md:max-w-32"
@@ -65,7 +65,7 @@ const CategoryCard = ({ blog }) => {
                         <div className='flex items-center gap-1'><FaRegHeart /> <span className="category-details-card-like-comment-count">{blog && blog.likes && blog.likes.length}</span></div>
                         <div className='flex items-center gap-1'><FaRegComment /> <span className="category-details-card-like-comment-count">{blog && blog.comments && blog.comments.length} </span></div>
                     </div>
-                    <div className="flex items-center gap-2"><span><FaRegEye /></span>{calculateTimeToRead(blog ? blog.content : "")} min read</div>
+                    <div className="flex items-center gap-2"><span><FaRegEye /></span>{calculateTimeToRead(blog ? blog.mainContent : "")} min read</div>
                 </div>
             </div>
         </>

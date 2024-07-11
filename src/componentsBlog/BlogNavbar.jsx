@@ -75,7 +75,7 @@ const BlogNavbar = ({ currentCategory, isAddBlog, handleSubmit }) => {
             handlePostUser();
         }
 
-    }, [user, userDetails, postUser]);
+    }, [postUser]);
 
     const handleLoginButtonClick = () => {
         if (user) {

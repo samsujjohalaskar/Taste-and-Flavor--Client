@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PiArrowCircleUpRight } from "react-icons/pi";
 import { useNavigate } from 'react-router-dom';
-import { calculateReach, getBorderColor, getStarColor } from '../someBlogsFunctions';
+import { calculateReach, getBorderColor, getStarColor, wordCount } from '../someBlogsFunctions';
 import { IoMdRefresh } from 'react-icons/io';
 import { CiEdit } from 'react-icons/ci';
 
@@ -47,7 +47,7 @@ const Blogs = ({ data, heading, onFetchUser, userName }) => {
                     const blogData = heading === "Blogs" || heading === "Reviews" ? blog : blog.blog;
                     const blogLikes = blogData?.likes || [];
                     const blogComments = blogData?.comments || [];
-                    const blogContent = blogData?.content || "";
+                    const blogContent = blogData?.mainContent || "";
 
                     const itemsToDisplay = [
                         (heading === "Reviews" && { label: 'Restaurant', value: blog.restaurant.name.length > 20 ? blog.restaurant.name.slice(0, 17) + "..." + "," + blog.restaurant.city : blog.restaurant.name + "," + blog.restaurant.city }),
@@ -71,7 +71,8 @@ const Blogs = ({ data, heading, onFetchUser, userName }) => {
                         (heading !== "Reviews" && { label: 'Category', value: blogData.category, maxLength: 20 }),
                         ((heading === "Likes" || heading === "Comments") && { label: 'Author', value: blogData.postedBy?.fullName === userName ? `${userName} (self)` : blogData.postedBy?.fullName }),
                         (heading === "Likes" && { label: 'Likes', value: blogLikes.length > 0 ? blogLikes.length : "---" }),
-                        (heading !== "Reviews" && { label: 'Reach (%)', value: calculateReach(blogData.date, blogLikes.length, blogComments.length) }),
+                        (heading === "Blogs" && { label: 'Word Count', value: wordCount(blogContent) }),
+                        (heading !== "Reviews" && { label: 'Reach (%)', value: calculateReach(blogData.date, blogLikes.length, blogComments.length, blogContent) }),
                         (heading === "Blogs" && { label: 'Reactions', value: blogLikes.length > 0 ? blogLikes.length : '---' }),
                         ((heading === "Blogs" || heading === "Likes") && { label: 'Total Comments', value: blogComments.length > 0 ? blogComments.length : '---' }),
 
