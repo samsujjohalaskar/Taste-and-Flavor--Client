@@ -168,7 +168,7 @@ const Profile = ({ userDetails, onFetchUser }) => {
             {showLoading && <Loading />}
             <div className='flex justify-between items-center flex-wrap gap-6 border-[1px] border-bg rounded-xl p-5'>
                 {user ? (
-                    <div className='flex justify-center items-center gap-4'>
+                    <div className='flex justify-center flex-wrap items-center gap-4'>
                         <div className="flex justify-center items-center h-24 w-24 rounded-full bg-bg">
                             {userDetails && userDetails.image && userDetails.image !== undefined ? (
                                 <img className="h-24 w-24 rounded-full bg-bg"
