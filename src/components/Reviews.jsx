@@ -31,6 +31,15 @@ const Reviews = ({ user, userDetails, restaurant, onReviewsData, ratingD, commen
         setDisplayedReviews(displayedReviews + 1);
     };
 
+    const [hoveredStar, setHoveredStar] = useState(0);
+    const handleMouseEnter = (star) => {
+        setHoveredStar(star);
+    };
+
+    const handleMouseLeave = () => {
+        setHoveredStar(0);
+    };
+
     const handleStarClick = (star) => {
         if (!user) {
             setShowLogin(true);
@@ -200,8 +209,11 @@ const Reviews = ({ user, userDetails, restaurant, onReviewsData, ratingD, commen
                         {[1, 2, 3, 4, 5].map((star) => (
                             <div
                                 key={star}
-                                className="rounded border-2 border-border text-border text-2xl mr-1 cursor-pointer py-1 px-1 hover:border-2 hover:border-reviews hover:text-reviews"
-                                onClick={() => handleStarClick(star)} >
+                                className={`rounded border-2 border-border text-border text-2xl mr-1 cursor-pointer py-1 px-1  ${hoveredStar >= star || rate >= star ? 'border-reviews text-reviews' : 'border-border text-border'} hover:border-reviews hover:text-reviews`}
+                                onClick={() => handleStarClick(star)}
+                                onMouseEnter={() => handleMouseEnter(star)}
+                                onMouseLeave={handleMouseLeave}
+                            >
                                 {rate >= star ? (
                                     <FaStar className='text-reviews' />
                                 ) : (
